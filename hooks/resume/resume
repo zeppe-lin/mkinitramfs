@@ -1,0 +1,6 @@
+# vim: set ft=sh:
+# shellcheck shell=sh
+
+copy_binary readlink
+copy_binary sed
+copy_binary awk

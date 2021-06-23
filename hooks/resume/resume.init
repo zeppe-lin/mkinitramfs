@@ -1,0 +1,17 @@
+# vim: set ft=sh:
+# shellcheck shell=sh
+#
+# https://www.shellcheck.net/wiki/SC2154
+# shellcheck disable=2154
+
+# TODO * add resume from swap file
+
+[ "$break" = resume ] && { print "break before resume.init"; sh; }
+
+resolve_device "$resume"
+
+# resolve link and get device name
+resume=$(readlink -f $device | sed 's|^/dev/||')
+
+awk -v dev=$resume '$4 == dev { printf "%d:%d", $1, $2 }' \
+    /proc/partitions > /sys/power/resume
