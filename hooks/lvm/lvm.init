@@ -10,6 +10,8 @@
 export DM_DISABLE_UDEV=1
 mkdir -p /run/lvm /run/lock/lvm
 
+lvm vgscan --mknodes --ignorelockingfailure
+
 set -- \
     --sysinit -qq -aay "${lvm_discard:+--config=devices\{issue_discards=1\}}"
 
