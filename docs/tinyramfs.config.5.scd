@@ -124,6 +124,7 @@ you can simply prepend \#.
 	- mdevd - mdevd support
 	- eudev - eudev support
 	- keymap - keymap support
+	- resume - resume from hibernation support
 	- systemd-udevd - systemd udevd support
 
 	See below how to use them.
@@ -192,6 +193,20 @@ you can simply prepend \#.
 	Currently, this hook supports loading keymap only via busybox loadkmap.
 	kbd loadkeys not supported.
 
+*resume*=UUID|LABEL|/dev/\*|PARTUUID
+
+	Specify which way tinyramfs will use to look up swap device to resume
+	from hibernation.
+
+	- UUID     - lookup device by uuid
+	- LABEL    - lookup device by label
+	- /dev/\*   - lookup device by full path
+	- PARTUUID - lookup device by partition uuid
+
+	You must install *blkid*(8) (avalable in toybox, busybox, util-linux)
+	for ability to use UUID, LABEL, PARTUUID. Note that PARTUUID only
+	supported in util-linux *blkid*(8).
+
 # EXAMPLES
 
 Remember, these just examples ! _Don't copy blindly_ ! Your configuration may
@@ -256,6 +271,21 @@ lvm_config=1
 lvm_discard=1
 lvm_name=lvm1
 lvm_group=lvm_grp2
+```
+
+## ROOT + LUKS + LVM + RESUME
+
+```
+hostonly=1
+compress="gzip --fast"
+hooks="eudev luks lvm resume"
+root=/dev/mapper/root
+root_type=ext4
+resume="/dev/mapper/swap"
+
+luks_discard=1
+luks_name=crypt
+luks_root=/dev/sda2
 ```
 
 # SEE ALSO
