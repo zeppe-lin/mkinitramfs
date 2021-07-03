@@ -18,6 +18,6 @@ if [ "$luks_key" ]; then
         "${luks_name:-crypt-${device##*/}}" || panic "failed to unlock LUKS"
 else
     DM_DISABLE_UDEV=1 cryptsetup open \
-        "${luks_discard:+--allow-discards}" -- "$device" \
+        ${luks_discard:+--allow-discards} -- "$device" \
         "${luks_name:-crypt-${device##*/}}" || panic "failed to unlock LUKS"
 fi
