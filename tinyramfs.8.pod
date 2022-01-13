@@ -1,0 +1,89 @@
+=pod
+
+=head1 NAME
+
+tinyramfs - tiny initramfs written in POSIX shell
+
+=head1 SYNOPSIS
+
+B<tinyramfs> [I<OPTION>]...
+
+=head1 DESCRIPTION
+
+B<tinyramfs> is a simple, extensible and modular initramfs generator tool
+written with focus on portability.
+
+=head1 OPTIONS
+
+Mandatory arguments to long options are mandatory for short options too.
+
+=over 8
+
+=item B<-o>, B<--output> I<FILE>
+
+Specify output location where initramfs image will be stored.
+
+=item B<-c>, B<--config> I<FILE>
+
+Specify config location.
+
+Default is F</etc/tinyramfs/config>.
+
+=item B<-k>, B<--kernel> I<VERSION>
+
+Specify kernel version. Useful for bootstrapping future system with modular
+kernel.
+
+Default is current kernel version.
+
+=item B<-m>, B<--modules> I<PATH>
+
+Specify directory where modules stored.
+
+Default is F</lib/modules>.
+
+This option has no effect if B<monolith> or B<hostonly> were enabled in
+config.
+
+=item B<-H>, B<--hooks> I<PATH>
+
+Specify additional hooks location.
+
+Default is F</usr/share/tinyramfs/hooks> and F</etc/tinyramfs/hooks>.
+
+=item B<-D>, B<--helper> I<FILE>
+
+Specify location to device helper.
+
+Default is F</usr/share/tinyramfs/device-helper>.
+
+=item B<-I>, B<--init> I<FILE>
+
+Specify location to init script.
+
+Default is F</usr/share/tinyramfs/init>.
+
+=item B<-d>, B<--debug>
+
+Enable debug mode. Useful for reporting bugs in build stage.
+
+=item B<-f>, B<--force>
+
+Forcefully overwrite initramfs image.
+
+=back
+
+=head1 NOTES
+
+If you have modular kernel and you use B<busybox' modprobe> to handle
+modules, you must note that B<busybox' modprobe> doesn't have ability to
+install soft dependencies of modules (i.e. modules.softdep). You must install
+them yourself using hooks. See
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>
+how to do it.
+
+=head1 SEE ALSO
+
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>,
+L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.cmdline.7.pod>,
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>

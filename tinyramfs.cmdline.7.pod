@@ -1,0 +1,157 @@
+=pod
+
+=head1 NAME
+
+tinyramfs.cmdline - kernel command-line parameters
+
+=head1 DESCRIPTION
+
+Tinyramfs provides a way to control configuration dynamically via kernel
+parameters without needing to regenerate initramfs image.
+
+=head1 GENERAL PARAMETERS
+
+=over 8
+
+=item B<debug>=1
+
+Enable debug mode.
+
+=item B<break>=I<BREAKPOINT>
+
+Specify breakpoint where shell should be invoked. Useful for debugging.
+
+List of builtin breakpoints:
+
+  - boot
+  - root
+
+Hooks can provide their own breakpoints. See source code of hooks for more
+information.
+
+=item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+Specify which way initramfs will use to look up root filesystem.
+
+=over 8
+
+=item I<UUID>
+
+Lookup device by uuid.
+
+=item I<LABEL>
+
+Lookup device by label.
+
+=item I</dev/*>
+
+Lookup device by full path.
+
+=item I<PARTUUID>
+
+Lookup device by partition uuid.
+
+=back
+
+Initramfs must contain
+L<blkid(8)|https://www.mankier.com/8/blkid>
+for ability to use I<UUID>, I<LABEL>, I<PARTUUID>. Note that I<PARTUUID> only
+supported in util-linux'
+L<blkid(8)|https://www.mankier.com/8/blkid>.
+
+=item B<root_type>=I<TYPE>
+
+=item B<rootfstype>=I<TYPE>
+
+Explicitly set root filesystem type. Kernel must support specified type.
+
+=item B<rootdelay>=I<DELAY>
+
+Specify maximum number of seconds to wait for root device.
+
+Default is 30.
+
+=item B<root_opts>=I<OPTS>
+
+=item B<rootflags>=I<OPTS>
+
+See
+L<fstab(5)|https://www.mankier.com/5/fstab>
+fourth field.
+
+=back
+
+=head1 HOOKS PARAMETERS
+
+Initramfs must contain appropriate hooks for ability to use below parameters.
+
+=head2 LVM
+
+=over 8
+
+=item B<lvm_tag>=I<TAG>
+
+Specify LVM tag which will be used to trigger LVM.
+
+This option will be ignored if B<lvm_name>/B<lvm_group> was specified.
+
+=item B<lvm_name>=I<NAME>
+
+Specify LVM name which will be used to trigger LVM.
+
+B<lvm_group> (see below) must be specified.
+
+=item B<lvm_group>=I<GROUP>
+
+Specify LVM group which will be used to trigger LVM.
+
+=item B<lvm_discard>=1
+
+Pass I<issue_discards> to LVM. Leave empty to disable.
+Useful for SSD's.
+
+=back
+
+=head2 LUKS
+
+=over 8
+
+=item B<luks_name>=I<NAME>
+
+Specify which name will be registered to mapping table after
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>
+unlocks LUKS root.
+
+=item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+See B<root> (above) for details.
+
+=item B<luks_discard>=1
+
+Pass C<--allow-discards> to
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>.
+Leave empty to disable.
+
+Useful for SSD's, but you must know that security will be decreased.
+
+=back
+
+=head1 EXAMPLES
+
+=head2 ROOT
+
+  vmlinuz initrd=\initramfs root=/dev/sda1 ...
+
+=head2 DISABLE DISCARD
+
+  vmlinuz initrd=\initramfs luks_discard= lvm_discard= ...
+
+=head2 PASS ARGUMENT TO REAL INIT
+
+  vmlinuz initrd=\initramfs ... -- args
+
+=head1 SEE ALSO
+
+L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>,
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>

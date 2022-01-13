@@ -1,0 +1,196 @@
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+tinyramfs.hooks - Tinyramfs hooks and related stuff
+
+=head1 DESCRIPTION
+
+Hooks can be located in F</usr/share/tinyramfs/hooks> (system path) and
+F</etc/tinyramfs/hooks> (user path). Tinyramfs also allows you to specify
+custom location via B<-H> option. See
+L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>
+for more information.
+
+Hooks provides a way to extend build and init process. Hooks must be written
+in POSIX shell. Bashisms and other non-portable extensions are prohibited.
+In order to write hooks you must know about hook structure.
+
+Example:
+
+=begin man
+
+  hooks/
+  `-- <hook>               -> directory of hook scripts
+      |-- <hook>           -> invoked in build process
+      |-- <hook>.init      -> invoked in init process
+      `-- <hook>.init.late -> invoked after root filesystem was mounted
+
+=end man
+
+=begin html
+
+  hooks/
+  └── <hook>               -> directory of hook scripts
+      ├── <hook>           -> invoked in build process
+      ├── <hook>.init      -> invoked in init process
+      └── <hook>.init.late -> invoked after root filesystem was mounted
+
+=end html
+
+=head2 MAN PAGE SYNTAX
+
+=over 8
+
+=item B<B:>
+
+Extension/Variable can be used in build process.
+
+=item B<I:>
+
+Extension/Variable can be used in init process.
+
+=item B<BI:>
+
+Extension/Variable can be used in both processes.
+
+=back
+
+=head1 EXTENSIONS
+
+Tinyramfs also provides some extensions and environment variables to easily
+interact with build and init system.
+
+
+=over 8
+
+=item B<BI: print> I<MESSAGE>
+
+Print message to stdout.
+
+=item B<BI: panic> [I<MESSAGE>]
+
+If message was not specified, then tinyramfs will print default error message.
+Otherwise, message will be printed.
+
+=item B<B: copy_module> I<PATH>
+
+Copy kernel module by I<PATH> (full path to kernel module) to tinyramfs
+working directory.
+
+=item B<B: copy_binary> I<NAME>|I<PATH>
+
+If I<PATH> (full path to binary) was specified and it has executable bit,
+then it will be copied to F</bin> location of tinyramfs working directory.
+
+If I<NAME> was specified, the tinyramfs will try to find command by name in
+C<PATH>. If success, command will be copied to F</bin> location of tinyramfs
+working directory. Otherwise error message will appear.
+
+=item B<B: copy_file> I<FILE> I<DEST> I<MODE> I<STRIP>
+
+=over 8
+
+=item I<FILE>
+
+Must be full path to file.
+
+=item I<DEST>
+
+Must be full path where I<FILE> should be stored. Tinyramfs will automatically
+create all leading directories if they aren't exist already. Also no need to
+prepend path of tinyramfs working directory.
+
+=item I<MODE>
+
+Permissions in octal format.
+
+=item I<STRIP>
+
+If was set to B<1>, then tinyramfs will attempt to run
+L<strip(1)|https://www.mankier.com/1/strip>
+on file. Tinyramfs will silently ignore errors if strip doesn't exists or
+failed to strip binary.
+
+=back
+
+=item B<I: resolve_device> I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+Sets B<device> variable to full path of resolved
+I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>.
+
+=back
+
+=head1 VARIABLES
+
+=over 8
+
+=item B<BI: debug>
+
+1 if debug mode enabled
+
+=item B<I: break>
+
+Breakpoint for debugging.
+
+=item B<B: tmpdir>
+
+Full path of tinyramfs working directory (initramfs rootfs in future)
+
+=item B<B: kernel>
+
+Kernel version.
+
+=item B<B: moddir>
+
+Modules directory.
+
+=item B<B: init>
+
+Path to init script.
+
+=item B<B: helper>
+
+Path to device-helper script.
+
+=item B<B: config>
+
+Config location.
+
+=item B<B: output>
+
+Output path.
+
+=item B<BI: ...>
+
+See
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>.
+
+=back
+
+=head1 EXAMPLES
+
+This example will show how to handle soft dependencies of B<ext4> module.
+Create F</etc/tinyramfs/hooks/ext4> directory and copy below scripts with
+appropriate names to that directory. After that, prepend B<ext4> to B<hooks>
+option in tinyramfs' config (F</etc/tinyramfs/config>).
+
+I<ext4>
+
+  print "Copying ext4 dependencies"
+
+  for _mod in crc32c libcrc32c; do
+      copy_module "$_mod"
+  done
+
+I<ext4.init>
+
+  modprobe -a crc32c libcrc32c
+
+=head1 SEE ALSO
+
+L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>,
+L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.cmdline.7.pod>

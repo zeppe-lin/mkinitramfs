@@ -1,0 +1,349 @@
+=pod
+
+=head1 NAME
+
+tinyramfs.config - configuration file for tinyramfs
+
+=head1 SYNOPSIS
+
+B</etc/tinyramfs/config>
+
+=head1 DESCRIPTION
+
+Tinyramfs configuration file is a list of environment variables.
+Each variable must be written in POSIX way, bashism not allowed.
+
+Example:
+
+  key=value
+
+If value contains spaces it must be quoted.
+
+  key="value value2"
+
+If value contains special symbols like C<$>, it must be escaped or quoted
+using single quotes.
+
+  key=\\$value
+  key='$value'
+
+If line exceeded maximum space on your display and you want to make it more
+readable, you can concatenate them.
+
+  key=value
+  key="${key}value"
+
+If you want to temporary undefine variable without actually deleting it,
+you can simply prepend C<#>.
+
+  #key=value
+
+=head1 MAN PAGE SYNTAX
+
+  |    - OR
+  *    - any value
+  [a]  - optional value
+  ...  - can be repeated
+
+=head1 GENERAL OPTIONS
+
+=over 8
+
+=item B<monolith>=1
+
+Monolithic kernel means kernel with builtin modules.
+If you didn't build kernel yourself, then in most cases you have modular
+kernel and you don't need to enable this option. To check if you have
+monolithic you need to check if F<< /lib/modules/<kernel version>/modules >>
+exist. If this directory doesn't exist you probably have monolithic kernel
+which means you need to set B<monolith> to B<1>.
+
+=item B<hostonly>=1
+
+Hostonly mode enumerates
+L<sysfs(5)|https://www.mankier.com/5/sysfs>
+and copies only necessary modules instead of copying all modules. Which means
+that this mode can dramatically reduce initramfs size. This option will be
+ignored if B<monolith> was set to B<1>.
+
+=item B<compress>=I<COMMAND> [I<ARGS>...]
+
+Specify which command will be used to compress initramfs image.
+
+There is a lot of commands you can use, such as:
+
+  - xz
+  - zstd (if supported by kernel)
+  - gzip
+  - bzip2
+  - and many more ...
+
+You can set compression level by specifying C<-[0-9]> in I<ARGS>.
+
+=item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+Specify which way tinyramfs will use to look up root filesystem
+
+=over 8
+
+=item I<UUID>
+
+Lookup device by uuid.
+
+=item I<LABEL>
+
+Lookup device by label.
+
+=item I</dev/*>
+
+Lookup device by full path.
+
+=item I<PARTUUID>
+
+Lookup device by partition uuid.
+
+=back
+
+You must install
+L<blkid(8)|https://www.mankier.com/8/blkid>
+(available in B<toybox>, B<busybox>, B<util-linux>) for ability to use
+I<UUID>, I<LABEL>, I<PARTUUID>. Note that I<PARTUUID> only supported in
+B<util-linux'>
+L<blkid(8)|https://www.mankier.com/8/blkid>.
+
+=item B<root_type>=I<TYPE>
+
+Explicitly set root filesystem type instead of automatically discovering
+via F</proc/mounts>. This option must be specified if you booted from Live CD.
+
+=item B<root_opts>=I<OPTS>
+
+See
+L<fstab(5)|https://www.mankier.com/5/fstab>
+fourth field.
+
+=item B<hooks>=I<HOOK>...
+
+Hooks provide a flexible way to extend tinyramfs with custom scripts. You
+must know that I<hooks are launched in the order in which they are specified>.
+
+List of shipped by default hooks:
+
+=over 8
+
+=item I<lvm>
+
+LVM support.
+
+=item I<luks>
+
+LUKS support.
+
+=item I<mdev>
+
+L<mdev|https://git.busybox.net/busybox/plain/docs/mdev.txt>
+support.
+
+=item I<proc>
+
+C<CONFIG_UEVENT_HELPER> support.
+
+=item I<mdevd>
+
+L<mdevd|https://skarnet.org/software/mdevd/>
+support.
+
+=item I<eudev>
+
+L<eudev|https://wiki.gentoo.org/wiki/Project:Eudev>
+support.
+
+=item I<keymap>
+
+keymap support.
+
+=item I<resume>
+
+Resume from hibernation support.
+
+=item I<systemd-udevd>
+
+systemd udevd support.
+
+=back
+
+See below how to use them.
+
+If hook doesn't have options, then it's not yet documented or can be used
+"as is".
+
+More detailed information and how to write your own hooks described in
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>.
+
+=back
+
+=head1 HOOKS OPTIONS
+
+=head2 LVM
+
+=over 8
+
+=item B<lvm_tag>=I<TAG>
+
+Specify LVM tag which will be used to trigger LVM.
+
+This option will be ignored if B<lvm_name>/B<lvm_group> was specified.
+
+=item B<lvm_name>=I<NAME>
+
+Specify LVM name which will be used to trigger LVM.
+
+B<lvm_group> (see below) must be specified.
+
+=item B<lvm_group>=I<GROUP>
+
+Specify LVM group which will be used to trigger LVM.
+
+=item B<lvm_config>=1
+
+Include F</etc/lvm/lvm.conf> in initramfs.
+
+=item B<lvm_discard>=1
+
+Pass C<issue_discards> to LVM. Useful for SSD's.
+
+=back
+
+=head2 LUKS
+
+=over 8
+
+=item B<luks_key>=I<PATH>
+
+Specify location to key.
+
+GPG-encrypted key currently not supported.
+
+=item B<luks_name>=I<NAME>
+
+Specify which name will be registered to mapping table after
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>
+unlocks LUKS root.
+
+=item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+See B<root> (above) for details.
+
+=item B<luks_header>=I<PATH>
+
+Specify location to detached header.
+
+=item B<luks_discard>=1
+
+Pass C<--allow-discards> to
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>.
+Useful for SSD's, but you must know that security will be decreased.
+
+=back
+
+=head2 KEYMAP
+
+=over 8
+
+=item B<keymap_path>=I<PATH>
+
+Specify location to binary keymap.
+
+Currently, this hook supports loading keymap only via B<busybox' loadkmap>.
+
+B<kbd's loadkeys> not supported.
+
+=back
+
+=head2 RESUME
+
+=over 8
+
+=item B<resume>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
+
+Specify which way tinyramfs will use to look up swap device to resume from
+hibernation.
+
+See B<root> (above) for argument details.
+
+=back
+
+=head1 EXAMPLES
+
+Remember, these just examples! I<Don't copy blindly>! Your configuration may
+(and should) differ.
+
+=head2 ROOT
+
+  hooks=eudev
+  root=/dev/sda1
+
+=head2 ROOT + MONOLITH + PROC (CONFIG_UEVENT_HELPER)
+
+  hooks=proc
+  monolith=1
+  root=/dev/nvme0n1p1
+
+=head2 ROOT + COMPRESS
+
+  hostonly=1
+  hooks=mdevd
+  compress="gzip -9"
+  root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
+
+=head2 ROOT + KEYMAP
+
+  root_type=f2fs
+  hooks="eudev keymap"
+  root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+  keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
+
+=head2 ROOT + LUKS
+
+  hooks="mdev luks"
+  root=LABEL=my_root
+  luks_discard=1
+  luks_key=/root/key
+  luks_header=/root/header
+  luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
+
+=head2 ROOT + LVM + LUKS
+
+  compress="lz4 -9"
+  hooks="eudev lvm luks"
+  root=/dev/disk/by-uuid/aa82d7bb-ab2b-4739-935f-fd8a5c9a6cb0
+  luks_discard=1
+  luks_root=/dev/sdb2
+  lvm_config=1
+  lvm_discard=1
+  lvm_name=lvm1
+  lvm_group=lvm_grp2
+
+=head2 ROOT + LUKS + LVM + RESUME
+
+  hostonly=1
+  compress="gzip --fast"
+  hooks="eudev luks lvm resume"
+  root=/dev/mapper/root
+  root_type=ext4
+  resume=/dev/mapper/swap
+  luks_discard=1
+  luks_name=crypt
+  luks_root=/dev/sda2
+
+=head1 SEE ALSO
+
+L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
+L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.cmdline.7.pod>,
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>
+
+
+
+
+
+
