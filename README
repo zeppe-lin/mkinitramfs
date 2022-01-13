@@ -18,6 +18,7 @@ FEATURES
 DEPENDENCIES
 
     * POSIX make (build time)
+    * pod2man(1pm) (build time, required for preparing manual pages)
     * POSIX utilities
     * POSIX shell
     * switch_root(8)
