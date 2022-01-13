@@ -12,9 +12,9 @@ resolve_device "$luks_root"
 
 if [ "$luks_key" ]; then
     DM_DISABLE_UDEV=1 cryptsetup open \
-        "${luks_discard:+--allow-discards}" \
-        "${luks_header:+--header=$luks_header}" \
-        "${luks_key:+--key-file=$luks_key}" -- "$device" \
+        ${luks_discard:+--allow-discards} \
+        ${luks_header:+--header="$luks_header"} \
+        ${luks_key:+--key-file="$luks_key"} -- "$device" \
         "${luks_name:-crypt-${device##*/}}" || panic "failed to unlock LUKS"
 else
     DM_DISABLE_UDEV=1 cryptsetup open \
