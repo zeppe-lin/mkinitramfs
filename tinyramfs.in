@@ -7,7 +7,7 @@
 
 print()
 {
-    printf "%b %s\n" "${2:-"\033[1;37m>>\033[m"}" "$1"
+    printf "%b %s\n" "${2:-">>"}" "$1"
 }
 
 panic()
@@ -21,16 +21,21 @@ panic()
 usage()
 {
     cat << EOF
-usage: ${0##*/} [option]...
-       -o, --output <file>  set path to initramfs image
-       -c, --config <file>  set path to config
-       -k, --kernel  <ver>  set kernel version
-       -m, --modules <dir>  set path to modules
-       -H, --hooks   <dir>  set directory to hooks
-       -D, --helper <file>  set path to device helper
-       -I, --init   <file>  set path to init script
-       -d, --debug          enable debug mode
-       -f, --force          overwrite initramfs image
+Usage: ${0##*/} [OPTION]...
+Tiny initramfs written in POSIX shell.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -o, --output  FILE     set path to initramfs image
+  -c, --config  FILE     set path to config
+  -k, --kernel  VERSION  set kernel version
+  -m, --modules PATH     set path to modules
+  -H, --hooks   PATH     set directory to hooks
+  -D, --helper  FILE     set path to device helper
+  -I, --init    FILE     set path to init script
+  -d, --debug            enable debug mode
+  -f, --force            overwrite initramfs image
+  -v, --version          print version and exit
+  -h, --help             print help and exit
 EOF
 }
 
@@ -66,6 +71,9 @@ parse_arguments()
         ;;
         -h | --help)
             usage; exit 0
+        ;;
+        -v | --version)
+            echo "${0##*/} @VERSION@" ; exit 0
         ;;
         *)
             printf "invalid option: %s\n" "$1"
@@ -109,6 +117,8 @@ prepare_initramfs()
         "${tmpdir}/mnt/root" \
         "${tmpdir}/etc/tinyramfs"
 
+    ln -s usr/lib "${tmpdir}/usr/lib64"
+    ln -s usr/lib "${tmpdir}/lib64"
     ln -s usr/lib "${tmpdir}/lib"
     ln -s usr/bin "${tmpdir}/bin"
     ln -s usr/bin "${tmpdir}/sbin"
@@ -133,31 +143,36 @@ copy_file()
 (
     file="$1"; dest="$2"; mode="$3"; strip="$4"
 
-    [ -e "${tmpdir}${dest}" ] && return 0
+    [ -e "${tmpdir}/${dest}" ] && return 0
 
-    mkdir -p "${tmpdir}${dest%/*}" || panic
+    mkdir -p "${tmpdir}/${dest%/*}" || panic
 
     # Iterate throught symlinks and copy them
     while [ -h "$file" ]; do
-        cp -P "$file" "${tmpdir}${dest%/*}/${file##*/}"
+        cp -P "$file" "${tmpdir}/${dest%/*}/${file##*/}"
         cd -P "${file%/*}"
 
         symlink=$(ls -ld "$file")
         symlink="${symlink##* -> }"
-        file="${PWD}/${symlink##*/}"
+
+        # TODO handle ../../..
+        case "$symlink" in
+            /*) file="$symlink" ;;
+            *)  file="${PWD}/${symlink##*/}" ;;
+        esac
     done
 
     # Handle case when file and dest have same basenames
-    [ -h "${tmpdir}${dest}" ] && dest="${dest%/*}/${file##*/}"
+    [ -h "${tmpdir}/${dest}" ] && dest="$file"
 
     {
-        cp    "$file" "${tmpdir}${dest}"
-        chmod "$mode" "${tmpdir}${dest}"
+        cp    "$file" "${tmpdir}/${dest}"
+        chmod "$mode" "${tmpdir}/${dest}"
     } || panic
 
     # https://www.shellcheck.net/wiki/SC2015
     # shellcheck disable=2015
-    [ "$strip" = 1 ] && strip "${tmpdir}${dest}" > /dev/null 2>&1 || :
+    [ "$strip" = 1 ] && strip "${tmpdir}/${dest}" > /dev/null 2>&1 || :
 )
 
 copy_binary()
@@ -326,7 +341,7 @@ make_initramfs()
     ${compress:-cat} > "$output" ||
     panic "failed to generate initramfs image"
 
-    print "done! check out $output"
+    print "done! check out $output" "\033[1;32m>>\033[m"
 )
 
 # Exit if command fails and disable globbing.
