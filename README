@@ -1,0 +1,60 @@
+ABOUT
+
+    This directory contains tinyramfs, the tool used to create a Linux boot
+    image (initramfs).
+
+    This is a fork of illilliti's tinyramfs. Original sources can be downloaded
+    from: https://github.com/illiliti/tinyramfs.
+
+FEATURES
+
+    * No "local"s, no bashisms, only POSIX shell
+    * Portable, no distro specific
+    * Easy to use configuration
+    * Build time and init time hooks
+    * LUKS (detached header, key, password), LVM
+    * mdev, mdevd, eudev, systemd-udevd
+
+DEPENDENCIES
+
+    * POSIX make (build time)
+    * POSIX utilities
+    * POSIX shell
+    * switch_root(8)
+    * mount(8)
+    * cpio(1)
+    * ldd(1) (optional, required for copying binary dependencies)
+    * strip(1p) (optional, required for reducing image size by stripping
+      binaries)
+    * blkid(8) (optional, required for UUID, LABEL, PARTUUID support)
+    * mdev OR mdevd OR eudev OR systemd-udevd OR CONFIG_UEVENT_HELPER (optional,
+      required for modular kernel, /dev/mapper/* and /dev/disk/*)
+    * lvm(8) (optional, required for LVM support)
+    * cryptsetup(8) (optional, required for LUKS support)
+    * busybox' loadkmap (optional, required for keymap support)
+    * kmod OR busybox' modutils with patches/modprobe-kernel-version.patch (not
+      required for monolithic kernel)
+
+USAGE
+
+    * Read tinyramfs.config(5) manual page and setup /etc/tinyramfs/config.
+    * Next, run as root:
+      $ tinyramfs -o "/boot/initramfs-$(uname -r)"
+    * Update your bootloader (i.e. grub):
+      $ grub-mkconfig -o /boot/grub/grub.cfg
+    * Reboot.
+
+THANKS
+
+    * E5ten <https://github.com/E5ten>
+    * dylanaraps <https://github.com/dylanaraps>
+
+LICENSE
+
+    tinyramfs is licensed through the GNU General Public License v3.
+    Read the LICENSE file for the complete license.
+
+DONATE
+
+    You can donate if you like this project to the original author: illilliti.
+    BTC: 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
