@@ -152,6 +152,8 @@ Useful for SSD's, but you must know that security will be decreased.
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>,
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>
+L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>,
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
+
+=cut

@@ -178,7 +178,7 @@ If hook doesn't have options, then it's not yet documented or can be used
 "as is".
 
 More detailed information and how to write your own hooks described in
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>.
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>.
 
 =back
 
@@ -338,12 +338,8 @@ Remember, these just examples! I<Don't copy blindly>! Your configuration may
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
-L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.cmdline.7.pod>,
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.hooks.7.pod>
+L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
+L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.cmdline.7.pod>,
+L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
 
-
-
-
-
-
+=cut

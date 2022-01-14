@@ -4,14 +4,14 @@
 
 =head1 NAME
 
-tinyramfs.hooks - Tinyramfs hooks and related stuff
+tinyramfs.hooks - tinyramfs hooks and related stuff
 
 =head1 DESCRIPTION
 
 Hooks can be located in F</usr/share/tinyramfs/hooks> (system path) and
 F</etc/tinyramfs/hooks> (user path). Tinyramfs also allows you to specify
 custom location via B<-H> option. See
-L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>
+L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>
 for more information.
 
 Hooks provides a way to extend build and init process. Hooks must be written
@@ -166,7 +166,7 @@ Output path.
 =item B<BI: ...>
 
 See
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>.
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>.
 
 =back
 
@@ -191,6 +191,8 @@ I<ext4.init>
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.8.pod>,
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.config.5.pod>,
-L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/zeppe-lin/blob/master/tinyramfs/tinyramfs.cmdline.7.pod>
+L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
+L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>,
+L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.cmdline.7.pod>
+
+=cut
