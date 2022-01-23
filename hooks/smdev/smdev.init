@@ -1,0 +1,21 @@
+# vim: set ft=sh:
+# shellcheck shell=sh
+
+export PATH="/sbin:/bin:/usr/sbin:/usr/bin"
+
+[ "$break" = smdev ] && { print "break before smdev.init"; sh; }
+
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec,noatime
+
+# Setting up smdev as a hotplug agent
+if [ -e /proc/sys/kernel/hotplug ]; then
+	echo /sbin/smdev > /proc/sys/kernel/hotplug
+fi
+
+smdev -s
+simevent add
+
+# TODO: load modules on boot?
+
+# End of file.
