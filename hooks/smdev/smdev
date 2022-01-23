@@ -27,8 +27,8 @@ copy_file "/etc/smdev/add/00-modprobe" "/etc/smdev/add/00-modprobe" 644 0
 copy_file "/etc/smdev/add/01-lvm" "/etc/smdev/add/01-lvm" 644 0
 copy_file "/etc/smdev/add/01-uuid" "/etc/smdev/add/01-uuid" 644 0
 copy_file "/etc/smdev/add/10-cdrom" "/etc/smdev/add/10-cdrom" 644 0
-copy_file "/etc/smdev/add/20-pci" "/etc/smdev/add/20-pci" 644 0
-copy_file "/etc/smdev/add/20-platform" "/etc/smdev/add/20-platform" 644 0
+#copy_file "/etc/smdev/add/20-pci" "/etc/smdev/add/20-pci" 644 0
+#copy_file "/etc/smdev/add/20-platform" "/etc/smdev/add/20-platform" 644 0
 
 copy_file "/etc/smdev/remove/99-remove_links" "/etc/smdev/remove/99-remove_links" 644 0
 
