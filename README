@@ -1,10 +1,12 @@
 ABOUT
 
-    This directory contains tinyramfs, the tool used to create a Linux boot
-    image (initramfs).
+    This directory contains tinyramfs, the tool used to create a Linux
+    boot image (initramfs).
 
-    This is a fork of illilliti's tinyramfs. Original sources can be downloaded
-    from: https://github.com/illiliti/tinyramfs.
+    This is a fork of illilliti's tinyramfs. Original sources can be
+    downloaded from:
+
+    https://github.com/illiliti/tinyramfs
 
 FEATURES
 
@@ -13,32 +15,50 @@ FEATURES
     * Easy to use configuration
     * Build time and init time hooks
     * LUKS (detached header, key, password), LVM
-    * mdev, mdevd, eudev, systemd-udevd
+    * smdev, mdev, mdevd, eudev, systemd-udevd
 
 DEPENDENCIES
 
-    * POSIX make (build time)
-    * pod2man(1pm) (build time, required for preparing manual pages)
+    Build time:
+
+    * make(1p)
+    * pod2man(1pm)
+
+    Runtime:
+
+    * sh(1p)
     * POSIX utilities
-    * POSIX shell
     * switch_root(8)
     * mount(8)
     * cpio(1)
-    * ldd(1) (optional, required for copying binary dependencies)
-    * strip(1p) (optional, required for reducing image size by stripping
-      binaries)
-    * blkid(8) (optional, required for UUID, LABEL, PARTUUID support)
-    * mdev OR mdevd OR eudev OR systemd-udevd OR CONFIG_UEVENT_HELPER (optional,
-      required for modular kernel, /dev/mapper/* and /dev/disk/*)
-    * lvm(8) (optional, required for LVM support)
-    * cryptsetup(8) (optional, required for LUKS support)
-    * busybox' loadkmap (optional, required for keymap support)
-    * kmod OR busybox' modutils with patches/modprobe-kernel-version.patch (not
-      required for monolithic kernel)
+
+    * ldd(1)
+    (optional, required for copying binary dependencies)
+
+    * strip(1p)
+    (optional, required for reducing image size by stripping binaries)
+
+    * blkid(8)
+    (optional, required for UUID, LABEL, PARTUUID support)
+
+    * smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR CONFIG_UEVENT_HELPER
+    (optional, required for modular kernel, /dev/mapper/* and /dev/disk/*)
+
+    * lvm(8)
+    (optional, required for LVM support)
+
+    * cryptsetup(8)
+    (optional, required for LUKS support)
+
+    * busybox' loadkmap
+    (optional, required for keymap support)
+
+    * kmod OR busybox' modutils with modprobe-kernel-version.patch
+    (optional, not required for monolithic kernel)
 
 USAGE
 
-    * Read tinyramfs.config(5) manual page and setup /etc/tinyramfs/config.
+    * Read tinyramfs.config(5) and setup /etc/tinyramfs/config.
     * Next, run as root:
       $ tinyramfs -o "/boot/initramfs-$(uname -r)"
     * Update your bootloader (i.e. grub):
@@ -59,5 +79,7 @@ LICENSE
 
 DONATE
 
-    You can donate if you like this project to the original author: illilliti.
+    You can donate if you like this project to the original author:
+    illilliti.
+
     BTC: 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
