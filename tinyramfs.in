@@ -234,7 +234,8 @@ copy_module()
         # Skip builtin modules.
         case "$module" in */*) ;; *) continue; esac
 
-        copy_file "$module" "$module" 644 0
+        # Skip module parameters.
+        copy_file "${module%% *}" "${module%% *}" 644 0
     done
 }
 
