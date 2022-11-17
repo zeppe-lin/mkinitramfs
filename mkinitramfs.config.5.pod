@@ -5,15 +5,15 @@
 
 =head1 NAME
 
-tinyramfs.config - configuration file for tinyramfs
+mkinitramfs.config - configuration file for mkinitramfs
 
 =head1 SYNOPSIS
 
-B</etc/tinyramfs/config>
+B</etc/mkinitramfs/config>
 
 =head1 DESCRIPTION
 
-Tinyramfs configuration file is a list of environment variables.
+mkinitramfs configuration file is a list of environment variables.
 Each variable must be written in POSIX way, bashism not allowed.
 
 Example:
@@ -54,20 +54,19 @@ it, you can simply prepend C<#>.
 
 =item B<monolith>=1
 
-Monolithic kernel means kernel with builtin modules.
-If you didn't build kernel yourself, then in most cases you have
-modular kernel and you don't need to enable this option. To check if
-you have monolithic you need to check if
-F<< /lib/modules/<kernel version>/modules >>
-exist. If this directory doesn't exist you probably have monolithic
+Monolithic kernel means kernel with builtin modules.  If you didn't
+build kernel yourself, then in most cases you have modular kernel and
+you don't need to enable this option.  To check if you have monolithic
+you need to check if F<< /lib/modules/<kernel version>/modules >>
+exist.  If this directory doesn't exist you probably have monolithic
 kernel which means you need to set B<monolith> to B<1>.
 
 =item B<hostonly>=1
 
-Hostonly mode enumerates
-L<sysfs(5)|https://www.mankier.com/5/sysfs>
-and copies only necessary modules instead of copying all modules.
-Which means that this mode can dramatically reduce initramfs size.
+Hostonly mode enumerates L<sysfs(5)> and copies only necessary modules
+instead of copying all modules.  Which means that this mode can
+dramatically reduce initramfs size.
+
 This option will be ignored if B<monolith> was set to B<1>.
 
 =item B<compress>=I<COMMAND> [I<ARGS>...]
@@ -86,7 +85,7 @@ You can set compression level by specifying C<-[0-9]> in I<ARGS>.
 
 =item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
-Specify which way tinyramfs will use to look up root filesystem
+Specify which way mkinitramfs will use to look up root filesystem
 
 =over 8
 
@@ -108,29 +107,27 @@ Lookup device by partition uuid.
 
 =back
 
-You must install
-L<blkid(8)|https://www.mankier.com/8/blkid>
-(available in B<toybox>, B<busybox>, B<util-linux> or B<e2fsprogs>)
-for ability to use I<UUID>, I<LABEL>, I<PARTUUID>. Note that
-I<PARTUUID> only supported in B<util-linux'>
-L<blkid(8)|https://www.mankier.com/8/blkid>.
+You must install L<blkid(8)> (available in B<toybox>, B<busybox>,
+B<util-linux> or B<e2fsprogs>) for ability to use I<UUID>, I<LABEL>,
+I<PARTUUID>.
+
+Note that I<PARTUUID> only supported in B<util-linux'> L<blkid(8)>.
 
 =item B<root_type>=I<TYPE>
 
 Explicitly set root filesystem type instead of automatically
-discovering via F</proc/mounts>. This option must be specified if you
+discovering via F</proc/mounts>.  This option must be specified if you
 booted from Live CD.
 
 =item B<root_opts>=I<OPTS>
 
-See
-L<fstab(5)|https://www.mankier.com/5/fstab>
-fourth field.
+See L<fstab(5)> fourth field.
 
 =item B<hooks>=I<HOOK>...
 
-Hooks provide a flexible way to extend tinyramfs with custom scripts.
-You must know that I<hooks are launched in the order in which they are specified>.
+Hooks provide a flexible way to extend mkinitramfs with custom
+scripts.  You must know that
+I<hooks are launched in the order in which they are specified>.
 
 List of shipped by default hooks:
 
@@ -150,8 +147,7 @@ L<smdev|https://github.com/zeppe-lin/smdev/> support.
 
 =item I<mdev>
 
-L<mdev|https://git.busybox.net/busybox/plain/docs/mdev.txt>
-support.
+L<mdev|https://git.busybox.net/busybox/plain/docs/mdev.txt> support.
 
 =item I<proc>
 
@@ -159,17 +155,15 @@ C<CONFIG_UEVENT_HELPER> support.
 
 =item I<mdevd>
 
-L<mdevd|https://skarnet.org/software/mdevd/>
-support.
+L<mdevd|https://skarnet.org/software/mdevd/> support.
 
 =item I<eudev>
 
-L<eudev|https://wiki.gentoo.org/wiki/Project:Eudev>
-support.
+L<eudev|https://github.com/eudev-project/eudev> support.
 
 =item I<keymap>
 
-keymap support.
+Keymap support.
 
 =item I<resume>
 
@@ -187,7 +181,7 @@ If hook doesn't have options, then it's not yet documented or can be
 used "as is".
 
 More detailed information and how to write your own hooks described in
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>.
+L<mkinitramfs.hooks(7)>.
 
 =back
 
@@ -236,8 +230,7 @@ GPG-encrypted key currently not supported.
 =item B<luks_name>=I<NAME>
 
 Specify which name will be registered to mapping table after
-L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>
-unlocks LUKS root.
+L<cryptsetup(8)> unlocks LUKS root.
 
 =item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
@@ -249,8 +242,7 @@ Specify location to detached header.
 
 =item B<luks_discard>=1
 
-Pass C<--allow-discards> to
-L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>.
+Pass C<--allow-discards> to L<cryptsetup(8)>.
 Useful for SSD's, but you must know that security will be decreased.
 
 =back
@@ -276,8 +268,8 @@ B<kbd's loadkeys> not supported.
 
 =item B<resume>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
-Specify which way tinyramfs will use to look up swap device to resume
-from hibernation.
+Specify which way mkinitramfs will use to look up swap device to
+resume from hibernation.
 
 See B<root> (above) for argument details.
 
@@ -348,8 +340,9 @@ Your configuration may (and should) differ.
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
-L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.cmdline.7.pod>,
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
+L<mkinitramfs(8)>, L<mkinitramfs.cmdline(7)>, L<mkinitramfs.hooks(7)>.
 
 =cut
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
