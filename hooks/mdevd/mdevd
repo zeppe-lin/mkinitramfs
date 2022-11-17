@@ -1,4 +1,6 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 #
 # https://www.shellcheck.net/wiki/SC2154
@@ -6,13 +8,16 @@
 # shellcheck disable=2154,2016
 
 for _binary in mdevd mdevd-coldplug kill; do
-    copy_binary "$_binary"
+  copy_binary "$_binary"
 done
 
 printf "%s\n" \
-    'SUBSYSTEM=block;.* 0:0 660 @device-helper' \
-> "${tmpdir}/etc/mdev.conf"
+  'SUBSYSTEM=block;.* 0:0 660 @device-helper' \
+  > "${tmpdir}/etc/mdev.conf"
 
 [ "$monolith" = 1 ] || printf "%s\n" \
-    '$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"' \
->> "${tmpdir}/etc/mdev.conf"
+  '$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"' \
+  >> "${tmpdir}/etc/mdev.conf"
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
