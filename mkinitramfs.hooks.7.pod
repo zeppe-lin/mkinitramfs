@@ -1,22 +1,25 @@
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 =pod
 
 =encoding UTF-8
 
 =head1 NAME
 
-tinyramfs.hooks - tinyramfs hooks and related stuff
+mkinitramfs.hooks - mkinitramfs hooks and related stuff
 
 =head1 DESCRIPTION
 
-Hooks can be located in F</usr/share/tinyramfs/hooks> (system path) and
-F</etc/tinyramfs/hooks> (user path). Tinyramfs also allows you to specify
-custom location via B<-H> option. See
-L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>
-for more information.
+Hooks can be located in F</usr/share/mkinitramfs/hooks> (system path)
+and F</etc/mkinitramfs/hooks> (user path).  mkinitramfs also allows
+you to specify custom location via B<-H> option.
+See L<mkinitramfs(8)> for more information.
 
-Hooks provides a way to extend build and init process. Hooks must be written
-in POSIX shell. Bashisms and other non-portable extensions are prohibited.
-In order to write hooks you must know about hook structure.
+Hooks provides a way to extend build and init process.  Hooks must be
+written in POSIX shell.  Bashisms and other non-portable extensions
+are prohibited.  In order to write hooks you must know about hook
+structure.
 
 Example:
 
@@ -60,8 +63,8 @@ Extension/Variable can be used in both processes.
 
 =head1 EXTENSIONS
 
-Tinyramfs also provides some extensions and environment variables to easily
-interact with build and init system.
+mkinitramfs also provides some extensions and environment variables to
+easily interact with build and init system.
 
 
 =over 8
@@ -72,22 +75,24 @@ Print message to stdout.
 
 =item B<BI: panic> [I<MESSAGE>]
 
-If message was not specified, then tinyramfs will print default error message.
-Otherwise, message will be printed.
+If message was not specified, then mkinitramfs will print default
+error message.  Otherwise, message will be printed.
 
 =item B<B: copy_module> I<PATH>
 
-Copy kernel module by I<PATH> (full path to kernel module) to tinyramfs
-working directory.
+Copy kernel module by I<PATH> (full path to kernel module) to
+mkinitramfs working directory.
 
 =item B<B: copy_binary> I<NAME>|I<PATH>
 
-If I<PATH> (full path to binary) was specified and it has executable bit,
-then it will be copied to F</bin> location of tinyramfs working directory.
+If I<PATH> (full path to binary) was specified and it has executable
+bit, then it will be copied to F</bin> location of mkinitramfs working
+directory.
 
-If I<NAME> was specified, the tinyramfs will try to find command by name in
-C<PATH>. If success, command will be copied to F</bin> location of tinyramfs
-working directory. Otherwise error message will appear.
+If I<NAME> was specified, the mkinitramfs will try to find command by
+name in C<PATH>.  If success, command will be copied to F</bin>
+location of mkinitramfs working directory.  Otherwise error message
+will appear.
 
 =item B<B: copy_file> I<FILE> I<DEST> I<MODE> I<STRIP>
 
@@ -99,9 +104,10 @@ Must be full path to file.
 
 =item I<DEST>
 
-Must be full path where I<FILE> should be stored. Tinyramfs will automatically
-create all leading directories if they aren't exist already. Also no need to
-prepend path of tinyramfs working directory.
+Must be full path where I<FILE> should be stored.  mkinitramfs will
+automatically create all leading directories if they aren't exist
+already.  Also no need to prepend path of mkinitramfs working
+directory.
 
 =item I<MODE>
 
@@ -109,10 +115,9 @@ Permissions in octal format.
 
 =item I<STRIP>
 
-If was set to B<1>, then tinyramfs will attempt to run
-L<strip(1)|https://www.mankier.com/1/strip>
-on file. Tinyramfs will silently ignore errors if strip doesn't exists or
-failed to strip binary.
+If was set to B<1>, then mkinitramfs will attempt to run L<strip(1)>
+on file.  mkinitramfs will silently ignore errors if strip doesn't
+exists or failed to strip binary.
 
 =back
 
@@ -137,7 +142,8 @@ Breakpoint for debugging.
 
 =item B<B: tmpdir>
 
-Full path of tinyramfs working directory (initramfs rootfs in future)
+Full path of mkinitramfs working directory (initramfs rootfs in
+future).
 
 =item B<B: kernel>
 
@@ -165,17 +171,17 @@ Output path.
 
 =item B<BI: ...>
 
-See
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>.
+See L<mkinitramfs.config(5)>.
 
 =back
 
 =head1 EXAMPLES
 
-This example will show how to handle soft dependencies of B<ext4> module.
-Create F</etc/tinyramfs/hooks/ext4> directory and copy below scripts with
-appropriate names to that directory. After that, prepend B<ext4> to B<hooks>
-option in tinyramfs' config (F</etc/tinyramfs/config>).
+This example will show how to handle soft dependencies of B<ext4>
+module.  Create F</etc/mkinitramfs/hooks/ext4> directory and copy
+below scripts with appropriate names to that directory.  After that,
+prepend B<ext4> to B<hooks> option in mkinitramfs' config
+(F</etc/mkinitramfs/config>).
 
 I<ext4>
 
@@ -191,8 +197,10 @@ I<ext4.init>
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>,
-L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.cmdline.7.pod>
+L<mkinitramfs(8)>, L<mkinitramfs.config(5)>,
+L<mkinitramfs.cmdline(7)>.
 
 =cut
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
