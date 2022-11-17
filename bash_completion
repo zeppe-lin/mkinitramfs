@@ -1,0 +1,35 @@
+# Bash programmable completion for mkinitramfs.
+# This file is a part of mkinitramfs.
+# See the COPYING and COPYRIGHT files for corresponding information.
+
+_mkinitramfs() {
+  local cur prev
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+
+  case "$prev" in
+  -h|--help|-v|--version|-f|--force|-d|--debug)
+    return 0
+    ;;
+  -I|--init|-D|--helper|-H|--hooks|-m|--modules|-c|--config|-o|--output)
+    if [ -z $BASH_COMPLETION ]; then
+      _filedir
+    else
+      COMPREPLY=($(compgen -f $cur))
+    fi
+    return 0
+    ;;
+  -k|--kernel)
+    COMPREPLY=($(compgen -W "$(ls -1 /lib/modules/)" -- $cur))
+    return 0
+    ;;
+  esac
+
+  COMPREPLY=($(compgen -W \
+    "$(mkinitramfs --help | awk '/--/{ printf "%2s ", $2 }')" -- $cur))
+}
+complete -F _mkinitramfs -o filenames mkinitramfs
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
