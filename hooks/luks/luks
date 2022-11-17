@@ -1,37 +1,43 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 #
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
 [ "$luks_key" ] && {
-    copy_file "${luks_key#*=}" /root/key 400 0
+  copy_file "${luks_key#*=}" /root/key 400 0
 
-    sed "s|${luks_key#*=}|/root/key|" \
-        "${tmpdir}/etc/tinyramfs/config" > "${tmpdir}/_"
+  sed "s|${luks_key#*=}|/root/key|" \
+    "${tmpdir}/etc/mkinitramfs/config" > "${tmpdir}/_"
 
-    mv "${tmpdir}/_" "${tmpdir}/etc/tinyramfs/config"
+  mv "${tmpdir}/_" "${tmpdir}/etc/mkinitramfs/config"
 }
 
 [ "$luks_header" ] && {
-    copy_file "${luks_header#*=}" /root/header 400 0
+  copy_file "${luks_header#*=}" /root/header 400 0
 
-    sed "s|${luks_header#*=}|/root/header|" \
-        "${tmpdir}/etc/tinyramfs/config" > "${tmpdir}/_"
+  sed "s|${luks_header#*=}|/root/header|" \
+    "${tmpdir}/etc/mkinitramfs/config" > "${tmpdir}/_"
 
-    mv "${tmpdir}/_" "${tmpdir}/etc/tinyramfs/config"
+  mv "${tmpdir}/_" "${tmpdir}/etc/mkinitramfs/config"
 }
 
 [ "$hostonly" = 1 ] &&
-    for _module in \
-        aes ecb xts lrw wp512 sha256 \
-        sha512 twofish serpent dm-crypt
-    do
-        copy_module "$_module"
-    done
+  for _module in \
+    aes ecb xts lrw wp512 sha256 sha512 twofish serpent dm-crypt
+  do
+    copy_module "$_module"
+  done
 
 # https://bugs.archlinux.org/task/56771
-[ -e /lib/libgcc_s.so.1 ] && copy_file /lib/libgcc_s.so.1 /lib/libgcc_s.so.1 755 1
-[ -e /usr/lib/libgcc_s.so.1 ] && copy_file /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 755 1
+[ -e /lib/libgcc_s.so.1 ] && \
+  copy_file /lib/libgcc_s.so.1 /lib/libgcc_s.so.1 755 1
+[ -e /usr/lib/libgcc_s.so.1 ] && \
+  copy_file /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 755 1
 
 copy_binary cryptsetup
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
