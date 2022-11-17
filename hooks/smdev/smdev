@@ -1,40 +1,50 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 
-copy_binary awk
-copy_binary blkid
-copy_binary cat
-copy_binary cut
-copy_binary dirname
-copy_binary echo
-copy_binary find
-copy_binary grep
-copy_binary kill
-copy_binary ln
-copy_binary ls
-copy_binary mkdir
-copy_binary modprobe
-copy_binary printf
-copy_binary sed
-copy_binary sh
-copy_binary smdev
-copy_binary test
+# XXX FIXME there is no support for monolithic kernel
+# XXX FIXME check paths like (pkgsrc/zeppe-lin) and fix it (may be
+# include config files here?)
+
+for _binary in \
+  awk blkid cat cut dirname echo find grep kill ln ls mkdir modprobe \
+  printf sed sh smdev test;
+do
+  copy_binary $_binary
+done
 
 copy_file "/bin/simevent" "/bin/simevent" 755 0
 copy_file "/etc/smdev/processdev" "/etc/smdev/processdev" 744 0
 
-copy_file "/etc/smdev/add/00-modprobe" "/etc/smdev/add/00-modprobe" 644 0
-copy_file "/etc/smdev/add/01-lvm" "/etc/smdev/add/01-lvm" 644 0
-copy_file "/etc/smdev/add/01-uuid" "/etc/smdev/add/01-uuid" 644 0
-copy_file "/etc/smdev/add/10-cdrom" "/etc/smdev/add/10-cdrom" 644 0
-#copy_file "/etc/smdev/add/20-pci" "/etc/smdev/add/20-pci" 644 0
-#copy_file "/etc/smdev/add/20-platform" "/etc/smdev/add/20-platform" 644 0
+copy_file "/etc/smdev/add/00-modprobe" \
+  "/etc/smdev/add/00-modprobe" 644 0
 
-copy_file "/etc/smdev/remove/99-remove_links" "/etc/smdev/remove/99-remove_links" 644 0
+copy_file "/etc/smdev/add/01-lvm" \
+  "/etc/smdev/add/01-lvm" 644 0
+
+copy_file "/etc/smdev/add/01-uuid" \
+  "/etc/smdev/add/01-uuid" 644 0
+
+copy_file "/etc/smdev/add/10-cdrom" \
+  "/etc/smdev/add/10-cdrom" 644 0
+
+#copy_file "/etc/smdev/add/20-pci" \
+# "/etc/smdev/add/20-pci" 644 0
+
+#copy_file "/etc/smdev/add/20-platform" \
+# "/etc/smdev/add/20-platform" 644 0
+
+copy_file "/etc/smdev/remove/99-remove_links" \
+  "/etc/smdev/remove/99-remove_links" 644 0
 
 #copy_file "/etc/passwd" "/etc/passwd" 644 0
-copy_file "/usr/src/pkgsrc/core/filesystem/passwd" "/etc/passwd" 644 0
-#copy_file "/etc/group"  "/etc/group" 644 0
-copy_file "/usr/src/pkgsrc/core/filesystem/group" "/etc/group" 644 0
+copy_file "/usr/src/pkgsrc/core/filesystem/passwd" \
+  "/etc/passwd" 644 0
 
+#copy_file "/etc/group"  "/etc/group" 644 0
+copy_file "/usr/src/pkgsrc/core/filesystem/group" \
+  "/etc/group" 644 0
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.

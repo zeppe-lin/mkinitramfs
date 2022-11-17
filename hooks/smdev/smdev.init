@@ -1,4 +1,6 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin"
@@ -6,11 +8,12 @@ export PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 [ "$break" = smdev ] && { print "break before smdev.init"; sh; }
 
 mkdir -p /dev/pts
-mount -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec,noatime
+mount -t devpts devpts /dev/pts \
+  -o mode=0620,gid=5,nosuid,noexec,noatime
 
-# Setting up smdev as a hotplug agent
+# Setting up smdev as a hotplug agent.
 if [ -e /proc/sys/kernel/hotplug ]; then
-	echo /sbin/smdev > /proc/sys/kernel/hotplug
+  echo /sbin/smdev > /proc/sys/kernel/hotplug
 fi
 
 smdev -s
@@ -18,4 +21,5 @@ simevent add
 
 # TODO: load modules on boot?
 
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.
