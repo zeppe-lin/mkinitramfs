@@ -81,15 +81,15 @@ parse_arguments() {
 
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  . "${config:=/etc/tinyramfs/config}"
+  . "${config:=/etc/mkinitramfs/config}"
 
   : "${kernel:=$(uname -r)}"
   : "${moddir:=/lib/modules}"
-  : "${init:=/usr/share/tinyramfs/init}"
-  : "${helper:=/usr/share/tinyramfs/device-helper}"
-  : "${output:=${TMPDIR:-/tmp}/tinyramfs-${kernel}}"
+  : "${init:=/usr/share/mkinitramfs/init}"
+  : "${helper:=/usr/share/mkinitramfs/device-helper}"
+  : "${output:=${TMPDIR:-/tmp}/mkinitramfs-${kernel}}"
 
-  mkdir -p "${tmpdir:=${TMPDIR:-/tmp}/tinyramfs.$$}"
+  mkdir -p "${tmpdir:=${TMPDIR:-/tmp}/mkinitramfs.$$}"
 
   # https://www.shellcheck.net/wiki/SC2015
   # shellcheck disable=2015
@@ -131,7 +131,7 @@ prepare_initramfs() {
   command -v blkid > /dev/null && copy_binary blkid
 
   copy_file "$init"   /init                 755 0
-  copy_file "$config" /etc/tinyramfs/config 644 0
+  copy_file "$config" /etc/mkinitramfs/config 644 0
 }
 
 copy_file() (
@@ -252,7 +252,7 @@ copy_hook() {
     print "copying ${hook}.${_type}"
 
     copy_file "${hook_dir}/${hook}/${hook}.${_type}" \
-      "/usr/share/tinyramfs/hooks/${hook}/${hook}.${_type}" 644 0
+      "/usr/share/mkinitramfs/hooks/${hook}/${hook}.${_type}" 644 0
   done
 }
 
