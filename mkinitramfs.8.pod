@@ -5,20 +5,21 @@
 
 =head1 NAME
 
-tinyramfs - tiny initramfs written in POSIX shell
+mkinitramfs - tiny initramfs written in POSIX shell
 
 =head1 SYNOPSIS
 
-B<tinyramfs> [I<OPTION>]...
+B<mkinitramfs> [I<OPTION>]...
 
 =head1 DESCRIPTION
 
-B<tinyramfs> is a simple, extensible and modular initramfs generator tool
-written with focus on portability.
+B<mkinitramfs> is a simple, extensible and modular initramfs generator
+tool written with focus on portability.
 
 =head1 OPTIONS
 
-Mandatory arguments to long options are mandatory for short options too.
+Mandatory arguments to long options are mandatory for short options
+too.
 
 =over 8
 
@@ -30,12 +31,12 @@ Specify output location where initramfs image will be stored.
 
 Specify config location.
 
-Default is F</etc/tinyramfs/config>.
+Default is F</etc/mkinitramfs/config>.
 
 =item B<-k>, B<--kernel> I<VERSION>
 
-Specify kernel version. Useful for bootstrapping future system with modular
-kernel.
+Specify kernel version.  Useful for bootstrapping future system with
+modular kernel.
 
 Default is current kernel version.
 
@@ -45,30 +46,31 @@ Specify directory where modules stored.
 
 Default is F</lib/modules>.
 
-This option has no effect if B<monolith> or B<hostonly> were enabled in
-config.
+This option has no effect if B<monolith> or B<hostonly> were enabled
+in config.
 
 =item B<-H>, B<--hooks> I<PATH>
 
 Specify additional hooks location.
 
-Default is F</usr/share/tinyramfs/hooks> and F</etc/tinyramfs/hooks>.
+Default is F</usr/share/mkinitramfs/hooks> and
+F</etc/mkinitramfs/hooks>.
 
 =item B<-D>, B<--helper> I<FILE>
 
 Specify location to device helper.
 
-Default is F</usr/share/tinyramfs/device-helper>.
+Default is F</usr/share/mkinitramfs/device-helper>.
 
 =item B<-I>, B<--init> I<FILE>
 
 Specify location to init script.
 
-Default is F</usr/share/tinyramfs/init>.
+Default is F</usr/share/mkinitramfs/init>.
 
 =item B<-d>, B<--debug>
 
-Enable debug mode. Useful for reporting bugs in build stage.
+Enable debug mode.  Useful for reporting bugs in build stage.
 
 =item B<-f>, B<--force>
 
@@ -79,16 +81,17 @@ Forcefully overwrite initramfs image.
 =head1 NOTES
 
 If you have modular kernel and you use B<busybox' modprobe> to handle
-modules, you must note that B<busybox' modprobe> doesn't have ability to
-install soft dependencies of modules (i.e. modules.softdep). You must install
-them yourself using hooks. See
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
+modules, you must note that B<busybox' modprobe> doesn't have ability
+to install soft dependencies of modules (i.e. modules.softdep).  You
+must install them yourself using hooks.  See L<mkinitramfs.hooks(7)>
 how to do it.
 
 =head1 SEE ALSO
 
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>,
-L<tinyramfs.cmdline(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.cmdline.7.pod>,
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
+L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>,
+L<mkinitramfs.hooks(7)>.
 
 =cut
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
