@@ -1,6 +1,6 @@
 # Bash programmable completion for mkinitramfs.
 # This file is a part of mkinitramfs.
-# See the COPYING and COPYRIGHT files for corresponding information.
+# See COPYING and COPYRIGHT files for corresponding information.
 
 _mkinitramfs() {
   local cur prev
