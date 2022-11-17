@@ -2,44 +2,49 @@
 # This file is a part of mkinitramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
-# create /dev/disk/by-* and /dev/mapper/* symlinks
+# Create /dev/disk/by-* and /dev/mapper/* symlinks.
 create_symlink()
 {
-    typ="$1"; sym="$2"
+  typ="$1"; sym="$2"
 
-    sym="${sym%\"}"
-    sym="${sym#\"}"
-    sym="/dev/disk/by-${typ}/${sym}"
+  sym="${sym%\"}"
+  sym="${sym#\"}"
+  sym="/dev/disk/by-${typ}/${sym}"
 
-    mkdir -p "${sym%/*}"
-    ln    -s "../../${dev_name}" "$sym"
+  mkdir -p "${sym%/*}"
+  ln    -s "../../${dev_name}" "$sym"
 }
 
-# DEVPATH is part of uevent which is exported to environment by device manager.
+# DEVPATH is part of uevent which is exported to environment by device
+# manager.
 [ -b "/dev/${dev_name=${DEVPATH##*/}}" ] || exit 1
 
 exec > /dev/null 2>&1
 
 read -r dm_name < "/sys/block/${dev_name}/dm/name" && {
-    mkdir -p /dev/mapper
-    ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
+  mkdir -p /dev/mapper
+  ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
 }
 
 command -v blkid || exit 0
 
-# Race condition may occur if uevent arrives faster(isn't that a kernel bug!?)
-# than the kernel initializes device. This prevents blkid to fetch data from
-# device. To fix this, we simply waiting until blkid is succeeded.
+# Race condition may occur if uevent arrives faster(isn't that a
+# kernel bug!?) than the kernel initializes device.  This prevents
+# blkid to fetch data from device.  To fix this, we simply waiting
+# until blkid is succeeded.
 while ! _blkid=$(blkid "/dev/${dev_name}"); do
-    if [ "$((count += 1))" = 10 ]; then
-        exit 1
-    else
-        sleep 1
-    fi
+  if [ "$((count += 1))" = 10 ]; then
+    exit 1
+  else
+    sleep 1
+  fi
 done
 
-for line in $_blkid; do case          "${line%%=*}" in
-    UUID)     create_symlink uuid     "${line##*=}" ;;
-    LABEL)    create_symlink label    "${line##*=}" ;;
-    PARTUUID) create_symlink partuuid "${line##*=}" ;;
+for line in $_blkid; do case        "${line%%=*}" in
+  UUID)     create_symlink uuid     "${line##*=}" ;;
+  LABEL)    create_symlink label    "${line##*=}" ;;
+  PARTUUID) create_symlink partuuid "${line##*=}" ;;
 esac; done
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
