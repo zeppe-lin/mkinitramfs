@@ -1,5 +1,7 @@
 #!/bin/sh
-#
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # Tiny initramfs
 #
 # https://www.shellcheck.net/wiki/SC2154

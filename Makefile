@@ -1,3 +1,6 @@
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 .POSIX:
 
 VERSION = 0.2.1
