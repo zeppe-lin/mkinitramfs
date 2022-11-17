@@ -320,8 +320,9 @@ copy_modules() {
     "/lib/modules/${kernel}/modules.builtin" 644 0
 
   # copy modprobe.d files
+  print "copying modprobe.d configs"
   ls -1 /etc/modprobe.d/ | while read -r _conf; do
-    copy_file "/etc/modprobe.d/$_conf" "/etc/modprobe.d/$_conf"
+    copy_file "/etc/modprobe.d/$_conf" "/etc/modprobe.d/$_conf" 0644
   done
 
   depmod -b "$tmpdir" "$kernel"
