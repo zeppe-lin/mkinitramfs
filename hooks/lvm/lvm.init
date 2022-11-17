@@ -1,4 +1,6 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 #
 # https://www.shellcheck.net/wiki/SC2154
@@ -7,20 +9,26 @@
 
 [ "$break" = lvm ] && { print "break before lvm.init"; sh; }
 
+# TODO export only if eudev/systemd-udevd hooks are disabled?
 export DM_DISABLE_UDEV=1
 mkdir -p /run/lvm /run/lock/lvm
 
 lvm vgscan --mknodes --ignorelockingfailure
 
 set -- \
-    --sysinit -qq -aay "${lvm_discard:+--config=devices\{issue_discards=1\}}"
+    --sysinit \
+    -qq \
+    -aay "${lvm_discard:+--config=devices\{issue_discards=1\}}"
 
 if [ "$lvm_group" ] && [ "$lvm_name" ]; then
-    lvm lvchange $@ "${lvm_group}/${lvm_name}"
+  lvm lvchange $@ "${lvm_group}/${lvm_name}"
 elif [ "$lvm_group" ]; then
-    lvm vgchange $@ "$lvm_group"
+  lvm vgchange $@ "$lvm_group"
 elif [ "$lvm_tag" ]; then
-    lvm lvchange $@ "@${lvm_tag}"
+  lvm lvchange $@ "@${lvm_tag}"
 else
-    lvm vgchange $@
+  lvm vgchange $@
 fi || panic "failed to trigger LVM"
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
