@@ -1,85 +1,67 @@
-ABOUT
+This directory contains mkinitramfs, the tool used to create a Linux
+boot image (initramfs).
 
-    This directory contains tinyramfs, the tool used to create a Linux
-    boot image (initramfs).
+It is a fork of illiliti's tinyramfs.  Original sources can be
+downloaded from:
 
-    This is a fork of illilliti's tinyramfs. Original sources can be
-    downloaded from:
+  1. https://github.com/illiliti/tinyramfs
+  2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
-    https://github.com/illiliti/tinyramfs
+Features:
 
-FEATURES
+  * No "local"s, no bashisms, only POSIX shell.
+  * Portable, no distro specific.
+  * Easy to use configuration.
+  * Build time and init time hooks.
+  * LUKS (detached header, key, password), LVM.
+  * smdev, mdev, mdevd, eudev, systemd-udevd.
 
-    * No "local"s, no bashisms, only POSIX shell
-    * Portable, no distro specific
-    * Easy to use configuration
-    * Build time and init time hooks
-    * LUKS (detached header, key, password), LVM
-    * smdev, mdev, mdevd, eudev, systemd-udevd
+In build time there are the following dependencies:
 
-DEPENDENCIES
+  - make(1p)
+  - pod2man(1pm)
 
-    Build time:
+In runtime there are the following dependencies:
 
-    * make(1p)
-    * pod2man(1pm)
+  - sh(1p) POSIX utilities, switch_root(8), mount(8), cpio(1).
 
-    Runtime:
+  - ldd(1) is optional, required for copying binary dependencies.
 
-    * sh(1p)
-    * POSIX utilities
-    * switch_root(8)
-    * mount(8)
-    * cpio(1)
+  - strip(1p) is optional, required for reducing image size by
+    stripping binaries.
 
-    * ldd(1)
-    (optional, required for copying binary dependencies)
+  - blkid(8) is optional, required for UUID, LABEL, PARTUUID support.
 
-    * strip(1p)
-    (optional, required for reducing image size by stripping binaries)
+  - smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
+    CONFIG_UEVENT_HELPER is/are optional, required for modular kernel,
+    /dev/mapper/* and /dev/disk/*).
 
-    * blkid(8)
-    (optional, required for UUID, LABEL, PARTUUID support)
+  - lvm(8) is optional, required for LVM support.
 
-    * smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR CONFIG_UEVENT_HELPER
-    (optional, required for modular kernel, /dev/mapper/* and /dev/disk/*)
+  - cryptsetup(8) is optional, required for LUKS support.
 
-    * lvm(8)
-    (optional, required for LVM support)
+  - busybox' loadkmap is optional, required for keymap support.
 
-    * cryptsetup(8)
-    (optional, required for LUKS support)
+  - kmod OR busybox' modutils with modprobe-kernel-version.patch
+    is/are optional, not required for monolithic kernel.
 
-    * busybox' loadkmap
-    (optional, required for keymap support)
+To use mkinitramfs, read mkinitramfs.config(5) and setup
+/etc/mkinitramfs/config file conform your needs.  Next, run as root:
 
-    * kmod OR busybox' modutils with modprobe-kernel-version.patch
-    (optional, not required for monolithic kernel)
+  # mkinitramfs -o "/boot/initramfs-$(uname -r).img"
 
-USAGE
+Then update your bootloader config (i.e. grub):
 
-    * Read tinyramfs.config(5) and setup /etc/tinyramfs/config.
-    * Next, run as root:
-      $ tinyramfs -o "/boot/initramfs-$(uname -r)"
-    * Update your bootloader (i.e. grub):
-      $ grub-mkconfig -o /boot/grub/grub.cfg
-    * Reboot.
+  # grub-mkconfig -o /boot/grub/grub.cfg
 
-THANKS
+And reboot.
 
-    * E5ten <https://github.com/E5ten>
-    * dylanaraps <https://github.com/dylanaraps>
+Huge thanks to E5ten <https://github.com/E5ten> and dylanaraps
+<https://github.com/dylanaraps>.
 
-LICENSE
+mkinitramfs is licensed through the GNU General Public License v3 or
+later <https://gnu.org/licenses/gpl.html>.
+Read the COPYING file for the complete license.
 
-    tinyramfs is licensed through the GNU General Public License v3 or
-    later <https://gnu.org/licenses/gpl.html>.
-
-    Read the LICENSE file for the complete license.
-
-DONATE
-
-    You can donate if you like this project to the original author:
-    illilliti.
-
-    BTC: 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
+P.S. You can donate if you like this project to the original author:
+illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK .
