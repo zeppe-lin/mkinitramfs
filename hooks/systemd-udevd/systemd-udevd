@@ -1,19 +1,26 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 #
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
 for _binary in /lib/systemd/systemd-udevd udevadm; do
-    copy_binary "$_binary"
+  copy_binary "$_binary"
 done
 
 mkdir -p "${tmpdir}/lib/udev/rules.d"
 
-printf "%s\n" \
-    'SUBSYSTEMS=="block", ACTION=="add", RUN+="/bin/device-helper"' \
-> "${tmpdir}/lib/udev/rules.d/device-helper.rules"
+cat >    "${tmpdir}/lib/udev/rules.d/device-helper.rules" <<EOF
+SUBSYSTEMS=="block", ACTION=="add", RUN+="/bin/device-helper"
+EOF
 
-[ "$monolith" = 1 ] || printf "%s\n" \
-    'ENV{MODALIAS}=="?*", ACTION=="add", RUN+="/bin/modprobe %E{MODALIAS}"' \
->> "${tmpdir}/lib/udev/rules.d/device-helper.rules"
+if [ "$monolith" != 1 ]; then
+  cat >> "${tmpdir}/lib/udev/rules.d/device-helper.rules" <<EOF
+ENV{MODALIAS}=="?*", ACTION=="add", RUN+="/bin/modprobe %E{MODALIAS}"
+EOF
+fi
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
