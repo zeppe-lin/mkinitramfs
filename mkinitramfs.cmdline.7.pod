@@ -5,12 +5,12 @@
 
 =head1 NAME
 
-tinyramfs.cmdline - kernel command-line parameters
+mkinitramfs.cmdline - kernel command-line parameters
 
 =head1 DESCRIPTION
 
-Tinyramfs provides a way to control configuration dynamically via kernel
-parameters without needing to regenerate initramfs image.
+mkinitramfs provides a way to control configuration dynamically via
+kernel parameters without needing to regenerate initramfs image.
 
 =head1 GENERAL PARAMETERS
 
@@ -22,15 +22,16 @@ Enable debug mode.
 
 =item B<break>=I<BREAKPOINT>
 
-Specify breakpoint where shell should be invoked. Useful for debugging.
+Specify breakpoint where shell should be invoked.  Useful for
+debugging.
 
 List of builtin breakpoints:
 
   - boot
   - root
 
-Hooks can provide their own breakpoints. See source code of hooks for more
-information.
+Hooks can provide their own breakpoints.  See source code of hooks for
+more information.
 
 =item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
@@ -56,17 +57,16 @@ Lookup device by partition uuid.
 
 =back
 
-Initramfs must contain
-L<blkid(8)|https://www.mankier.com/8/blkid>
-for ability to use I<UUID>, I<LABEL>, I<PARTUUID>. Note that I<PARTUUID> only
-supported in util-linux'
-L<blkid(8)|https://www.mankier.com/8/blkid>.
+Initramfs must contain L<blkid(8)> for ability to use I<UUID>,
+I<LABEL>, I<PARTUUID>.  Note that I<PARTUUID> only supported in
+util-linux' L<blkid(8)>.
 
 =item B<root_type>=I<TYPE>
 
 =item B<rootfstype>=I<TYPE>
 
-Explicitly set root filesystem type. Kernel must support specified type.
+Explicitly set root filesystem type.  Kernel must support specified
+type.
 
 =item B<rootdelay>=I<DELAY>
 
@@ -78,15 +78,14 @@ Default is 30.
 
 =item B<rootflags>=I<OPTS>
 
-See
-L<fstab(5)|https://www.mankier.com/5/fstab>
-fourth field.
+See L<fstab(5)> fourth field.
 
 =back
 
 =head1 HOOKS PARAMETERS
 
-Initramfs must contain appropriate hooks for ability to use below parameters.
+Initramfs must contain appropriate hooks for ability to use below
+parameters.
 
 =head2 LVM
 
@@ -110,7 +109,7 @@ Specify LVM group which will be used to trigger LVM.
 
 =item B<lvm_discard>=1
 
-Pass I<issue_discards> to LVM. Leave empty to disable.
+Pass I<issue_discards> to LVM.  Leave empty to disable.
 Useful for SSD's.
 
 =back
@@ -122,8 +121,7 @@ Useful for SSD's.
 =item B<luks_name>=I<NAME>
 
 Specify which name will be registered to mapping table after
-L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>
-unlocks LUKS root.
+L<cryptsetup(8)> unlocks LUKS root.
 
 =item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
@@ -131,9 +129,7 @@ See B<root> (above) for details.
 
 =item B<luks_discard>=1
 
-Pass C<--allow-discards> to
-L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>.
-Leave empty to disable.
+Pass C<--allow-discards> to L<cryptsetup(8)>.  Leave empty to disable.
 
 Useful for SSD's, but you must know that security will be decreased.
 
@@ -155,8 +151,9 @@ Useful for SSD's, but you must know that security will be decreased.
 
 =head1 SEE ALSO
 
-L<tinyramfs(8)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.8.pod>,
-L<tinyramfs.config(5)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.config.5.pod>,
-L<tinyramfs.hooks(7)|https://github.com/zeppe-lin/tinyramfs/blob/master/tinyramfs.hooks.7.pod>
+L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.hooks(7)>.
 
 =cut
+
+# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
