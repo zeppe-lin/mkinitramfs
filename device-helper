@@ -3,8 +3,7 @@
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # Create /dev/disk/by-* and /dev/mapper/* symlinks.
-create_symlink()
-{
+create_symlink() {
   typ="$1"; sym="$2"
 
   sym="${sym%\"}"
