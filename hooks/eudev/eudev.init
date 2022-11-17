@@ -1,4 +1,6 @@
-# vim: set ft=sh:
+# This file is a part of mkinitramfs.
+# See COPYING and COPYRIGHT files for corresponding information.
+
 # shellcheck shell=sh
 #
 # https://www.shellcheck.net/wiki/SC2154
@@ -10,3 +12,6 @@ udevd -dN never
 udevadm trigger -c add -t subsystems
 udevadm trigger -c add -t devices
 udevadm settle
+
+# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# End of file.
