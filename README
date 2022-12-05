@@ -31,11 +31,11 @@ Features
 
 Dependencies
 ------------
-In build time there are the following dependencies:
+Build time:
 - make(1p)
-- pod2man(1pm)
+- podchecker(1p) and pod2man(1p) from perl distribution
 
-In runtime there are the following dependencies:
+Runtime:
 - sh(1p), POSIX utilities, switch_root(8), mount(8), cpio(1)
 - ldd(1) is optional, required for copying binary dependencies.
 - strip(1p) is optional, required for reducing image size by
