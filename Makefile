@@ -1,4 +1,3 @@
-# This file is a part of mkinitramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
 .POSIX:
@@ -17,6 +16,7 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	sed "s/@VERSION@/${VERSION}/" $^ > $@
 
 %: %.pod
+	podchecker $<
 	pod2man --nourls -r ${VERSION} -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
