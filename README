@@ -1,68 +1,98 @@
-This directory contains mkinitramfs, the tool used to create a Linux
-boot image (initramfs).
+mkinitramfs - tiny initramfs generator
+======================================
+mkinitramfs is a tool used to create a Linux boot image (initramfs).
 
-It is a fork of illiliti's tinyramfs.  Original sources can be
-downloaded from:
+This mkinitramfs distribution is a fork of illiliti's tinyramfs as of
+commit 8abfcc9 (Fri May 21 2021).  The man pages have been completely
+rewritten.  Added `smdev` hooks.  `Luks` hooks have been modified to
+ask the password if header/key-file is not defined.  Added `resume`
+hook to resume machines from hibernation.  Added a possibility to copy
+`modprobe.d` configuration files.  Added bash completion.
 
-  1. https://github.com/illiliti/tinyramfs
+The original sources can be downloaded from:
+
+  1.
+    ```sh
+    git clone https://github.com/illiliti/tinyramfs
+    git checkout 8abfcc9
+    ```
   2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
-Features:
 
-  * No "local"s, no bashisms, only POSIX shell.
-  * Portable, no distro specific.
-  * Easy to use configuration.
-  * Build time and init time hooks.
-  * LUKS (detached header, key, password), LVM.
-  * smdev, mdev, mdevd, eudev, systemd-udevd.
+Features
+--------
+* No "local"s, no bashisms, only POSIX shell.
+* Portable, no distro specific.
+* Easy to use configuration.
+* Build time and init time hooks.
+* LUKS (detached header, key, password), LVM.
+* smdev, mdev, mdevd, eudev, systemd-udevd.
 
+
+Dependencies
+------------
 In build time there are the following dependencies:
-
-  - make(1p)
-  - pod2man(1pm)
+- make(1p)
+- pod2man(1pm)
 
 In runtime there are the following dependencies:
+- sh(1p), POSIX utilities, switch_root(8), mount(8), cpio(1)
+- ldd(1) is optional, required for copying binary dependencies.
+- strip(1p) is optional, required for reducing image size by
+  stripping binaries.
+- blkid(8) is optional, required for UUID, LABEL, PARTUUID support.
+- smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
+  CONFIG_UEVENT_HELPER is/are optional, required for modular kernel,
+  /dev/mapper/* and /dev/disk/*).
+- lvm(8) is optional, required for LVM support.
+- cryptsetup(8) is optional, required for LUKS support.
+- busybox' loadkmap is optional, required for keymap support.
+- kmod OR busybox' modutils with modprobe-kernel-version.patch
+  is/are optional, not required for monolithic kernel.
 
-  - sh(1p) POSIX utilities, switch_root(8), mount(8), cpio(1).
 
-  - ldd(1) is optional, required for copying binary dependencies.
+Install
+-------
+The shell commands `make; make install` should build and install this
+package.  See `Makefile` file for configuration parameters.
 
-  - strip(1p) is optional, required for reducing image size by
-    stripping binaries.
 
-  - blkid(8) is optional, required for UUID, LABEL, PARTUUID support.
-
-  - smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
-    CONFIG_UEVENT_HELPER is/are optional, required for modular kernel,
-    /dev/mapper/* and /dev/disk/*).
-
-  - lvm(8) is optional, required for LVM support.
-
-  - cryptsetup(8) is optional, required for LUKS support.
-
-  - busybox' loadkmap is optional, required for keymap support.
-
-  - kmod OR busybox' modutils with modprobe-kernel-version.patch
-    is/are optional, not required for monolithic kernel.
-
+Usage
+-----
 To use mkinitramfs, read mkinitramfs.config(5) and setup
-/etc/mkinitramfs/config file conform your needs.  Next, run as root:
+`/etc/mkinitramfs/config` file conform your needs.  Next, run as root:
 
-  # mkinitramfs -o "/boot/initramfs-$(uname -r).img"
+```sh
+mkinitramfs -o "/boot/initramfs-$(uname -r).img"
+```
 
 Then update your bootloader config (i.e. grub):
 
-  # grub-mkconfig -o /boot/grub/grub.cfg
+```sh
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 And reboot.
 
-Huge thanks to E5ten <https://github.com/E5ten> and dylanaraps
-<https://github.com/dylanaraps>.
 
+Credits
+-------
+
+- illiliti <https://github.com/illiliti>
+- E5ten <https://github.com/E5ten>
+- dylanaraps <https://github.com/dylanaraps>
+
+You can donate if you like this project to the original author:
+illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK .
+
+
+License and Copyright
+---------------------
 mkinitramfs is licensed through the GNU General Public License v3 or
 later <https://gnu.org/licenses/gpl.html>.
-Read the COPYING file for the complete license.
-Read the COPYRIGHT file for the copyright notices.
+Read the COPYING file for copying conditions.
+Read the COPYRIGHT file for copyright notices.
 
-P.S. You can donate if you like this project to the original author:
-illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK .
+
+<!-- vim:ft=markdown:sw=2:ts=2:sts=2:et:cc=72:tw=70
+End of file. -->
