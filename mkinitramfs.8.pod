@@ -1,4 +1,3 @@
-# This file is a part of mkinitramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod
@@ -89,7 +88,7 @@ how to do it.
 =head1 SEE ALSO
 
 L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>,
-L<mkinitramfs.hooks(7)>.
+L<mkinitramfs.hooks(7)>
 
 =cut
 
