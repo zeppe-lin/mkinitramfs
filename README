@@ -12,10 +12,9 @@ hook to resume machines from hibernation.  Added a possibility to copy
 The original sources can be downloaded from:
 
   1.
-    ```sh
     git clone https://github.com/illiliti/tinyramfs
     git checkout 8abfcc9
-    ```
+
   2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
 
