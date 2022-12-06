@@ -1,5 +1,4 @@
 #!/bin/sh -f
-# This file is a part of mkinitramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # Create /dev/disk/by-* and /dev/mapper/* symlinks.

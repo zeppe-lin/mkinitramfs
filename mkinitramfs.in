@@ -1,9 +1,7 @@
 #!/bin/sh
-# This file is a part of mkinitramfs.
+# Tiny initramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
-# Tiny initramfs.
-#
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
@@ -257,8 +255,7 @@ copy_hook() {
 }
 
 copy_modules() {
-  # Skip this function if kernel
-  # compiled with builtin modules.
+  # Skip this function if kernel compiled with builtin modules.
   if [ "$monolith" = 1 ]; then
     return 0
 

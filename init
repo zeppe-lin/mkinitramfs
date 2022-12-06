@@ -1,9 +1,7 @@
 #!/bin/sh
-# This file is a part of mkinitramfs.
+# Tiny init.
 # See COPYING and COPYRIGHT files for corresponding information.
 
-# Tiny init.
-#
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 

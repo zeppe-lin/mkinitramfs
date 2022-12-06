@@ -1,5 +1,4 @@
 # Bash programmable completion for mkinitramfs.
-# This file is a part of mkinitramfs.
 # See COPYING and COPYRIGHT files for corresponding information.
 
 _mkinitramfs() {
