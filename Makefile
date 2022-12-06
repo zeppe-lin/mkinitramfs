@@ -27,6 +27,7 @@ install: all
 	mkdir -p ${DESTDIR}${MANDIR}/man8
 	mkdir -p ${DESTDIR}${DATADIR}/mkinitramfs
 	cp -f mkinitramfs              ${DESTDIR}${BINDIR}/
+	chmod 0755 ${DESTDIR}${BINDIR}/mkinitramfs
 	cp -f mkinitramfs.8            ${DESTDIR}${MANDIR}/man8/
 	cp -f mkinitramfs.cmdline.7    ${DESTDIR}${MANDIR}/man7/
 	cp -f mkinitramfs.hooks.7      ${DESTDIR}${MANDIR}/man7/
