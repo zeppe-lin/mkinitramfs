@@ -31,8 +31,9 @@ Features
 Dependencies
 ------------
 Build time:
-- make(1p)
-- podchecker(1p) and pod2man(1p) from perl distribution
+- make(1p), sh(1p) and standard POSIX utilities like sed(1p), cp(1p),
+  rm(1p), mkdir(1p).
+- podchecker(1pm) and pod2man(1pm) from perl distribution
 
 Runtime:
 - sh(1p), POSIX utilities, switch_root(8), mount(8), cpio(1)
