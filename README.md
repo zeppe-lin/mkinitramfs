@@ -20,35 +20,36 @@ The original sources can be downloaded from:
 
 Features
 --------
-* No "local"s, no bashisms, only POSIX shell.
-* Portable, no distro specific.
-* Easy to use configuration.
-* Build time and init time hooks.
-* LUKS (detached header, key, password), LVM.
-* smdev, mdev, mdevd, eudev, systemd-udevd.
+* no "local"s, no bashisms, only POSIX shell
+* portable, no distro specific
+* easy to use configuration
+* build time and init time hooks
+* LUKS (detached header, key, password), LVM
+* smdev, mdev, mdevd, eudev, systemd-udevd
 
 
 Dependencies
 ------------
 Build time:
 - make(1p), sh(1p) and standard POSIX utilities like sed(1p), cp(1p),
-  rm(1p), mkdir(1p).
+  rm(1p), mkdir(1p)
 - podchecker(1pm) and pod2man(1pm) from perl distribution
 
 Runtime:
 - sh(1p), POSIX utilities, switch_root(8), mount(8), cpio(1)
-- ldd(1) is optional, required for copying binary dependencies.
+- ldd(1) is optional, required for copying binary dependencies
 - strip(1p) is optional, required for reducing image size by
-  stripping binaries.
-- blkid(8) is optional, required for UUID, LABEL, PARTUUID support.
+  stripping binaries
+- blkid(8) is optional, required for UUID, LABEL, PARTUUID support
 - smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
   CONFIG_UEVENT_HELPER is/are optional, required for modular kernel,
-  /dev/mapper/* and /dev/disk/*).
-- lvm(8) is optional, required for LVM support.
-- cryptsetup(8) is optional, required for LUKS support.
-- busybox' loadkmap is optional, required for keymap support.
-- kmod OR busybox' modutils with modprobe-kernel-version.patch
-  is/are optional, not required for monolithic kernel.
+  /dev/mapper/* and /dev/disk/*)
+- lvm(8) is optional, required for LVM support
+- cryptsetup(8) is optional, required for LUKS support
+- busybox' loadkmap is optional, required for keymap support
+- kmod OR busybox' modutils with
+  `patches/modprobe-kernel-version.patch` is/are optional, not
+  required for monolithic kernel
 
 
 Install
