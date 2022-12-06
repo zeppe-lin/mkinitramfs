@@ -21,15 +21,17 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
 install: all
-	install -d ${DESTDIR}${DATADIR}/mkinitramfs
-	cp -R hooks device-helper init \
-		${DESTDIR}${DATADIR}/mkinitramfs/
-	install -m 0755 -Dt ${DESTDIR}${BINDIR}/       mkinitramfs
-	install -m 0644 -Dt ${DESTDIR}${MANDIR}/man8/  mkinitramfs.8
-	install -m 0644 -Dt ${DESTDIR}${MANDIR}/man7/ \
-		mkinitramfs.cmdline.7 mkinitramfs.hooks.7
-	install -m 0644 -Dt ${DESTDIR}${MANDIR}/man5/ \
-		mkinitramfs.config.5
+	mkdir -p ${DESTDIR}${BINDIR}
+	mkdir -p ${DESTDIR}${MANDIR}/man5
+	mkdir -p ${DESTDIR}${MANDIR}/man7
+	mkdir -p ${DESTDIR}${MANDIR}/man8
+	mkdir -p ${DESTDIR}${DATADIR}/mkinitramfs
+	cp -f mkinitramfs              ${DESTDIR}${BINDIR}/
+	cp -f mkinitramfs.8            ${DESTDIR}${MANDIR}/man8/
+	cp -f mkinitramfs.cmdline.7    ${DESTDIR}${MANDIR}/man7/
+	cp -f mkinitramfs.hooks.7      ${DESTDIR}${MANDIR}/man7/
+	cp -f mkinitramfs.config.5     ${DESTDIR}${MANDIR}/man5/
+	cp -R hooks device-helper init ${DESTDIR}${DATADIR}/mkinitramfs
 
 uninstall:
 	rm -f  ${DESTDIR}${BINDIR}/mkinitramfs
