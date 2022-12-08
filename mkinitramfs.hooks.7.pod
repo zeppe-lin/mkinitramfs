@@ -116,7 +116,8 @@ Permissions in octal format.
 
 =item I<STRIP>
 
-If was set to B<1>, then mkinitramfs will attempt to run L<strip(1)>
+If was set to B<1>, then mkinitramfs will attempt to run
+L<strip(1p)|https://www.mankier.com/1p/strip>
 on file.  mkinitramfs will silently ignore errors if strip doesn't
 exists or failed to strip binary.
 

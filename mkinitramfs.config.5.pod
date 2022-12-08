@@ -62,9 +62,9 @@ kernel which means you need to set B<monolith> to B<1>.
 
 =item B<hostonly>=1
 
-Hostonly mode enumerates L<sysfs(5)> and copies only necessary modules
-instead of copying all modules.  Which means that this mode can
-dramatically reduce initramfs size.
+Hostonly mode enumerates L<sysfs(5)|https://www.mankier.com/5/sysfs>
+and copies only necessary modules instead of copying all modules.
+Which means that this mode can dramatically reduce initramfs size.
 
 This option will be ignored if B<monolith> was set to B<1>.
 
@@ -106,11 +106,12 @@ Lookup device by partition uuid.
 
 =back
 
-You must install L<blkid(8)> (available in B<toybox>, B<busybox>,
+You must install B<blkid> utility (available in B<toybox>, B<busybox>,
 B<util-linux> or B<e2fsprogs>) for ability to use I<UUID>, I<LABEL>,
 I<PARTUUID>.
 
-Note that I<PARTUUID> only supported in B<util-linux'> L<blkid(8)>.
+Note that I<PARTUUID> only supported in B<util-linux'>
+L<blkid(8)|https://www.mankier.com/8/blkid>.
 
 =item B<root_type>=I<TYPE>
 
@@ -120,7 +121,8 @@ booted from Live CD.
 
 =item B<root_opts>=I<OPTS>
 
-See L<fstab(5)> fourth field.
+See L<fstab(5)|https://www.mankier.com/5/fstab#Description-The_fourth_field_(fs_mntops).>
+fourth field.
 
 =item B<hooks>=I<HOOK>...
 
@@ -229,7 +231,8 @@ GPG-encrypted key currently not supported.
 =item B<luks_name>=I<NAME>
 
 Specify which name will be registered to mapping table after
-L<cryptsetup(8)> unlocks LUKS root.
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup> unlocks LUKS
+root.
 
 =item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
@@ -241,7 +244,8 @@ Specify location to detached header.
 
 =item B<luks_discard>=1
 
-Pass C<--allow-discards> to L<cryptsetup(8)>.
+Pass C<--allow-discards> to
+L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>.
 Useful for SSD's, but you must know that security will be decreased.
 
 =back
