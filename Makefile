@@ -20,6 +20,10 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	pod2man --nourls -r ${VERSION} -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
+check:
+	@echo "=======> Check URLs for non 200 response code."
+	@grep -Eiho "https?://[^\"\\'> ]+" *.* | httpx -silent -fc 200 -sc
+
 install: all
 	mkdir -p ${DESTDIR}${BINDIR}
 	mkdir -p ${DESTDIR}${MANDIR}/man5
