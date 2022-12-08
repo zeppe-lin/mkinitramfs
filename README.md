@@ -12,9 +12,10 @@ files.  Added bash completion.
 
 The original sources can be downloaded from:
 1.
+   ```sh
    git clone https://github.com/illiliti/tinyramfs
    git checkout 8abfcc9
-
+   ```
 2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
 
@@ -45,7 +46,7 @@ Dependencies
   support
 - smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
   [CONFIG_UEVENT_HELPER][1] is/are optional, required for modular
-  kernel, `/dev/mapper/\*` and `/dev/disk/\*`)
+  kernel, `/dev/mapper/*` and `/dev/disk/*`)
 - lvm(8) is optional, required for LVM support
 - cryptsetup(8) is optional, required for LUKS support
 - busybox' loadkmap is optional, required for keymap support
@@ -96,10 +97,7 @@ Read the COPYING file for copying conditions.<br>
 Read the COPYRIGHT file for copyright notices.
 
 
-Links
------
 [1]: https://cateee.net/lkddb/web-lkddb/UEVENT_HELPER.html
-
 
 <!-- vim:ft=markdown:sw=2:ts=2:sts=2:et:cc=72:tw=70
 End of file. -->
