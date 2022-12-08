@@ -34,11 +34,13 @@ Example:
 
 =begin html
 
+  <pre>
   hooks/
   └── <hook>               -> directory of hook scripts
       ├── <hook>           -> invoked in build process
       ├── <hook>.init      -> invoked in init process
       └── <hook>.init.late -> invoked after root filesystem was mounted
+  </pre>
 
 =end html
 
