@@ -4,7 +4,7 @@ mkinitramfs is a tool used to create a Linux boot image (initramfs).
 
 This mkinitramfs distribution is a fork of illiliti's tinyramfs as of
 commit 8abfcc9 (Fri May 21 2021).  The man pages have been completely
-rewritten.  Added `smdev` hooks.  `Luks` hooks have been modified to
+rewritten.  Added `smdev` hooks.  `LUKS` hooks have been modified to
 ask the password if header/key-file is not defined.  Added `resume`
 hook to resume machines from hibernation.  Added a possibility to copy
 `modprobe.d` configuration files.  Added bash completion.
@@ -42,8 +42,9 @@ Runtime:
   stripping binaries
 - blkid(8) is optional, required for UUID, LABEL, PARTUUID support
 - smdev OR mdev OR mdevd OR eudev OR systemd-udevd OR
-  CONFIG_UEVENT_HELPER is/are optional, required for modular kernel,
-  /dev/mapper/* and /dev/disk/*)
+  [CONFIG_UEVENT_HELPER](https://cateee.net/lkddb/web-lkddb/UEVENT_HELPER.html)
+  is/are optional, required for modular kernel, `/dev/mapper/*` and
+  `/dev/disk/*`)
 - lvm(8) is optional, required for LVM support
 - cryptsetup(8) is optional, required for LUKS support
 - busybox' loadkmap is optional, required for keymap support
