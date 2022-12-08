@@ -63,8 +63,9 @@ package.  See `Makefile` for configuration parameters.
 Usage
 -----
 To use mkinitramfs, read
-[mkinitramfs.config(5)](mkinitramfs.config.5.pod) and setup
-`/etc/mkinitramfs/config` file conform your needs.  Next, run as root:
+[mkinitramfs.config(5)](https://zeppe-lin.github.io/mkinitramfs.config.5.html)
+and setup `/etc/mkinitramfs/config` file conform your needs.
+Next, run as root:
 
 ```sh
 mkinitramfs -o "/boot/initramfs-$(uname -r).img"
