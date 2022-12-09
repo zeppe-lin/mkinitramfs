@@ -1,0 +1,118 @@
+ABOUT mkinitramfs
+
+
+    This directory contains mkinitramfs.
+    mkinitramfs is a tool used to create a Linux boot image
+    (initramfs).
+
+    This mkinitramfs distribution is a fork of illiliti's tinyramfs as
+    of commit 8abfcc9 (Fri May 21 2021) with the following
+    differences:
+    * the man pages have been completely rewritten
+    * added smdev hook
+    * luks hook have been modified to ask the password if
+      header/key-file is not defined
+    * added resume hook (to resume machines from hibernation)
+    * added a possibility to copy modprobe.d configuration files
+    * added bash completion
+    See git log for further differences.
+
+    The original sources can be downloaded from:
+    1. https://github.com/illiliti/tinyramfs
+    2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
+
+
+FEATURES
+
+    * no "local"s, no bashisms, only POSIX shell
+    * portable, no distro specific
+    * easy to use configuration
+    * build time and init time hooks
+    * LUKS (detached header, key, password), LVM
+    * smdev, mdev, mdevd, eudev, systemd-udevd
+
+
+REQUIREMENTS
+
+    Build time:
+    * POSIX sh(1p), make(1p) and standard POSIX utilities
+    * pod2man(1pm) from perl distribution
+
+    Runtime:
+    * POSIX sh(1p) and standard POSIX utilities
+    * switch_root(8), mount(8), cpio(1)
+
+    * ldd(1)
+      optional, required for copying binary dependencies
+
+    * strip(1p)
+      optional, required for reducing image size by stripping binaries
+
+    * blkid(8)
+      optional, required for UUID, LABEL, PARTUUID support
+
+    * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
+      CONFIG_UEVENT_HELPER
+      optional, required for modular kernel, /dev/mapper/* and /dev/disk/*
+
+    * lvm(8)
+      optional, required for LVM support
+
+    * cryptsetup(8)
+      optional, required for LUKS support
+
+    * busybox' loadkmap
+      optional, required for keymap support
+
+    * kmod OR (busybox' modutils + patches/modprobe-kernel-version.patch)
+      optional, not required for monolithic kernel
+
+    Tests:
+    * podchecker(1pm)
+      check POD for errors
+    * httpx(1)
+      check URLs for non-200 response code
+
+
+INSTALL
+
+    The shell commands "make && make install" should build and install
+    this package.  See "Makefile" for configuration parameters.
+
+    The shell commands "make && make check" should build and start
+    some tests.  See "Makefile" for additional information.
+
+
+USAGE
+
+    To use mkinitramfs, read mkinitramfs.config(5) and setup
+    /etc/mkinitramfs/config file conform your needs.  Next, run the
+    following command:
+
+      (as root) # mkinitramfs -o "/boot/initramfs-$(uname -r).img"
+
+    Then update your bootloader config (i.e. grub):
+
+      (as root) # grub-mkconfig -o /boot/grub/grub.cfg
+
+    Reboot.
+
+
+CREDITS
+    illiliti    <https://github.com/illiliti>
+    E5ten       <https://github.com/E5ten>
+    dylanaraps  <https://github.com/dylanaraps>
+
+    You can donate if you like this project to the original author:
+    illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
+
+
+LICENSE
+    mkinitramfs is licensed through the GNU General Public License v3
+    or later <https://gnu.org/licenses/gpl.html>.
+    Read the COPYING file for copying conditions.
+    Read the COPYRIGHT file for copyright notices.
+
+
+vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+End of file.
