@@ -16,12 +16,11 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	sed "s/@VERSION@/${VERSION}/" $^ > $@
 
 %: %.pod
-	podchecker $<
 	pod2man --nourls -r ${VERSION} -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
 check:
-	@echo "=======> Check URLs for non 200 response code."
+	@podchecker *.pod
 	@grep -Eiho "https?://[^\"\\'> ]+" *.* | httpx -silent -fc 200 -sc
 
 install: all
