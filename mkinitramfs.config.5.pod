@@ -182,7 +182,7 @@ If hook doesn't have options, then it's not yet documented or can be
 used "as is".
 
 More detailed information and how to write your own hooks described in
-L<mkinitramfs.hooks(7)>.
+L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>.
 
 =back
 
@@ -343,7 +343,9 @@ Your configuration may (and should) differ.
 
 =head1 SEE ALSO
 
-L<mkinitramfs(8)>, L<mkinitramfs.cmdline(7)>, L<mkinitramfs.hooks(7)>
+L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>,
+L<mkinitramfs.cmdline(7)|https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html>,
+L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>
 
 =cut
 
