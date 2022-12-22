@@ -13,7 +13,8 @@ mkinitramfs.hooks - mkinitramfs hooks and related stuff
 Hooks can be located in F</usr/share/mkinitramfs/hooks> (system path)
 and F</etc/mkinitramfs/hooks> (user path).  mkinitramfs also allows
 you to specify custom location via B<-H> option.
-See L<mkinitramfs(8)> for more information.
+See L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>
+for more information.
 
 Hooks provides a way to extend build and init process.  Hooks must be
 written in POSIX shell.  Bashisms and other non-portable extensions
@@ -173,7 +174,7 @@ Output path.
 
 =item B<BI: ...>
 
-See L<mkinitramfs.config(5)>.
+See L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>.
 
 =back
 
@@ -199,7 +200,9 @@ I<ext4.init>
 
 =head1 SEE ALSO
 
-L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>
+L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>,
+L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>,
+L<mkinitramfs.cmdline(7)|https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html>
 
 =cut
 
