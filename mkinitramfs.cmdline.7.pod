@@ -153,7 +153,9 @@ Useful for SSD's, but you must know that security will be decreased.
 
 =head1 SEE ALSO
 
-L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.hooks(7)>
+L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>,
+L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>,
+L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>
 
 =cut
 
