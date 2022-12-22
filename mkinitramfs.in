@@ -21,43 +21,93 @@ Usage: ${0##*/} [OPTION]...
 Tiny initramfs written in POSIX shell.
 
 Mandatory arguments to long options are mandatory for short options too.
-  -o, --output  FILE     set path to initramfs image
-  -c, --config  FILE     set path to config
-  -k, --kernel  VERSION  set kernel version
-  -m, --modules PATH     set path to modules
-  -H, --hooks   PATH     set directory to hooks
-  -D, --helper  FILE     set path to device helper
-  -I, --init    FILE     set path to init script
-  -d, --debug            enable debug mode
-  -f, --force            overwrite initramfs image
-  -v, --version          print version and exit
-  -h, --help             print help and exit
+  -o, --output=FILE     set path to initramfs image
+  -c, --config=FILE     set path to config
+  -k, --kernel=VERSION  set kernel version
+  -m, --modules=PATH    set path to modules
+  -H, --hooks=PATH      set directory to hooks
+  -D, --helper=FILE     set path to device helper
+  -I, --init=FILE       set path to init script
+  -d, --debug           enable debug mode
+  -f, --force           overwrite initramfs image
+  -v, --version         print version and exit
+  -h, --help            print help and exit
 EOF
 }
 
 parse_arguments() {
   while [ "$1" ]; do case "$1" in
+
     -o|--output)
       output="${2:?}"; shift 2
       ;;
+    --output=*)
+      output="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -o*)
+      output="$(echo "$1" | sed 's/^-o//')"; shift 1
+      ;;
+
     -c|--config)
       config="${2:?}"; shift 2
       ;;
+    --config=*)
+      config="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -c*)
+      config="$(echo "$1" | sed 's/^-c//')"; shift 1
+      ;;
+
     -k|--kernel)
       kernel="${2:?}"; shift 2
       ;;
+    --kernel=*)
+      kernel="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -k*)
+      kernel="$(echo "$1" | sed 's/^-k//')"; shift 1
+      ;;
+
     -m|--modules)
       moddir="${2:?}"; shift 2
       ;;
+    --modules=*)
+      moddir="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -m*)
+      moddir="$(echo "$1" | sed 's/^-m//')"; shift 1
+      ;;
+
     -H|--hooks)
       hksdir="${2:?}"; shift 2
       ;;
+    --hooks=*)
+      hksdir="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -H*)
+      hksdir="$(echo "$1" | sed 's/^-H//')"; shift 1
+      ;;
+
     -D|--helper)
       helper="${2:?}"; shift 2
       ;;
+    --helper=*)
+      helper="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -D*)
+      helper="$(echo "$1" | sed 's/^-D//')"; shift 1
+      ;;
+
     -I|--init)
       init="${2:?}"; shift 2
       ;;
+    --init=*)
+      init="$(echo "$1" | cut -d= -f2-)"; shift 1
+      ;;
+    -I*)
+      init="$(echo "$1" | sed 's/^-I//')"; shift 1
+      ;;
+
     -d|--debug)
       debug=1; shift 1
       ;;
