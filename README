@@ -1,6 +1,5 @@
 ABOUT mkinitramfs
 
-
     This directory contains mkinitramfs.
     mkinitramfs is a tool used to create a Linux boot image
     (initramfs).
@@ -21,7 +20,6 @@ ABOUT mkinitramfs
     1. https://github.com/illiliti/tinyramfs
     2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
-
 FEATURES
 
     * no "local"s, no bashisms, only POSIX shell
@@ -30,7 +28,6 @@ FEATURES
     * build time and init time hooks
     * LUKS (detached header, key, password), LVM
     * smdev, mdev, mdevd, eudev, systemd-udevd
-
 
 REQUIREMENTS
 
@@ -68,11 +65,8 @@ REQUIREMENTS
       optional, not required for monolithic kernel
 
     Tests:
-    * podchecker(1pm)
-      check POD for errors
-    * httpx(1)
-      check URLs for non-200 response code
-
+    * podchecker(1pm) to check POD for errors
+    * httpx(1) to check URLs for non-200 response code
 
 INSTALL
 
@@ -97,8 +91,8 @@ USAGE
 
     Reboot.
 
-
 CREDITS
+
     illiliti    <https://github.com/illiliti>
     E5ten       <https://github.com/E5ten>
     dylanaraps  <https://github.com/dylanaraps>
@@ -106,8 +100,8 @@ CREDITS
     You can donate if you like this project to the original author:
     illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
 
-
 LICENSE
+
     mkinitramfs is licensed through the GNU General Public License v3
     or later <https://gnu.org/licenses/gpl.html>.
     Read the COPYING file for copying conditions.
