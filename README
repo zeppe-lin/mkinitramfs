@@ -7,13 +7,13 @@ ABOUT mkinitramfs
     This mkinitramfs distribution is a fork of illiliti's tinyramfs as
     of commit 8abfcc9 (Fri May 21 2021) with the following
     differences:
-    * the man pages have been completely rewritten
-    * added smdev hook
-    * luks hook have been modified to ask the password if
-      header/key-file is not defined
-    * added resume hook (to resume machines from hibernation)
-    * added a possibility to copy modprobe.d configuration files
-    * added bash completion
+     * the man pages have been completely rewritten
+     * added smdev hook
+     * luks hook have been modified to ask the password if
+       header/key-file is not defined
+     * added resume hook (to resume machines from hibernation)
+     * added a possibility to copy modprobe.d configuration files
+     * added bash completion
     See git log for further differences.
 
     The original sources can be downloaded from:
@@ -32,50 +32,42 @@ FEATURES
 REQUIREMENTS
 
     Build time:
-    * POSIX sh(1p), make(1p) and standard POSIX utilities
-    * pod2man(1pm) from perl distribution
+     * POSIX sh(1p), make(1p) and standard POSIX utilities
+     * pod2man(1pm) from perl distribution
 
     Runtime:
-    * POSIX sh(1p) and standard POSIX utilities
-    * switch_root(8), mount(8), cpio(1)
-
-    * ldd(1)
-      optional, required for copying binary dependencies
-
-    * strip(1p)
-      optional, required for reducing image size by stripping binaries
-
-    * blkid(8)
-      optional, required for UUID, LABEL, PARTUUID support
-
-    * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
-      CONFIG_UEVENT_HELPER
-      optional, required for modular kernel, /dev/mapper/* and /dev/disk/*
-
-    * lvm(8)
-      optional, required for LVM support
-
-    * cryptsetup(8)
-      optional, required for LUKS support
-
-    * busybox' loadkmap
-      optional, required for keymap support
-
-    * kmod OR (busybox' modutils + patches/modprobe-kernel-version.patch)
-      optional, not required for monolithic kernel
+     * POSIX sh(1p) and standard POSIX utilities
+     * switch_root(8), mount(8), cpio(1)
+     * ldd(1)
+       optional, required for copying binary dependencies
+     * strip(1p)
+       optional, required for reducing image size by stripping binaries
+     * blkid(8)
+       optional, required for UUID, LABEL, PARTUUID support
+     * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
+       CONFIG_UEVENT_HELPER
+       optional, required for modular kernel, /dev/mapper/* and /dev/disk/*
+     * lvm(8)
+       optional, required for LVM support
+     * cryptsetup(8)
+       optional, required for LUKS support
+     * busybox' loadkmap
+       optional, required for keymap support
+     * kmod OR (busybox' modutils + patches/modprobe-kernel-version.patch)
+       optional, not required for monolithic kernel
 
     Tests:
-    * podchecker(1pm) to check POD for errors
-    * httpx(1) to check URLs for non-200 response code
+     * podchecker(1pm) to check POD for errors
+     * httpx(1) to check URLs for non-200 response code
 
 INSTALL
 
-    The shell commands "make && make install" should build and install
-    this package.  See "Makefile" for configuration parameters.
+    The shell command "make install" should build and install this
+    package.
 
-    The shell commands "make && make check" should build and start
-    some tests.  See "Makefile" for additional information.
-
+    The shell command "make check" should start some tests, like
+    checking PODs for errors, checking URLs for non-200 response
+    codes, etc.  See "./Makefile" for more information.
 
 USAGE
 
@@ -106,7 +98,6 @@ LICENSE
     or later <https://gnu.org/licenses/gpl.html>.
     Read the COPYING file for copying conditions.
     Read the COPYRIGHT file for copyright notices.
-
 
 vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 End of file.
