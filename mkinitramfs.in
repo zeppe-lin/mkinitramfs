@@ -1,5 +1,5 @@
 #!/bin/sh
-# Tiny initramfs.
+# Tiny initramfs generator written in POSIX shell.
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # https://www.shellcheck.net/wiki/SC2154
