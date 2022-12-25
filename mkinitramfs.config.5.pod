@@ -144,7 +144,7 @@ LUKS support.
 
 =item I<smdev>
 
-L<smdev|https://github.com/zeppe-lin/smdev/> support.
+L<smdev|https://core.suckless.org/smdev/> support.
 
 =item I<mdev>
 
