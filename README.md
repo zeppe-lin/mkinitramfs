@@ -71,12 +71,13 @@ To use *mkinitramfs*, read
 `/etc/mkinitramfs/config` file conform your needs.  Next, run the
 following command:
 
-  (as root) # mkinitramfs -o "/boot/initramfs-$(uname -r).img"
-
+```sh
+(as root) # mkinitramfs -o "/boot/initramfs-$(uname -r).img"
+```
 Then update your bootloader config (i.e. grub):
-
-  (as root) # grub-mkconfig -o /boot/grub/grub.cfg
-
+```sh
+(as root) # grub-mkconfig -o /boot/grub/grub.cfg
+```
 Reboot.
 
 CREDITS
