@@ -38,7 +38,7 @@ REQUIREMENTS
 - POSIX sh(1p) and standard POSIX utilities
 - switch_root(8), mount(8), cpio(1)
 
-*The following dependencies are optional:*
+*The following runtime dependencies are optional:*
 
 - ldd(1) required for copying binary dependencies
 - strip(1p) required for reducing image size by stripping binaries
@@ -48,7 +48,7 @@ REQUIREMENTS
 - lvm(8) required for LVM support
 - cryptsetup(8) required for LUKS support
 - busybox' loadkmap required for keymap support
-- kmod OR (busybox' modutils + patches/modprobe-kernel-version.patch)
+- kmod OR busybox' modutils+[patch](patches/modprobe-kernel-version.patch)
   required for monolithic kernel
 
 **Tests:**
