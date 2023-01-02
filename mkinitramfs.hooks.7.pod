@@ -37,10 +37,10 @@ Example:
 
   <pre>
   hooks/
-  └── <hook>               -> directory of hook scripts
-      ├── <hook>           -> invoked in build process
-      ├── <hook>.init      -> invoked in init process
-      └── <hook>.init.late -> invoked after root filesystem was mounted
+  └── &lt;hook&gt;               -> directory of hook scripts
+      ├── &lt;hook&gt;           -> invoked in build process
+      ├── &lt;hook&gt;.init      -> invoked in init process
+      └── &lt;hook&gt;.init.late -> invoked after root filesystem was mounted
   </pre>
 
 =end html
@@ -78,7 +78,7 @@ Print message to stdout.
 =item B<BI: panic> [I<MESSAGE>]
 
 If message was not specified, then mkinitramfs will print default
-error message.  Otherwise, message will be printed.
+error message.  Otherwise, I<MESSAGE> will be printed.
 
 =item B<B: copy_module> I<PATH>
 
