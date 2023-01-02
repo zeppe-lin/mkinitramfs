@@ -1,12 +1,13 @@
 .POSIX:
 
+# mkinitramfs version
 VERSION = 0.2.2
 
 all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	mkinitramfs.cmdline.7 mkinitramfs.hooks.7
 
 %: %.in
-	sed "s/@VERSION@/${VERSION}/" $^ > $@
+	sed "s/@VERSION@/${VERSION}/" $< > $@
 
 %: %.pod
 	pod2man --nourls -r ${VERSION} -c ' ' \
