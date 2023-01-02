@@ -4,65 +4,63 @@ This directory contains *mkinitramfs*, a tool used to create a Linux
 boot image (initramfs).
 
 This *mkinitramfs* distribution is a fork of illiliti's *tinyramfs* as
-of commit 8abfcc9 (Fri May 21 2021) with the following
-differences:
-- the man pages have been completely rewritten
-- added smdev hook
-- luks hook have been modified to ask the password if
-  header/key-file is not defined
-- added resume hook (to resume machines from hibernation)
-- added a possibility to copy modprobe.d configuration files
-- added bash completion
-See git log for further differences.
+of commit 8abfcc9 (Fri May 21 2021) with the following differences:
+  * the man pages have been completely rewritten
+  * added smdev hook
+  * luks hook have been modified to ask the password if
+    header/key-file is not defined
+  * added resume hook (to resume machines from hibernation)
+  * added a possibility to copy modprobe.d configuration files
+  * added bash completion
+
+See git log for complete/further differences.
 
 The original sources can be downloaded from:
-1. https://github.com/illiliti/tinyramfs
-2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
+  1. https://github.com/illiliti/tinyramfs
+  2. https://github.com/illiliti/tinyramfs/archive/8abfcc9/tinyramfs-8abfcc9.zip
 
 FEATURES
 --------
-- no "local"s, no bashisms, only POSIX shell
-- portable, no distro specific
-- easy to use configuration
-- build time and init time hooks
-- LUKS (detached header, key, password), LVM
-- smdev, mdev, mdevd, eudev, systemd-udevd
+  * no "local"s, no bashisms, only POSIX shell
+  * portable, no distro specific
+  * easy to use configuration
+  * build time and init time hooks
+  * LUKS (detached header, key, password), LVM
+  * smdev, mdev, mdevd, eudev, systemd-udevd
 
 REQUIREMENTS
 ------------
-**Build time:**
-  - POSIX sh(1p), make(1p) and standard POSIX utilities
-  - pod2man(1pm) from perl distribution
+Build time:
+  * POSIX sh(1p), make(1p) and standard POSIX utilities
+  * pod2man(1pm) from perl distribution
 
-**Runtime:**
-- POSIX sh(1p) and standard POSIX utilities
-- switch_root(8), mount(8), cpio(1)
+Runtime:
+  * POSIX sh(1p) and standard POSIX utilities
+  * switch_root(8), mount(8), cpio(1)
 
-*The following runtime dependencies are optional:*
+  *The following runtime dependencies are optional:*
 
-- ldd(1) required for copying binary dependencies
-- strip(1p) required for reducing image size by stripping binaries
-- blkid(8) required for UUID, LABEL, PARTUUID support
-- smdev OR mdev OR mdevd OR eudev OR systemd-udevd or CONFIG_UEVENT_HELPER
-  required for modular kernel, `/dev/mapper/*` and `/dev/disk/*`
-- lvm(8) required for LVM support
-- cryptsetup(8) required for LUKS support
-- busybox' loadkmap required for keymap support
-- kmod OR busybox' modutils+[patch](patches/modprobe-kernel-version.patch)
-  required for monolithic kernel
+  * ldd(1) required for copying binary dependencies
+  * strip(1p) required for reducing image size by stripping binaries
+  * blkid(8) required for UUID, LABEL, PARTUUID support
+  * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or CONFIG_UEVENT_HELPER
+    required for modular kernel, `/dev/mapper/*` and `/dev/disk/*`
+  * lvm(8) required for LVM support
+  * cryptsetup(8) required for LUKS support
+  * busybox' loadkmap required for keymap support
+  * kmod OR busybox' modutils+[patch](patches/modprobe-kernel-version.patch)
+    required for monolithic kernel
 
-**Tests:**
-  - podchecker(1pm) to check POD for errors
-  - httpx(1) to check URLs for non-200 response code
+Tests:
+  * podchecker(1pm) from perl distribution to check POD for errors
+  * httpx(1) to check URLs for non-200 response code
 
 INSTALL
 -------
-The shell command "make install" should build and install this
-package.
+The shell commands `make && make install` should build and install
+this package.
 
-The shell command "make check" should start some tests, like
-checking PODs for errors, checking URLs for non-200 response
-codes, etc.
+The shell command `make check` should start some tests.
 
 USAGE
 -----
@@ -82,9 +80,9 @@ Reboot.
 
 CREDITS
 -------
-- illiliti    <https://github.com/illiliti>
-- E5ten       <https://github.com/E5ten>
-- dylanaraps  <https://github.com/dylanaraps>
+  * illiliti    <https://github.com/illiliti>
+  * E5ten       <https://github.com/E5ten>
+  * dylanaraps  <https://github.com/dylanaraps>
 
 You can donate if you like this project to the original author:
 illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
@@ -93,8 +91,8 @@ LICENSE
 -------
 *mkinitramfs* is licensed through the GNU General Public License v3
 or later <https://gnu.org/licenses/gpl.html>.
-Read the COPYING file for copying conditions.
-Read the COPYRIGHT file for copyright notices.
+Read the *COPYING* file for copying conditions.
+Read the *COPYRIGHT* file for copyright notices.
 
 
 <!-- vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
