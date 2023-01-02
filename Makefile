@@ -14,7 +14,9 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
 check:
+	@echo "=======> Check PODs for errors"
 	@podchecker *.pod
+	@echo "=======> Check URLs for non-200 response code"
 	@grep -Eiho "https?://[^\"\\'> ]+" *.* | httpx -silent -fc 200 -sc
 
 install: all
