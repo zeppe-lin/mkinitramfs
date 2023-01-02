@@ -32,7 +32,7 @@ REQUIREMENTS
 ------------
 Build time:
   * POSIX sh(1p), make(1p) and standard POSIX utilities
-  * pod2man(1pm) from perl distribution
+  * pod2man(1pm) from perl distribution to build man pages
 
 Runtime:
   * POSIX sh(1p) and standard POSIX utilities
