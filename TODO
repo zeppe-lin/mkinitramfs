@@ -1,1 +1,2 @@
-Makefile: fix non-posix grep
+* Makefile: fix non-posix grep?
+* add support of loadkeys(1) from kbd distribution to keymap hook
