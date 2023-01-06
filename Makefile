@@ -17,7 +17,8 @@ check:
 	@echo "=======> Check PODs for errors"
 	@podchecker *.pod
 	@echo "=======> Check URLs for non-200 response code"
-	@grep -Eiho "https?://[^\"\\'> ]+" *.* | httpx -silent -fc 200 -sc
+	@grep -Eiho "https?://[^\"\\'> ]+" *.* | xargs -P10 -I{} \
+		curl -o /dev/null -sw "%{url} [%{http_code}]\n" '{}'
 
 install: all
 	mkdir -p                       ${DESTDIR}/usr/sbin
@@ -31,7 +32,9 @@ install: all
 	cp -f mkinitramfs.cmdline.7    ${DESTDIR}/usr/share/man/man7/
 	cp -f mkinitramfs.hooks.7      ${DESTDIR}/usr/share/man/man7/
 	cp -f mkinitramfs.config.5     ${DESTDIR}/usr/share/man/man5/
-	cp -R hooks device-helper init ${DESTDIR}/usr/share/mkinitramfs
+	cp -R hooks device-helper init ${DESTDIR}/usr/share/mkinitramfs/
+	chmod 0755 ${DESTDIR}/usr/share/mkinitramfs/device-helper
+	chmod 0755 ${DESTDIR}/usr/share/mkinitramfs/init
 
 uninstall:
 	rm -f  ${DESTDIR}/usr/sbin/mkinitramfs
