@@ -16,7 +16,7 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 check:
 	@echo "=======> Check PODs for errors"
 	@podchecker *.pod
-	@echo "=======> Check URLs for non-200 response code"
+	@echo "=======> Check URLs for response code"
 	@grep -Eiho "https?://[^\"\\'> ]+" *.* | xargs -P10 -I{} \
 		curl -o /dev/null -sw "%{url} [%{http_code}]\n" '{}'
 
