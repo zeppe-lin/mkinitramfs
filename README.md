@@ -31,8 +31,8 @@ FEATURES
 REQUIREMENTS
 ------------
 Build time:
-  * POSIX sh(1p), make(1p) and standard POSIX utilities
-  * pod2man(1pm) from perl distribution to build man pages
+  * POSIX sh(1p), make(1p) and "mandatory utilities"
+  * pod2man(1pm) to build man pages
 
 Runtime:
   * POSIX sh(1p) and standard POSIX utilities
@@ -48,12 +48,13 @@ Runtime:
   * lvm(8) required for LVM support
   * cryptsetup(8) required for LUKS support
   * busybox' loadkmap required for keymap support
-  * kmod OR busybox' modutils+[patch](patches/modprobe-kernel-version.patch)
+  * kmod OR busybox' modutils+
+    [patch](patches/modprobe-kernel-version.patch)
     required for monolithic kernel
 
 Tests:
-  * podchecker(1pm) from perl distribution to check POD for errors
-  * httpx(1) to check URLs for non-200 response code
+  * podchecker(1pm) to check PODs for errors
+  * curl(1) to check URLs for response code
 
 INSTALL
 -------
@@ -65,9 +66,9 @@ The shell command `make check` should start some tests.
 USAGE
 -----
 To use *mkinitramfs*, read
-[mkinitramfs.config(5)](mkinitramfs.config.5.pod) and setup
-`/etc/mkinitramfs/config` file conform your needs.  Next, run the
-following command:
+[mkinitramfs.config(5)](mkinitramfs.config.5.pod)
+and setup `/etc/mkinitramfs/config` file conform your needs.  Next,
+run the following command:
 
 ```sh
 sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
