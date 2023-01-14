@@ -5,6 +5,7 @@ boot image (initramfs).
 
 This *mkinitramfs* distribution is a fork of illiliti's *tinyramfs* as
 of commit 8abfcc9 (Fri May 21 2021) with the following differences:
+
   * the man pages have been completely rewritten
   * added smdev hook
   * luks hook have been modified to ask the password if
@@ -94,7 +95,6 @@ LICENSE
 or later <https://gnu.org/licenses/gpl.html>.
 Read the *COPYING* file for copying conditions.
 Read the *COPYRIGHT* file for copyright notices.
-
 
 <!-- vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 End of file. -->
