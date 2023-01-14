@@ -2,32 +2,31 @@
 
 _mkinitramfs()
 {
-    local cur prev words cword split
-    _init_completion -s || return
+  local cur prev words cword split
+  _init_completion -s || return
 
-    case $prev in
-        --help | --version | -!(-*)[hv])
-            return
-            ;;
-        --init | --helper | --hooks | --modules | --config | --output | -!(-*)[IDHmco])
-            _filedir
-            return
-            ;;
-        --kernel | -k)
-            COMPREPLY=($(compgen -W "$(ls -1 /lib/modules/)" -- $cur))
-            return
-            ;;
-    esac
+  case $prev in
+  --help | --version | -!(-*)[hv])
+    return
+    ;;
+  --init | --helper | --hooks | --modules | --config | --output | -!(-*)[IDHmco])
+    _filedir
+    return
+    ;;
+  --kernel | -k)
+    COMPREPLY=($(compgen -W "$(ls -1 /lib/modules/)" -- $cur))
+    return
+    ;;
+  esac
 
-    $split && return
+  $split && return
 
-    if [[ $cur == -* ]]; then
-        COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
-        [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
-        return
-    fi
-} &&
-  complete -F _mkinitramfs mkinitramfs
+  if [[ $cur == -* ]]; then
+    COMPREPLY=($(compgen -W '$(_parse_help "$1")' -- "$cur"))
+    [[ ${COMPREPLY-} == *= ]] && compopt -o nospace
+    return
+  fi
+} && complete -F _mkinitramfs mkinitramfs
 
 # vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.
