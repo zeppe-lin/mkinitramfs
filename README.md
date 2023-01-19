@@ -1,17 +1,16 @@
 ABOUT
 -----
-This directory contains *mkinitramfs*, a tool used to create a Linux
+This directory contains _mkinitramfs_, a tool used to create a Linux
 boot image (initramfs).
 
-This *mkinitramfs* distribution is a fork of illiliti's *tinyramfs* as
+This _mkinitramfs_ distribution is a fork of illiliti's _tinyramfs_ as
 of commit 8abfcc9 (Fri May 21 2021) with the following differences:
-
   * the man pages have been completely rewritten
   * added smdev hook
   * luks hook have been modified to ask the password if
     header/key-file is not defined
   * added resume hook (to resume machines from hibernation)
-  * added a possibility to copy modprobe.d configuration files
+  * added a possibility to copy _modprobe.d_ configuration files
   * added bash completion
 
 See git log for complete/further differences.
@@ -39,7 +38,7 @@ Runtime:
   * POSIX sh(1p) and standard POSIX utilities
   * switch_root(8), mount(8), cpio(1)
 
-  *The following runtime dependencies are optional:*
+  The following runtime dependencies are optional:
 
   * ldd(1) required for copying binary dependencies
   * strip(1p) required for reducing image size by stripping binaries
@@ -49,8 +48,7 @@ Runtime:
   * lvm(8) required for LVM support
   * cryptsetup(8) required for LUKS support
   * busybox' loadkmap required for keymap support
-  * kmod OR busybox' modutils+
-    [patch](patches/modprobe-kernel-version.patch)
+  * kmod OR busybox' modutils+[patch](patches/modprobe-kernel-version.patch)
     required for monolithic kernel
 
 Tests:
@@ -66,8 +64,7 @@ The shell command `make check` should start some tests.
 
 USAGE
 -----
-To use *mkinitramfs*, read
-[mkinitramfs.config(5)](mkinitramfs.config.5.pod)
+To use _mkinitramfs_, read [mkinitramfs.config(5)](mkinitramfs.config.5.pod)
 and setup `/etc/mkinitramfs/config` file conform your needs.  Next,
 run the following command:
 
@@ -91,10 +88,10 @@ illilliti: (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
 
 LICENSE
 -------
-*mkinitramfs* is licensed through the GNU General Public License v3
-or later <https://gnu.org/licenses/gpl.html>.
-Read the *COPYING* file for copying conditions.
-Read the *COPYRIGHT* file for copyright notices.
+_mkinitramfs_ is licensed through the GNU General Public License v3 or
+later <https://gnu.org/licenses/gpl.html>.
+Read the _COPYING_ file for copying conditions.
+Read the _COPYRIGHT_ file for copyright notices.
 
 <!-- vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 End of file. -->
