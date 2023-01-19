@@ -19,11 +19,11 @@ resolve_device() {
   count=0; device="$1"
 
   case "${device%%=*}" in
-  UUID)     device="/dev/disk/by-uuid/${device#*=}"     ;;
-  LABEL)    device="/dev/disk/by-label/${device#*=}"    ;;
-  PARTUUID) device="/dev/disk/by-partuuid/${device#*=}" ;;
-  /dev/*)            ;;
-  *)        return 0 ;;
+      UUID)  device="/dev/disk/by-uuid/${device#*=}"      ;;
+     LABEL)  device="/dev/disk/by-label/${device#*=}"     ;;
+  PARTUUID)  device="/dev/disk/by-partuuid/${device#*=}"  ;;
+    /dev/*)                                               ;;
+         *)  return 0                                     ;;
   esac
 
   # Race condition may occur if device manager is not yet initialized
@@ -80,14 +80,14 @@ parse_cmdline() {
   read -r cmdline < /proc/cmdline
 
   for line in $cmdline; do case "$line" in
-    rootfstype=*) root_type="${line#*=}" ;;
-    rootflags=*)  root_opts="${line#*=}" ;;
-    debug=1)      set -x ;;
-    ro | rw)      rorw="$line" ;;
-    --*)          init_args="${cmdline#*-- }"; break ;;
-    *=*)          command export "$line"     ;;
-    *)            command export "${line}=1" ;;
-  esac 2> /dev/null || :; done
+    rootfstype=*)  root_type="${line#*=}"              ;;
+     rootflags=*)  root_opts="${line#*=}"              ;;
+         debug=1)  set -x                              ;;
+         ro | rw)  rorw="$line"                        ;;
+             --*)  init_args="${cmdline#*-- }"; break  ;;
+             *=*)  command export "$line"              ;;
+               *)  command export "${line}=1"          ;;
+  esac 2> /dev/null || : ; done
 }
 
 mount_root() {
@@ -130,7 +130,7 @@ set -ef
 # Run emergency shell if init unexpectedly exiting due to error.
 trap panic EXIT
 
-# TODO display fancy colored status info
+# TODO display fancy colored status info?
 
 prepare_environment
 parse_cmdline
