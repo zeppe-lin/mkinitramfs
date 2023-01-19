@@ -1,9 +1,6 @@
 TODO mkinitramfs
 
-    [ ] Add loadkeys(1)/kbd support to keymap hook!
-    [ ] Makefile: fix non-posix grep?
-    [ ] Add font hook?
+	[ ] Add loadkeys(1)/kbd support to keymap hook!
+	[ ] Add font hook?
 
-
-vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 End of file.
