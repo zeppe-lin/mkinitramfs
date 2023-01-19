@@ -26,8 +26,13 @@ debugging.
 
 List of builtin breakpoints:
 
-  - boot
-  - root
+=over
+
+=item * boot
+
+=item * root
+
+=back
 
 Hooks can provide their own breakpoints.  See source code of hooks for
 more information.
