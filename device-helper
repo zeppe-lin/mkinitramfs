@@ -20,7 +20,7 @@ create_symlink() {
 exec > /dev/null 2>&1
 
 read -r dm_name < "/sys/block/${dev_name}/dm/name" && {
-  mkdir -p /dev/mapper
+  mkdir -p  /dev/mapper
   ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
 }
 
@@ -39,8 +39,8 @@ while ! _blkid=$(blkid "/dev/${dev_name}"); do
 done
 
 for line in $_blkid; do case        "${line%%=*}" in
-  UUID)     create_symlink uuid     "${line##*=}" ;;
-  LABEL)    create_symlink label    "${line##*=}" ;;
+      UUID) create_symlink uuid     "${line##*=}" ;;
+     LABEL) create_symlink label    "${line##*=}" ;;
   PARTUUID) create_symlink partuuid "${line##*=}" ;;
 esac; done
 
