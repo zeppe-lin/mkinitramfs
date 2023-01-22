@@ -19,12 +19,14 @@ check:
 	@grep -Eiho "https?://[^\"\\'> ]+" *.* | xargs -P10 -I{} \
 		curl -o /dev/null -sw "[%{http_code}] %{url}\n" '{}'
 
-install: all
-	mkdir -p                       ${DESTDIR}/usr/sbin
-	mkdir -p                       ${DESTDIR}/usr/share/man/man8
-	mkdir -p                       ${DESTDIR}/usr/share/man/man7
-	mkdir -p                       ${DESTDIR}/usr/share/man/man5
-	mkdir -p                       ${DESTDIR}/usr/share/mkinitramfs
+install-dirs:
+	mkdir -p ${DESTDIR}/usr/sbin
+	mkdir -p ${DESTDIR}/usr/share/man/man8
+	mkdir -p ${DESTDIR}/usr/share/man/man7
+	mkdir -p ${DESTDIR}/usr/share/man/man5
+	mkdir -p ${DESTDIR}/usr/share/mkinitramfs
+
+install: all install-dirs
 	cp -f mkinitramfs              ${DESTDIR}/usr/sbin/
 	chmod 0755                     ${DESTDIR}/usr/sbin/mkinitramfs
 	cp -f mkinitramfs.8            ${DESTDIR}/usr/share/man/man8/
