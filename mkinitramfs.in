@@ -41,71 +41,50 @@ parse_arguments() {
     -o|--output)
       output="${2:?}"; shift 2
       ;;
-    --output=*)
-      output="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -o*)
-      output="$(echo "$1" | sed 's/^-o//')"; shift 1
+    -o*|--output=*)
+      output="$(echo "$1" | sed 's/^-\(-output=\|o\)//')"; shift 1
       ;;
 
     -c|--config)
       config="${2:?}"; shift 2
       ;;
-    --config=*)
-      config="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -c*)
-      config="$(echo "$1" | sed 's/^-c//')"; shift 1
+    -c*|--config=*)
+      config="$(echo "$1" | sed 's/^-\(-config=\|c\)//')"; shift 1
       ;;
 
     -k|--kernel)
       kernel="${2:?}"; shift 2
       ;;
-    --kernel=*)
-      kernel="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -k*)
-      kernel="$(echo "$1" | sed 's/^-k//')"; shift 1
+    -k*|--kernel=*)
+      kernel="$(echo "$1" | sed 's/^-\(-kernel=\|k\)//')"; shift 1
       ;;
 
     -m|--modules)
       moddir="${2:?}"; shift 2
       ;;
-    --modules=*)
-      moddir="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -m*)
-      moddir="$(echo "$1" | sed 's/^-m//')"; shift 1
+    -m*|--modules=*)
+      moddir="$(echo "$1" | sed 's/^-\(-modules=\|m\)//')"; shift 1
       ;;
 
     -H|--hooks)
       hksdir="${2:?}"; shift 2
       ;;
-    --hooks=*)
-      hksdir="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -H*)
-      hksdir="$(echo "$1" | sed 's/^-H//')"; shift 1
+    -H*|--hooks=*)
+      hksdir="$(echo "$1" | sed 's/^-\(-hooks=\|H\)//')"; shift 1
       ;;
 
     -D|--helper)
       helper="${2:?}"; shift 2
       ;;
-    --helper=*)
-      helper="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -D*)
-      helper="$(echo "$1" | sed 's/^-D//')"; shift 1
+    -D*|--helper=*)
+      helper="$(echo "$1" | sed 's/^-\(-helper=\|D\)//')"; shift 1
       ;;
 
     -I|--init)
       init="${2:?}"; shift 2
       ;;
-    --init=*)
-      init="$(echo "$1" | cut -d= -f2-)"; shift 1
-      ;;
-    -I*)
-      init="$(echo "$1" | sed 's/^-I//')"; shift 1
+    -I*|--init=*)
+      init="$(echo "$1" | sed 's/^-\(-init=\|I\)//')"; shift 1
       ;;
 
     -d|--debug)
@@ -114,17 +93,20 @@ parse_arguments() {
     -f|--force)
       force=1; shift 1
       ;;
+
     -h|--help)
       usage; exit 0
       ;;
     -v|--version)
       echo "${0##*/} @VERSION@" ; exit 0
       ;;
+
     *)
       printf "invalid option: %s\n" "$1"
 
       usage; exit 1
       ;;
+
   esac; done
 
   # https://www.shellcheck.net/wiki/SC1090
