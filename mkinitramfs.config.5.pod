@@ -214,7 +214,7 @@ Include F</etc/lvm/lvm.conf> in initramfs.
 
 =item B<lvm_discard>=1
 
-Pass C<issue_discards> to LVM. Useful for SSD's.
+Pass C<issue_discards> to LVM.  Useful for SSD's.
 
 =back
 
