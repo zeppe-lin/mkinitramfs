@@ -1,4 +1,4 @@
-ABOUT mkinitramfs
+OVERVIEW
 
 	This directory contains mkinitramfs, a tool used to create a Linux
 	boot image (initramfs).
