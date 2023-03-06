@@ -11,7 +11,7 @@ mkinitramfs.hooks - mkinitramfs hooks and related stuff
 =head1 DESCRIPTION
 
 Hooks can be located in F</usr/share/mkinitramfs/hooks> (system path)
-and F</etc/mkinitramfs/hooks> (user path).  mkinitramfs also allows
+and F</etc/mkinitramfs/hooks> (user path).  B<mkinitramfs> also allows
 you to specify custom location via B<-H> option.
 See L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>
 for more information.
