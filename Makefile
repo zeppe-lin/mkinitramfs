@@ -9,7 +9,7 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	sed "s/@VERSION@/${VERSION}/" $< > $@
 
 %: %.pod
-	pod2man --nourls -r ${VERSION} -c ' ' \
+	pod2man --nourls -r "mkinitramfs ${VERSION}" -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
 check:
