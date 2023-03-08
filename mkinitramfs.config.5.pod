@@ -280,7 +280,7 @@ See B<root> (above) for argument details.
 
 =head1 EXAMPLES
 
-Remember, these just examples! I<Don't copy blindly>!
+Remember, these just examples! B<Don't copy blindly>!
 Your configuration may (and should) differ.
 
 =head2 ROOT
