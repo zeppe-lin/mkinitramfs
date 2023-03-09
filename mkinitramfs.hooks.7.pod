@@ -65,8 +65,8 @@ Extension/Variable can be used in both processes.
 
 =head1 EXTENSIONS
 
-mkinitramfs also provides some extensions and environment variables to
-easily interact with build and init system.
+B<mkinitramfs> also provides some extensions and environment variables
+to easily interact with build and init system.
 
 
 =over 8
@@ -77,23 +77,23 @@ Print message to stdout.
 
 =item B<BI: panic> [I<MESSAGE>]
 
-If message was not specified, then mkinitramfs will print default
+If message was not specified, then B<mkinitramfs> will print default
 error message.  Otherwise, I<MESSAGE> will be printed.
 
 =item B<B: copy_module> I<PATH>
 
 Copy kernel module by I<PATH> (full path to kernel module) to
-mkinitramfs working directory.
+B<mkinitramfs> working directory.
 
 =item B<B: copy_binary> I<NAME>|I<PATH>
 
 If I<PATH> (full path to binary) was specified and it has executable
-bit, then it will be copied to F</bin> location of mkinitramfs working
-directory.
+bit, then it will be copied to F</bin> location of B<mkinitramfs>
+working directory.
 
-If I<NAME> was specified, the mkinitramfs will try to find command by
-name in C<PATH>.  If success, command will be copied to F</bin>
-location of mkinitramfs working directory.  Otherwise error message
+If I<NAME> was specified, the B<mkinitramfs> will try to find command
+by name in C<PATH>.  If success, command will be copied to F</bin>
+location of B<mkinitramfs> working directory.  Otherwise error message
 will appear.
 
 =item B<B: copy_file> I<FILE> I<DEST> I<MODE> I<STRIP>
@@ -106,9 +106,9 @@ Must be full path to file.
 
 =item I<DEST>
 
-Must be full path where I<FILE> should be stored.  mkinitramfs will
+Must be full path where I<FILE> should be stored.  B<mkinitramfs> will
 automatically create all leading directories if they aren't exist
-already.  Also no need to prepend path of mkinitramfs working
+already.  Also no need to prepend path of B<mkinitramfs> working
 directory.
 
 =item I<MODE>
@@ -117,9 +117,9 @@ Permissions in octal format.
 
 =item I<STRIP>
 
-If was set to B<1>, then mkinitramfs will attempt to run
+If was set to B<1>, then B<mkinitramfs> will attempt to run
 L<strip(1p)|https://www.mankier.com/1p/strip>
-on file.  mkinitramfs will silently ignore errors if strip doesn't
+on file.  B<mkinitramfs> will silently ignore errors if strip doesn't
 exists or failed to strip binary.
 
 =back
@@ -145,7 +145,7 @@ Breakpoint for debugging.
 
 =item B<B: tmpdir>
 
-Full path of mkinitramfs working directory (initramfs rootfs in
+Full path of B<mkinitramfs> working directory (initramfs rootfs in
 future).
 
 =item B<B: kernel>
@@ -183,7 +183,7 @@ See L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.htm
 This example will show how to handle soft dependencies of B<ext4>
 module.  Create F</etc/mkinitramfs/hooks/ext4> directory and copy
 below scripts with appropriate names to that directory.  After that,
-prepend B<ext4> to B<hooks> option in mkinitramfs' config
+prepend B<ext4> to B<hooks> option in B<mkinitramfs>' config
 (F</etc/mkinitramfs/config>).
 
 I<ext4>
