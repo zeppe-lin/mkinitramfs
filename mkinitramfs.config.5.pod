@@ -12,7 +12,7 @@ B</etc/mkinitramfs/config>
 
 =head1 DESCRIPTION
 
-mkinitramfs configuration file is a list of environment variables.
+B<mkinitramfs> configuration file is a list of environment variables.
 Each variable must be written in POSIX way, bashism not allowed.
 
 Example:
@@ -84,7 +84,7 @@ You can set compression level by specifying C<-[0-9]> in I<ARGS>.
 
 =item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
-Specify which way mkinitramfs will use to look up root filesystem
+Specify which way B<mkinitramfs> will use to look up root filesystem
 
 =over 8
 
@@ -126,7 +126,7 @@ fourth field.
 
 =item B<hooks>=I<HOOK>...
 
-Hooks provide a flexible way to extend mkinitramfs with custom
+Hooks provide a flexible way to extend B<mkinitramfs> with custom
 scripts.  You must know that
 I<hooks are launched in the order in which they are specified>.
 
@@ -271,7 +271,7 @@ B<kbd's loadkeys> not supported.
 
 =item B<resume>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
-Specify which way mkinitramfs will use to look up swap device to
+Specify which way B<mkinitramfs> will use to look up swap device to
 resume from hibernation.
 
 See B<root> (above) for argument details.
