@@ -12,13 +12,6 @@ all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
 	pod2man --nourls -r "mkinitramfs ${VERSION}" -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
-check:
-	@echo "=======> Check PODs for errors"
-	@podchecker *.pod
-	@echo "=======> Check URLs for response code"
-	@grep -Eiho "https?://[^\"\\'> ]+" *.* | xargs -P10 -I{} \
-		curl -o /dev/null -sw "[%{http_code}] %{url}\n" '{}'
-
 install-dirs:
 	mkdir -p ${DESTDIR}/usr/sbin
 	mkdir -p ${DESTDIR}/usr/share/man/man8
@@ -49,4 +42,4 @@ clean:
 	rm -f mkinitramfs mkinitramfs.8 mkinitramfs.cmdline.7 \
 		mkinitramfs.hooks.7 mkinitramfs.config.5
 
-.PHONY: all install uninstall clean
+.PHONY: all install-dirs install uninstall clean

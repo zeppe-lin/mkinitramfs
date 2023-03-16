@@ -81,16 +81,14 @@ Forcefully overwrite initramfs image.
 
 If you have modular kernel and you use B<busybox' modprobe> to handle
 modules, you must note that B<busybox' modprobe> doesn't have ability
-to install soft dependencies of modules (i.e. modules.softdep).  You
-must install them yourself using hooks.  See
-L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>
-how to do it.
+to install soft dependencies of modules (i.e. F<modules.softdep>).
+You must install them yourself using hooks.  See
+L<mkinitramfs.hooks(7)> how to do it.
 
 =head1 SEE ALSO
 
-L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>,
-L<mkinitramfs.cmdline(7)|https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html>,
-L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>
+L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>,
+L<mkinitramfs.hooks(7)>
 
 =cut
 

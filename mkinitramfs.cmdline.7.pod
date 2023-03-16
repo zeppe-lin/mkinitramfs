@@ -62,8 +62,8 @@ Lookup device by partition uuid.
 =back
 
 Initramfs must contain B<blkid> utility for ability to use I<UUID>,
-I<LABEL>, I<PARTUUID>.  Note that I<PARTUUID> only supported in
-util-linux' L<blkid(8)|https://www.mankier.com/8/blkid>.
+I<LABEL>, I<PARTUUID>.  B<Note>: I<PARTUUID> only supported in
+B<util-linux>' L<blkid(8)>.
 
 =item B<root_type>=I<TYPE>
 
@@ -82,8 +82,7 @@ Default is 30.
 
 =item B<rootflags>=I<OPTS>
 
-See L<fstab(5)|https://www.mankier.com/5/fstab#Description-The_fourth_field_(fs_mntops).>
-fourth field.
+See L<fstab(5)> fourth field.
 
 =back
 
@@ -126,8 +125,7 @@ Useful for SSD's.
 =item B<luks_name>=I<NAME>
 
 Specify which name will be registered to mapping table after
-L<cryptsetup(8)|https://www.mankier.com/8/cryptsetup>
-unlocks LUKS root.
+L<cryptsetup(8)> unlocks LUKS root.
 
 =item B<luks_root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
@@ -135,8 +133,7 @@ See B<root> (above) for details.
 
 =item B<luks_discard>=1
 
-Pass C<--allow-discards> to L<cryptsetup(8)https://www.mankier.com/8/cryptsetup>.
-Leave empty to disable.
+Pass C<--allow-discards> to L<cryptsetup(8)>.  Leave empty to disable.
 
 Useful for SSD's, but you must know that security will be decreased.
 
@@ -158,9 +155,7 @@ Useful for SSD's, but you must know that security will be decreased.
 
 =head1 SEE ALSO
 
-L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>,
-L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>,
-L<mkinitramfs.hooks(7)|https://zeppe-lin.github.io/mkinitramfs.hooks.7.html>
+L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.hooks(7)>
 
 =cut
 

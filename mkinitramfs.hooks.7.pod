@@ -12,9 +12,8 @@ mkinitramfs.hooks - mkinitramfs hooks and related stuff
 
 Hooks can be located in F</usr/share/mkinitramfs/hooks> (system path)
 and F</etc/mkinitramfs/hooks> (user path).  B<mkinitramfs> also allows
-you to specify custom location via B<-H> option.
-See L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>
-for more information.
+you to specify custom location via B<-H> option.  See
+L<mkinitramfs(8)> for more information.
 
 Hooks provides a way to extend build and init process.  Hooks must be
 written in POSIX shell.  Bashisms and other non-portable extensions
@@ -118,9 +117,8 @@ Permissions in octal format.
 =item I<STRIP>
 
 If was set to B<1>, then B<mkinitramfs> will attempt to run
-L<strip(1p)|https://www.mankier.com/1p/strip>
-on file.  B<mkinitramfs> will silently ignore errors if strip doesn't
-exists or failed to strip binary.
+L<strip(1p)> on file.  B<mkinitramfs> will silently ignore errors if
+strip doesn't exists or failed to strip binary.
 
 =back
 
@@ -174,7 +172,7 @@ Output path.
 
 =item B<BI: ...>
 
-See L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>.
+See L<mkinitramfs.config(5)>.
 
 =back
 
@@ -200,9 +198,7 @@ I<ext4.init>
 
 =head1 SEE ALSO
 
-L<mkinitramfs(8)|https://zeppe-lin.github.io/mkinitramfs.8.html>,
-L<mkinitramfs.config(5)|https://zeppe-lin.github.io/mkinitramfs.config.5.html>,
-L<mkinitramfs.cmdline(7)|https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html>
+L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>
 
 =cut
 

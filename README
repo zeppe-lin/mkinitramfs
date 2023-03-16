@@ -59,17 +59,10 @@ REQUIREMENTS
 		  modutils+patches/modprobe-kernel-version.patch required for
 		  monolithic kernel
 
-	Tests:
-
-		* podchecker(1pm) to check PODs for errors
-		* curl(1) to check URLs for response code
-
 INSTALL
 
 	The shell commands "make && make install" should build and install
 	this package.
-
-	The shell command "make check" should start some tests.
 
 USAGE
 
