@@ -2,14 +2,19 @@
 
 include config.mk
 
-all: mkinitramfs mkinitramfs.8 mkinitramfs.config.5 \
-	mkinitramfs.cmdline.7 mkinitramfs.hooks.7
+BIN8 = mkinitramfs
+MAN5 = mkinitramfs.config.5
+MAN7 = mkinitramfs.cmdline.7 mkinitramfs.hooks.7
+MAN8 = mkinitramfs.8
+DATA = hooks device-helper init
+
+all: ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 
 %: %.in
 	sed "s/@VERSION@/${VERSION}/" $< > $@
 
 %: %.pod
-	pod2man --nourls -r "mkinitramfs ${VERSION}" -c ' ' \
+	pod2man --nourls -r "${NAME} ${VERSION}" -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
 install-dirs:
@@ -20,26 +25,25 @@ install-dirs:
 	mkdir -p ${DESTDIR}/usr/share/mkinitramfs
 
 install: all install-dirs
-	cp -f mkinitramfs              ${DESTDIR}/usr/sbin/
-	chmod 0755                     ${DESTDIR}/usr/sbin/mkinitramfs
-	cp -f mkinitramfs.8            ${DESTDIR}/usr/share/man/man8/
-	cp -f mkinitramfs.cmdline.7    ${DESTDIR}/usr/share/man/man7/
-	cp -f mkinitramfs.hooks.7      ${DESTDIR}/usr/share/man/man7/
-	cp -f mkinitramfs.config.5     ${DESTDIR}/usr/share/man/man5/
-	cp -R hooks device-helper init ${DESTDIR}/usr/share/mkinitramfs/
-	chmod 0755 ${DESTDIR}/usr/share/mkinitramfs/device-helper
-	chmod 0755 ${DESTDIR}/usr/share/mkinitramfs/init
+	cp -f ${BIN8} ${DESTDIR}/usr/sbin/
+	cp -f ${MAN5} ${DESTDIR}/usr/share/man/man5/
+	cp -f ${MAN7} ${DESTDIR}/usr/share/man/man7/
+	cp -f ${MAN8} ${DESTDIR}/usr/share/man/man8/
+	cp -R ${DATA} ${DESTDIR}/usr/share/mkinitramfs/
+	cd ${DESTDIR}/usr/sbin              && chmod 0755 ${BIN8}
+	cd ${DESTDIR}/usr/share/man/man5    && chmod 0644 ${MAN5}
+	cd ${DESTDIR}/usr/share/man/man7    && chmod 0644 ${MAN7}
+	cd ${DESTDIR}/usr/share/man/man8    && chmod 0644 ${MAN8}
+	cd ${DESTDIR}/usr/share/mkinitramfs && chmod 0755 device-helper init
 
 uninstall:
-	rm -f  ${DESTDIR}/usr/sbin/mkinitramfs
-	rm -f  ${DESTDIR}/usr/share/man8/mkinitramfs.8
-	rm -f  ${DESTDIR}/usr/share/man7/mkinitramfs.cmdline.7
-	rm -f  ${DESTDIR}/usr/share/man7/mkinitramfs.hooks.7
-	rm -f  ${DESTDIR}/usr/share/man5/mkinitramfs.config.5
+	cd ${DESTDIR}/usr/sbin           && rm -f ${BIN8}
+	cd ${DESTDIR}/usr/share/man/man5 && rm -f ${MAN5}
+	cd ${DESTDIR}/usr/share/man/man7 && rm -f ${MAN7}
+	cd ${DESTDIR}/usr/share/man/man8 && rm -f ${MAN8}
 	rm -rf ${DESTDIR}/usr/share/mkinitramfs/
 
 clean:
-	rm -f mkinitramfs mkinitramfs.8 mkinitramfs.cmdline.7 \
-		mkinitramfs.hooks.7 mkinitramfs.config.5
+	rm -f ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 
 .PHONY: all install-dirs install uninstall clean
