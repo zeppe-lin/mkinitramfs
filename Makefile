@@ -17,14 +17,12 @@ all: ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 	pod2man --nourls -r "${NAME} ${VERSION}" -c ' ' \
 		-n $(basename $@) -s $(subst .,,$(suffix $@)) $< > $@
 
-install-dirs:
+install: all
 	mkdir -p ${DESTDIR}/usr/sbin
 	mkdir -p ${DESTDIR}/usr/share/man/man8
 	mkdir -p ${DESTDIR}/usr/share/man/man7
 	mkdir -p ${DESTDIR}/usr/share/man/man5
 	mkdir -p ${DESTDIR}/usr/share/mkinitramfs
-
-install: all install-dirs
 	cp -f ${BIN8} ${DESTDIR}/usr/sbin/
 	cp -f ${MAN5} ${DESTDIR}/usr/share/man/man5/
 	cp -f ${MAN7} ${DESTDIR}/usr/share/man/man7/
@@ -46,4 +44,4 @@ uninstall:
 clean:
 	rm -f ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 
-.PHONY: all install-dirs install uninstall clean
+.PHONY: all install uninstall clean
