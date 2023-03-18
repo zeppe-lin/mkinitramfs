@@ -10,17 +10,15 @@ mkinitramfs.hooks - mkinitramfs hooks and related stuff
 
 =head1 DESCRIPTION
 
+B<mkinitramfs> hooks provides a way to extend initramfs' build and
+init process.  Hooks must be written in POSIX shell.  Bashisms and
+other non-portable extensions are prohibited.
+
 Hooks can be located in F</usr/share/mkinitramfs/hooks> (system path)
-and F</etc/mkinitramfs/hooks> (user path).  B<mkinitramfs> also allows
-you to specify custom location via B<-H> option.  See
-L<mkinitramfs(8)> for more information.
+and F</etc/mkinitramfs/hooks> (user path).  It is also allowed to
+specify custom location via L<mkinitramfs(8)>' B<-H> option.
 
-Hooks provides a way to extend build and init process.  Hooks must be
-written in POSIX shell.  Bashisms and other non-portable extensions
-are prohibited.  In order to write hooks you must know about hook
-structure.
-
-Example:
+In order to write hooks you must know about hook structure.  Example:
 
 =begin man
 
