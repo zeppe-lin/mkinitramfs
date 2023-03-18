@@ -8,7 +8,7 @@ mkinitramfs.cmdline - mkinitramfs' kernel command-line parameters
 
 =head1 DESCRIPTION
 
-mkinitramfs provides a way to control configuration dynamically via
+B<mkinitramfs> provides a way to control configuration dynamically via
 kernel parameters without needing to regenerate initramfs image.
 
 =head1 GENERAL PARAMETERS
