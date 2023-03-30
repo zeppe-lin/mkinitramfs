@@ -84,7 +84,7 @@ You can set compression level by specifying C<-[0-9]> in I<ARGS>.
 
 =item B<root>=I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>
 
-Specify which way B<mkinitramfs> will use to look up root filesystem
+Specify which way B<mkinitramfs> will use to look up root filesystem.
 
 =over 8
 
