@@ -338,6 +338,16 @@ Your configuration may (and should) differ.
   luks_name=crypt
   luks_root=/dev/sda2
 
+=head1 FILES
+
+=over 8
+
+=item F</etc/mkinitramfs/config>
+
+Configuration file for L<mkinitramfs(8)>.
+
+=back
+
 =head1 SEE ALSO
 
 L<mkinitramfs(8)>, L<mkinitramfs.cmdline(7)>, L<mkinitramfs.hooks(7)>
