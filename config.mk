@@ -1,4 +1,4 @@
 # project metadata
 NAME = mkinitramfs
-VERSION = 0.2.2
+VERSION = 0.3
 DIST = ${NAME}-${VERSION}
