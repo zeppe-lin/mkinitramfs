@@ -1,14 +1,14 @@
 OVERVIEW
 --------
-This directory contains mkinitramfs, a tool used to create a Linux boot image
-(initramfs).
+This directory contains mkinitramfs, a tool used to create a Linux
+boot image (initramfs).
 
-This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9 (Fri
-May 21 2021) with the following differences:
+This distribution is a fork of illiliti's tinyramfs as of commit
+8abfcc9 (Fri May 21 2021) with the following differences:
 - the man pages have been completely rewritten
 - added smdev hook
-- luks hook have been modified to ask the password if header/key-file is not
-  defined
+- luks hook have been modified to ask the password if header/key-file
+  is not defined
 - added resume hook (to resume machines from hibernation)
 - added a possibility to copy modprobe.d configuration files
 - added bash completion
@@ -46,8 +46,9 @@ The following runtime dependencies are optional:
 - ldd(1) required for copying binary dependencies
 - strip(1p) required for reducing image size by stripping binaries
 - blkid(8) required for UUID, LABEL, PARTUUID support
-- smdev OR mdev OR mdevd OR eudev OR systemd-udevd or CONFIG_UEVENT_HELPER
-  required for modular kernel, /dev/mapper/* and /dev/disk/*
+- smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
+  CONFIG_UEVENT_HELPER required for modular kernel, /dev/mapper/* and
+  /dev/disk/*
 - lvm(8) required for LVM support
 - cryptsetup(8) required for LUKS support
 - busybox' loadkmap required for keymap support
@@ -58,15 +59,15 @@ The following runtime dependencies are optional:
 
 INSTALL
 -------
-The shell commands `make && make install` should build and install this
-package.
+The shell commands `make && make install` should build and install
+this package.
 
 
 USAGE
 -----
 To use mkinitramfs, read mkinitramfs.config(5) and setup
-/etc/mkinitramfs/config file conform your needs.  Next, run the following
-command:
+/etc/mkinitramfs/config file conform your needs.  Next, run the
+following command:
 
 ```sh
 sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
@@ -93,7 +94,7 @@ illilliti / (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
 
 LICENSE
 -------
-mkinitramfs is licensed through the GNU General Public License v3 or later
-<https://gnu.org/licenses/gpl.html>.
+mkinitramfs is licensed through the GNU General Public License v3 or
+later <https://gnu.org/licenses/gpl.html>.
 Read the COPYING file for copying conditions.
 Read the COPYRIGHT file for copyright notices.
