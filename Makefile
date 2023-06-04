@@ -34,12 +34,19 @@ install: all
 	cd ${DESTDIR}/usr/share/man/man8    && chmod 0644 ${MAN8}
 	cd ${DESTDIR}/usr/share/mkinitramfs && chmod 0755 device-helper init
 
+install-bashcomp:
+	mkdir -p ${DESTDIR}${BASHCOMPDIR}
+	cp -f bash_completion ${DESTDIR}${BASHCOMPDIR}/mkinitramfs
+
 uninstall:
 	cd ${DESTDIR}/usr/sbin           && rm -f ${BIN8}
 	cd ${DESTDIR}/usr/share/man/man5 && rm -f ${MAN5}
 	cd ${DESTDIR}/usr/share/man/man7 && rm -f ${MAN7}
 	cd ${DESTDIR}/usr/share/man/man8 && rm -f ${MAN8}
 	rm -rf ${DESTDIR}/usr/share/mkinitramfs/
+
+uninstall-bashcomp:
+	rm -f ${DESTDIR}${BASHCOMPDIR}/mkinitramfs
 
 clean:
 	rm -f ${BIN8} ${MAN5} ${MAN7} ${MAN8}
@@ -48,4 +55,4 @@ clean:
 dist: clean
 	git archive --format=tar.gz -o ${DIST}.tar.gz --prefix=${DIST}/ HEAD
 
-.PHONY: all install uninstall clean dist
+.PHONY: all install install-bashcomp uninstall uninstall-bashcomp clean dist
