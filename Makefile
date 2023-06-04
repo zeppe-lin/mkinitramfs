@@ -19,19 +19,19 @@ all: ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 
 install: all
 	mkdir -p ${DESTDIR}/usr/sbin
-	mkdir -p ${DESTDIR}/usr/share/man/man8
-	mkdir -p ${DESTDIR}/usr/share/man/man7
-	mkdir -p ${DESTDIR}/usr/share/man/man5
+	mkdir -p ${DESTDIR}${MANPREFIX}/man8
+	mkdir -p ${DESTDIR}${MANPREFIX}/man7
+	mkdir -p ${DESTDIR}${MANPREFIX}/man5
 	mkdir -p ${DESTDIR}/usr/share/mkinitramfs
 	cp -f ${BIN8} ${DESTDIR}/usr/sbin/
-	cp -f ${MAN5} ${DESTDIR}/usr/share/man/man5/
-	cp -f ${MAN7} ${DESTDIR}/usr/share/man/man7/
-	cp -f ${MAN8} ${DESTDIR}/usr/share/man/man8/
+	cp -f ${MAN5} ${DESTDIR}${MANPREFIX}/man5/
+	cp -f ${MAN7} ${DESTDIR}${MANPREFIX}/man7/
+	cp -f ${MAN8} ${DESTDIR}${MANPREFIX}/man8/
 	cp -R ${DATA} ${DESTDIR}/usr/share/mkinitramfs/
 	cd ${DESTDIR}/usr/sbin              && chmod 0755 ${BIN8}
-	cd ${DESTDIR}/usr/share/man/man5    && chmod 0644 ${MAN5}
-	cd ${DESTDIR}/usr/share/man/man7    && chmod 0644 ${MAN7}
-	cd ${DESTDIR}/usr/share/man/man8    && chmod 0644 ${MAN8}
+	cd ${DESTDIR}${MANPREFIX}/man5    && chmod 0644 ${MAN5}
+	cd ${DESTDIR}${MANPREFIX}/man7    && chmod 0644 ${MAN7}
+	cd ${DESTDIR}${MANPREFIX}/man8    && chmod 0644 ${MAN8}
 	cd ${DESTDIR}/usr/share/mkinitramfs && chmod 0755 device-helper init
 
 install-bashcomp:
@@ -40,9 +40,9 @@ install-bashcomp:
 
 uninstall:
 	cd ${DESTDIR}/usr/sbin           && rm -f ${BIN8}
-	cd ${DESTDIR}/usr/share/man/man5 && rm -f ${MAN5}
-	cd ${DESTDIR}/usr/share/man/man7 && rm -f ${MAN7}
-	cd ${DESTDIR}/usr/share/man/man8 && rm -f ${MAN8}
+	cd ${DESTDIR}${MANPREFIX}/man5 && rm -f ${MAN5}
+	cd ${DESTDIR}${MANPREFIX}/man7 && rm -f ${MAN7}
+	cd ${DESTDIR}${MANPREFIX}/man8 && rm -f ${MAN8}
 	rm -rf ${DESTDIR}/usr/share/mkinitramfs/
 
 uninstall-bashcomp:
