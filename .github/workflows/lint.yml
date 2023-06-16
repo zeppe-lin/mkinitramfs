@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get install -y shellcheck
 
     - name: Check shell scripts for errors
-      run: grep -m1 -l '!/bin/sh' -R . --exclude-dir=.git | xargs -L10 shellcheck -s sh
+      run: grep -m1 -l '!/bin/sh' -R . --exclude-dir=.git --exclude-dir=.github | xargs -L10 shellcheck -s sh
 
     - name: Check PODs for errors
       run: podchecker *.pod
