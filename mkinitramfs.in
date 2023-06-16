@@ -335,6 +335,8 @@ copy_modules() {
       "${moddir}/${kernel}/kernel/drivers/usb/storage"  \
         -type f 2> /dev/null                            \
       | while read -r _module || [ "$_module" ]; do
+          # Intentional.
+          # shellcheck disable=2295
           copy_file "$_module" \
             "/lib/modules/${_module#$moddir}" 644 0
         done
@@ -348,11 +350,11 @@ copy_modules() {
   copy_file "${moddir}/${kernel}/modules.builtin" \
     "/lib/modules/${kernel}/modules.builtin" 644 0
 
-  # copy modprobe.d files
-  print "copying modprobe.d configs"
-  ls -1 /etc/modprobe.d/ | while read -r _conf; do
-    copy_file "/etc/modprobe.d/$_conf" "/etc/modprobe.d/$_conf" 0644
-  done
+  print "copying local /etc/modprobe.d config files"
+  find /etc/modprobe.d/ -type f -name "*.conf" |
+    while read -r _cfg; do
+      copy_file "$_cfg" "$_cfg" 0644
+    done
 
   depmod -b "$tmpdir" "$kernel"
 }
