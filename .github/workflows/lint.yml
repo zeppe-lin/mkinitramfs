@@ -13,13 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # TODO
-    #
-    #- name: Install shellcheck
-    #  run: sudo apt-get install -y shellcheck
-    #
-    #- name: Check shell scripts for errors
-    #  run: shellcheck -s sh mkinitramfs.in init device-helper
+    - name: Install shellcheck
+      run: sudo apt-get install -y shellcheck
+
+    - name: Check shell scripts for errors
+      run: grep -m1 -l '!/bin/sh' -R . --exclude-dir=.git | xargs -L10 shellcheck -s sh
 
     - name: Check PODs for errors
       run: podchecker *.pod
