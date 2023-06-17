@@ -1,9 +1,9 @@
 # project metadata
-NAME = mkinitramfs
-VERSION = 0.3
-DIST = ${NAME}-${VERSION}
+NAME        = mkinitramfs
+VERSION     = 0.3.1
+DIST        = ${NAME}-${VERSION}
 
 # paths
-PREFIX = /usr
-MANPREFIX = ${PREFIX}/share/man
+PREFIX      = /usr
+MANPREFIX   = ${PREFIX}/share/man
 BASHCOMPDIR = ${PREFIX}/share/bash-completion/completions
