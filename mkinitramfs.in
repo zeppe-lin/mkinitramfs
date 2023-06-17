@@ -350,6 +350,9 @@ copy_modules() {
   copy_file "${moddir}/${kernel}/modules.builtin" \
     "/lib/modules/${kernel}/modules.builtin" 644 0
 
+  copy_file "${moddir}/${kernel}/modules.builtin.modinfo" \
+    "/lib/modules/${kernel}/modules.builtin.modinfo" 644 0
+
   print "copying local /etc/modprobe.d config files"
   find /etc/modprobe.d/ -type f -name "*.conf" |
     while read -r _cfg; do
