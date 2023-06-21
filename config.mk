@@ -1,6 +1,7 @@
 # project metadata
 NAME        = mkinitramfs
 VERSION     = 0.3.1
+DESCRIPTION = Initramfs Generator
 DIST        = ${NAME}-${VERSION}
 
 # paths
