@@ -5,8 +5,8 @@ boot image (initramfs).
 
 This distribution is a fork of illiliti's tinyramfs as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
-- the man pages have been completely rewritten
-- added smdev hook
+- the man pages have been completely rewritten in POD format
+- added experimental smdev hook
 - luks hook have been modified to ask the password if header/key-file
   is not defined
 - added resume hook (to resume machines from hibernation)
