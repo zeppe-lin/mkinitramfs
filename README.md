@@ -33,6 +33,19 @@ The following advantages can be distinguished:
 
 REQUIREMENTS
 ------------
+**Kernel**:
+You need a kernel built with:
+```
+  General setup
+    [*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
+        CONFIG_BLK_DEV_INITRD=y
+
+  Device Drivers
+    Generic Driver Options
+      [*] Maintain a devtmpfs filesystem to mount at /dev
+          CONFIG_DEVTMPFS=y
+```
+
 **Build time**:
 - POSIX sh(1p), make(1p) and "mandatory utilities"
 - pod2man(1pm) to build man pages
