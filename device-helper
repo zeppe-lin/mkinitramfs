@@ -3,14 +3,15 @@
 
 # Create /dev/disk/by-* and /dev/mapper/* symlinks.
 create_symlink() {
-  typ="$1"; sym="$2"
+  _typ="$1"
+  _sym="$2"
 
-  sym="${sym%\"}"
-  sym="${sym#\"}"
-  sym="/dev/disk/by-${typ}/${sym}"
+  _sym="${_sym%\"}"
+  _sym="${_sym#\"}"
+  _sym="/dev/disk/by-${_typ}/${_sym}"
 
-  mkdir -p "${sym%/*}"
-  ln    -s "../../${dev_name}" "$sym"
+  mkdir -p "${_sym%/*}"
+  ln    -s "../../${dev_name}" "${_sym}"
 }
 
 # DEVPATH is part of uevent which is exported to environment by device
