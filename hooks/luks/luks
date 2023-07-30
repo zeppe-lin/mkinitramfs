@@ -31,10 +31,11 @@
   done
 
 # https://bugs.archlinux.org/task/56771
-[ -e /lib/libgcc_s.so.1 ] && \
+if [ -e /lib/libgcc_s.so.1 ]; then
   copy_file /lib/libgcc_s.so.1 /lib/libgcc_s.so.1 755 1
-[ -e /usr/lib/libgcc_s.so.1 ] && \
+elif [ -e /usr/lib/libgcc_s.so.1 ]; then
   copy_file /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 755 1
+fi
 
 copy_binary cryptsetup
 
