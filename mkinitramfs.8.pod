@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-mkinitramfs - initramfs generator
+mkinitramfs - create an initial ramdisk environment
 
 =head1 SYNOPSIS
 
