@@ -5,30 +5,31 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-[ "$luks_key" ] && {
+if [ "$luks_key" ]; then
   copy_file "${luks_key#*=}" /root/key 400 0
 
   sed "s|${luks_key#*=}|/root/key|" \
     "${tmpdir}/etc/mkinitramfs/config" > "${tmpdir}/_"
 
   mv "${tmpdir}/_" "${tmpdir}/etc/mkinitramfs/config"
-}
+fi
 
-[ "$luks_header" ] && {
+if [ "$luks_header" ]; then
   copy_file "${luks_header#*=}" /root/header 400 0
 
   sed "s|${luks_header#*=}|/root/header|" \
     "${tmpdir}/etc/mkinitramfs/config" > "${tmpdir}/_"
 
   mv "${tmpdir}/_" "${tmpdir}/etc/mkinitramfs/config"
-}
+fi
 
-[ "$hostonly" = 1 ] &&
+if [ "$hostonly" = 1 ]; then
   for _module in \
     aes ecb xts lrw wp512 sha256 sha512 twofish serpent dm-crypt
   do
     copy_module "$_module"
   done
+fi
 
 # https://bugs.archlinux.org/task/56771
 if [ -e /lib/libgcc_s.so.1 ]; then
