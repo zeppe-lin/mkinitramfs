@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-mkinitramfs - tiny initramfs generator written in POSIX shell
+mkinitramfs - initramfs generator
 
 =head1 SYNOPSIS
 
