@@ -16,7 +16,7 @@ panic() {
 }
 
 resolve_device() {
-  count=0; device="$1"
+  device="$1" count="${rootdelay:-30}"
 
   case "${device%%=*}" in
       UUID)  device="/dev/disk/by-uuid/${device#*=}"      ;;
@@ -32,7 +32,7 @@ resolve_device() {
   while : ; do
     if [ -b "$device" ]; then
       return 0
-    elif [ "$((count += 1))" = "${rootdelay:=30}" ]; then
+    elif [ "$((count -= 1))" = 0 ]; then
       break
     else
       sleep 1
