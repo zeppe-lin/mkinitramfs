@@ -90,6 +90,18 @@ L<mkinitramfs.hooks(7)> how to do it.
 L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>,
 L<mkinitramfs.hooks(7)>
 
+=over
+
+=item Kernel subsystem documentation:
+
+L<Filesystems in the Linux kernel: Ramfs, rootfs and initramfs|https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html>.
+
+=item Linux kernel user's and administrator's guide:
+
+L<Using the initial RAM disk (initrd)|https://docs.kernel.org/admin-guide/initrd.html>.
+
+=back
+
 =cut
 
 # vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
