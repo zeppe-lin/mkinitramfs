@@ -124,13 +124,12 @@ boot_system() {
     || panic "failed to boot system"
 }
 
-# Exit if command fails and disable globbing.
+# -e: Exit if command return status greater than 0.
+# -f: Disable globbing *?[].
 set -ef
 
 # Run emergency shell if init unexpectedly exiting due to error.
 trap panic EXIT
-
-# TODO display fancy colored status info?
 
 prepare_environment
 parse_cmdline
