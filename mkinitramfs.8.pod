@@ -30,20 +30,20 @@ Specify output location where initramfs image will be stored.
 
 Specify config location.
 
-Default is F</etc/mkinitramfs/config>.
+Default: F</etc/mkinitramfs/config>.
 
 =item B<-k>, B<--kernel>=I<VERSION>
 
 Specify kernel version.  Useful for bootstrapping future system with
 modular kernel.
 
-Default is current kernel version.
+Default: C<uname -r>.
 
 =item B<-m>, B<--modules>=I<PATH>
 
 Specify directory where modules stored.
 
-Default is F</lib/modules>.
+Default: F</lib/modules>.
 
 This option has no effect if B<monolith> or B<hostonly> were enabled
 in config.
@@ -52,20 +52,19 @@ in config.
 
 Specify additional hooks location.
 
-Default is F</usr/share/mkinitramfs/hooks> and
-F</etc/mkinitramfs/hooks>.
+Default: F</usr/share/mkinitramfs/hooks>, F</etc/mkinitramfs/hooks>.
 
 =item B<-D>, B<--helper>=I<FILE>
 
 Specify location to device helper.
 
-Default is F</usr/share/mkinitramfs/device-helper>.
+Default: F</usr/share/mkinitramfs/device-helper>.
 
 =item B<-I>, B<--init>=I<FILE>
 
 Specify location to init script.
 
-Default is F</usr/share/mkinitramfs/init>.
+Default: F</usr/share/mkinitramfs/init>.
 
 =item B<-d>, B<--debug>
 
