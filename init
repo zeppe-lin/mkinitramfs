@@ -100,7 +100,7 @@ mount_root() {
   mount \
     -o "${rorw:-ro}${root_opts:+,$root_opts}"  \
     ${root_type:+-t $root_type} \
-    -- "$device" /mnt/root || panic "failed to mount root"
+    -- "$device" /mnt/root || panic "failed to mount rootfs: $device"
 }
 
 boot_system() {
