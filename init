@@ -29,7 +29,7 @@ resolve_device() {
   # Race condition may occur if device manager is not yet initialized
   # device.  To fix this, we simply waiting until device is available.
   # If device didn't appear in specified time, we panic.
-  while :; do
+  while : ; do
     if [ -b "$device" ]; then
       return 0
     elif [ "$((count += 1))" = "${rootdelay:=30}" ]; then
@@ -39,7 +39,7 @@ resolve_device() {
     fi
   done
 
-  panic "failed to lookup partition"
+  panic "failed to lookup partition: $device"
 }
 
 run_hook() {
