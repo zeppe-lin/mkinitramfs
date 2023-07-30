@@ -12,8 +12,13 @@ B<mkinitramfs> [I<OPTION>]...
 
 =head1 DESCRIPTION
 
-B<mkinitramfs> is a simple, extensible and modular initramfs generator
-tool written with focus on portability.
+B<mkinitramfs> creates an initial ramdisk environment for booting the
+Linux kernel.  The initial ramdisk is in essence a very small
+environment (early userspace) which loads various kernel modules and
+sets up necessary things before handing over control to init.  This
+makes it possible to have, for example, encrypted root file systems
+and root file systems on a software RAID array.  B<mkinitramfs> can be
+extended with custom hooks.
 
 =head1 OPTIONS
 
