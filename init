@@ -106,8 +106,8 @@ mount_root() {
 boot_system() {
   [ "$break" = boot ] && { print "break before boot_system()"; sh; }
 
-  for dir in run dev sys proc; do
-    mount -o move "$dir" "/mnt/root/${dir}"
+  for _dir in run dev sys proc; do
+    mount -o move "/${_dir}" "/mnt/root/${_dir}" || :
   done
 
   # POSIX 'exec' has no '-c' flag to execute command with empty
@@ -115,9 +115,10 @@ boot_system() {
   # variables.
   #
   # Some implementations of 'switch_root' doesn't conform to POSIX
-  # utility guidelines and doesn't support '--'.  This means that we
-  # can't guarantee safety of init_args.
+  # utility guidelines and doesn't support '--'.  This means that
+  # safety of init_args isn't guaranteed.
   #
+  # https://shellcheck.net/wiki/SC2086
   # shellcheck disable=2086
   exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
     switch_root /mnt/root "${init-/sbin/init}" $init_args \
