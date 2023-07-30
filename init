@@ -16,7 +16,7 @@ panic() {
 }
 
 resolve_device() {
-  device="$1" count="${rootdelay:-30}"
+  device="$1" _count="${rootdelay:-30}"
 
   case "${device%%=*}" in
       UUID)  device="/dev/disk/by-uuid/${device#*=}"      ;;
@@ -32,7 +32,7 @@ resolve_device() {
   while : ; do
     if [ -b "$device" ]; then
       return 0
-    elif [ "$((count -= 1))" = 0 ]; then
+    elif [ "$((_count -= 1))" = 0 ]; then
       break
     else
       sleep 1
@@ -43,17 +43,17 @@ resolve_device() {
 }
 
 run_hook() {
-  type="$1"
+  _type="$1"
 
   # Run hooks if any exist.
   #
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  for hook in $hooks; do
-    [ -f "/usr/share/mkinitramfs/hooks/${hook}/${hook}.${type}" ] \
-      || continue
+  for _hook in ${hooks}; do
+    [ -f "/usr/share/mkinitramfs/hooks/${_hook}/${_hook}.${_type}" ] ||
+      continue
 
-    . "/usr/share/mkinitramfs/hooks/${hook}/${hook}.${type}"
+    . "/usr/share/mkinitramfs/hooks/${_hook}/${_hook}.${_type}"
   done
 }
 
