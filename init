@@ -49,11 +49,11 @@ run_hook() {
   #
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  for _hook in ${hooks}; do
-    [ -f "/usr/share/mkinitramfs/hooks/${_hook}/${_hook}.${_type}" ] ||
+  for _hook in $hooks; do
+    [ -f "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_type" ] ||
       continue
 
-    . "/usr/share/mkinitramfs/hooks/${_hook}/${_hook}.${_type}"
+    . "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_type"
   done
 }
 
@@ -107,7 +107,7 @@ boot_system() {
   [ "$break" = boot ] && { print "break before boot_system()"; sh; }
 
   for _dir in run dev sys proc; do
-    mount -o move "/${_dir}" "/mnt/root/${_dir}" || :
+    mount -o move "/$_dir" "/mnt/root/$_dir" || :
   done
 
   # POSIX 'exec' has no '-c' flag to execute command with empty
