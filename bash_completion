@@ -6,14 +6,14 @@ _mkinitramfs()
   _init_completion -s || return
 
   case $prev in
-  --help | --version | -!(-*)[hv])
+  --help|--version|-!(-*)[hv])
     return
     ;;
-  --init | --helper | --hooks | --modules | --config | --output | -!(-*)[IDHmco])
+  --init|--helper|--hooks|--modules|--config|--output|-!(-*)[IDHmco])
     _filedir
     return
     ;;
-  --kernel | -k)
+  --kernel|-k)
     COMPREPLY=($(compgen -W "$(ls -1 /lib/modules/)" -- $cur))
     return
     ;;
