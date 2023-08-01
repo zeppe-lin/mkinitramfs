@@ -152,15 +152,15 @@ prepare_initramfs() {
   ln -s ../run/lock  "${tmpdir}/var/lock"
   ln -s bin          "${tmpdir}/usr/sbin"
 
-  for _binary in \
+  for _bin in \
     \[ sh ln env mkdir sleep mount printf switch_root "$helper"
   do
-    copy_binary "$_binary"
+    copy_binary "$_bin"
   done
 
-  command -v blkid > /dev/null && copy_binary blkid
+  command -v blkid >/dev/null && copy_binary blkid
 
-  copy_file "$init"   /init                 755 0
+  copy_file "$init"   /init                   755 0
   copy_file "$config" /etc/mkinitramfs/config 644 0
 }
 
@@ -171,7 +171,7 @@ copy_file() (
 
   mkdir -p "${tmpdir}/${dest%/*}" || panic
 
-  # Iterate throught symlinks and copy them.
+  # Iterate through symlinks and copy them.
   while [ -h "$file" ]; do
     cp -P "$file" "${tmpdir}/${dest%/*}/${file##*/}"
     cd -P "${file%/*}"
@@ -182,7 +182,7 @@ copy_file() (
     # TODO handle ../../..
     case "$symlink" in
     /*) file="$symlink"              ;;
-    *)  file="${PWD}/${symlink##*/}" ;;
+     *) file="${PWD}/${symlink##*/}" ;;
     esac
   done
 
@@ -196,7 +196,7 @@ copy_file() (
 
   # https://www.shellcheck.net/wiki/SC2015
   # shellcheck disable=2015
-  [ "$strip" = 1 ] && strip "${tmpdir}/${dest}" > /dev/null 2>&1 || :
+  [ "$strip" = 1 ] && strip "${tmpdir}/${dest}" >/dev/null 2>&1 || :
 )
 
 copy_binary() {
@@ -232,18 +232,14 @@ copy_binary() {
   copy_file "$binary" "/bin/${binary##*/}" 755 1
 
   # Skip copying binary dependencies if ldd not available.
-  command -v ldd > /dev/null || return 0
+  command -v ldd >/dev/null || return 0
 
   # Copy binary dependencies if any exist.
-  ldd "$binary" 2> /dev/null | while read -r _library \
-    || [ "$_library" ];
-  do
-    _library="${_library#* => }"
-    _library="${_library% *}"
+  ldd "$binary" 2>/dev/null | while read -r _lib || [ "$_lib" ]; do
+    _lib="${_lib#* => }"
+    _lib="${_lib% *}"
 
-    [ -e "$_library" ] || continue
-
-    copy_file "$_library" "/lib/${_library##*/}" 755 1
+    [ -e "$_lib" ] && copy_file "$_lib" "/lib/${_lib##*/}" 755 1
   done
 }
 
@@ -251,7 +247,7 @@ copy_module() {
   # $1: modulename
   modprobe -S "$kernel" -D "$1" 2>/dev/null |
     while read -r _typ _mod _param || [ "$_mod" ]; do
-      #[ "$_typ" = "builtin" ] && continue
+      #[ "$_typ" != "builtin" ] && copy_file "$_mod" "$_mod" 0644 0
       case $_mod in /*) copy_file "$_mod" "$_mod" 0644 0; esac
     done
 }
@@ -260,7 +256,7 @@ copy_hook() {
   hook="$1"
 
   for hook_dir in "$hksdir" \
-    /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks;
+    /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks
   do
       [ -f "${hook_dir}/${hook}/${hook}" ] && break
   done || panic "could not find $hook hook"
@@ -291,28 +287,27 @@ copy_modules() {
 
     # Perform autodetection of modules via /sys
     # https://wiki.archlinux.org/index.php/Modalias
-    find /sys/devices -name modalias -exec sort -u {} + \
-      | while read -r _module || [ "$_module" ]; do
+    find /sys/devices -name modalias -exec sort -u {} + |
+      while read -r _mod || [ "$_mod" ]; do
+        # Skip unneeded modules and skip modules which depends on
+        # them as well.
+        case $(modprobe -S "$kernel" -D "$_mod") in
+        *wmi*|*gpu*|*net*) continue ;;
+        esac 2>/dev/null
 
-          # Skip unneeded modules and skip modules which depends on
-          # them as well.
-          case $(modprobe -S "$kernel" -D "$_module") in
-            *wmi* | *gpu* | *net*) continue ;;
-          esac 2> /dev/null
-
-          copy_module "$_module"
-        done
+        copy_module "$_mod"
+      done
 
     if [ "$root_type" ]; then
       copy_module "$root_type"
     else
       while read -r _ _dir _type _; do
         [ "$_dir" = / ] && break
-      done < /proc/mounts \
-        || panic "failed to autodetect root fs module"
+      done < /proc/mounts || panic "failed to autodetect root fs module"
 
       copy_module "$_type"
     fi
+
   else
     print "copying all modules"
 
@@ -328,12 +323,11 @@ copy_modules() {
       "${moddir}/${kernel}/kernel/drivers/virtio"       \
       "${moddir}/${kernel}/kernel/drivers/usb/host"     \
       "${moddir}/${kernel}/kernel/drivers/usb/storage"  \
-        -type f 2> /dev/null                            \
-      | while read -r _module || [ "$_module" ]; do
+      -type f 2>/dev/null |
+        while read -r _mod || [ "$_mod" ]; do
           # Intentional.
           # shellcheck disable=2295
-          copy_file "$_module" \
-            "/lib/modules/${_module#$moddir}" 644 0
+          copy_file "$_mod" "/lib/modules/${_mod#$moddir}" 644 0
         done
   fi
 
@@ -363,10 +357,9 @@ make_initramfs() (
   [ "$force" != 1 ] && [ -e "$output" ] &&
     panic "initramfs image already exist"
 
-  cd "$tmpdir"; find .             \
-    | cpio -oH newc 2> /dev/null   \
-    | ${compress:-cat} > "$output" \
-    || panic "failed to generate initramfs image"
+  cd "$tmpdir"
+  find . | cpio -oH newc 2>/dev/null | ${compress:-cat} >"$output" ||
+    panic "failed to generate initramfs image"
 
   print "done! check out $output" "\033[1;32m>>\033[m"
 )
