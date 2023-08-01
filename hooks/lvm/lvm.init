@@ -20,11 +20,11 @@ set -- \
     -aay "${lvm_discard:+--config=devices\{issue_discards=1\}}"
 
 if [ "$lvm_group" ] && [ "$lvm_name" ]; then
-  lvm lvchange $@ "${lvm_group}/${lvm_name}"
+  lvm lvchange $@ "$lvm_group/$lvm_name"
 elif [ "$lvm_group" ]; then
   lvm vgchange $@ "$lvm_group"
 elif [ "$lvm_tag" ]; then
-  lvm lvchange $@ "@${lvm_tag}"
+  lvm lvchange $@ "@$lvm_tag"
 else
   lvm vgchange $@
 fi || panic "failed to trigger LVM"
