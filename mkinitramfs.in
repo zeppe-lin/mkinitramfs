@@ -18,20 +18,20 @@ panic() {
 usage() {
   cat << EOF
 Usage: ${0##*/} [OPTION]...
-Tiny initramfs written in POSIX shell.
+Create an initial ramdisk environment.
 
 Mandatory arguments to long options are mandatory for short options too.
-  -o, --output=FILE     set path to initramfs image
-  -c, --config=FILE     set path to config
-  -k, --kernel=VERSION  set kernel version
-  -m, --modules=PATH    set path to modules
-  -H, --hooks=PATH      set directory to hooks
-  -D, --helper=FILE     set path to device helper
-  -I, --init=FILE       set path to init script
-  -d, --debug           enable debug mode
-  -f, --force           overwrite initramfs image
-  -v, --version         print version and exit
-  -h, --help            print help and exit
+  -o, --output=FILE      set path to initramfs image
+  -c, --config=FILE      set path to config
+  -k, --kernel=VERSION   set kernel version
+  -m, --modules=PATH     set path to modules
+  -H, --hooks=PATH       set directory to hooks
+  -D, --helper=FILE      set path to device helper
+  -I, --init=FILE        set path to init script
+  -d, --debug            enable debug mode
+  -f, --force            overwrite initramfs image
+  -v, --version          print version and exit
+  -h, --help             print help and exit
 EOF
 }
 
