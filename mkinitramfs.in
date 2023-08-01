@@ -244,36 +244,36 @@ copy_binary() {
 }
 
 copy_module() {
-  # $1: modulename
+  # arg $1: module name
   modprobe -S "$kernel" -D "$1" 2>/dev/null |
     while read -r _typ _mod _param || [ "$_mod" ]; do
-      #[ "$_typ" != "builtin" ] && copy_file "$_mod" "$_mod" 0644 0
+      #[ "$_typ" = "builtin" ] || copy_file "$_mod" "$_mod" 0644 0
       case $_mod in /*) copy_file "$_mod" "$_mod" 0644 0; esac
     done
 }
 
 copy_hook() {
-  hook="$1"
+  # arg $1: hook
 
-  for hook_dir in "$hksdir" \
+  for _hookdir in "$hksdir" \
     /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks
   do
-      [ -f "${hook_dir}/${hook}/${hook}" ] && break
-  done || panic "could not find $hook hook"
+      [ -f "$_hookdir/$1/$1" ] && break
+  done || panic "could not find $1 hook"
 
-  print "running $hook hook"
+  print "running $1 hook"
 
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  . "${hook_dir}/${hook}/${hook}"
+  . "$_hookdir/$1/$1"
 
-  for _type in init init.late; do
-    [ -f "${hook_dir}/${hook}/${hook}.${_type}" ] || continue
+  for _hooktyp in init init.late; do
+    [ -f "$_hookdir/$1/$1.$_hooktyp" ] || continue
 
-    print "copying ${hook}.${_type}"
+    print "copying $1.$_hooktyp"
 
-    copy_file "${hook_dir}/${hook}/${hook}.${_type}" \
-      "/usr/share/mkinitramfs/hooks/${hook}/${hook}.${_type}" 644 0
+    copy_file "$_hookdir/$1/$1.$_hooktyp" \
+      "/usr/share/mkinitramfs/hooks/$1/$1.$_hooktyp" 644 0
   done
 }
 
