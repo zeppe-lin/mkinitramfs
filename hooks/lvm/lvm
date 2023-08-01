@@ -26,12 +26,12 @@ lvm_config="
     use_lvmetad = 0
   }"
 
-mkdir -p "${tmpdir}/etc/lvm"
+mkdir -p "$tmpdir/etc/lvm"
 
 lvm config \
   --config "$lvm_config" \
   ${lvm_config:+--mergedconfig} \
-  > "${tmpdir}/etc/lvm/lvm.conf"
+  > "$tmpdir/etc/lvm/lvm.conf"
 
 # vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.
