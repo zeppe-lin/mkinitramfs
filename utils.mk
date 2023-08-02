@@ -1,5 +1,7 @@
+all: deadlinks podchecker shellcheck longlines
+
 deadlinks:
-	@echo "=======> deadlinks"
+	@echo "=======> Check for dead links"
 	@grep -EIihor "https?://[^\"\\'> ]+" --exclude-dir=.git*  \
 		| xargs -P10 -r -I{} curl -I -o/dev/null          \
 		  -sw "[%{http_code}] %{url}\n" '{}'              \
@@ -7,16 +9,16 @@ deadlinks:
 		| sort -u
 
 podchecker:
-	@echo "=======> podchecker"
-	@podchecker *.pod
+	@echo "=======> Check PODs for syntax errors"
+	@podchecker *.pod >/dev/null
 
 shellcheck:
-	@echo "=======> shellcheck"
+	@echo "=======> Check shell scripts for syntax errors"
 	@grep -m1 -Irl '^#\s*!/bin/sh' --exclude-dir=.git* \
 		| xargs -L10 -r shellcheck -s sh
 
 longlines:
-	@echo "=======> longlines"
+	@echo "=======> Check for long lines"
 	@grep -PIrn '^.{81,}$$' --exclude-dir=.git* || :
 
 .PHONY: deadlinks podchecker shellcheck longlines
