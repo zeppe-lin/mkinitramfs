@@ -34,6 +34,7 @@ The following advantages can be distinguished:
 REQUIREMENTS
 ------------
 **Kernel**:
+
 You need a kernel built with:
 ```
   General setup
