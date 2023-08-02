@@ -21,4 +21,4 @@ longlines:
 	@echo "=======> Check for long lines"
 	@grep -PIrn '^.{81,}$$' --exclude-dir=.git* || :
 
-.PHONY: deadlinks podchecker shellcheck longlines
+.PHONY: all deadlinks podchecker shellcheck longlines
