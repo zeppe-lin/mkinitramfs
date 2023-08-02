@@ -76,7 +76,7 @@ type.
 
 Specify maximum number of seconds to wait for root device.
 
-Default is 30.
+Default: 30.
 
 =item B<root_opts>=I<OPTS>
 
