@@ -1,0 +1,14 @@
+# build files and artefacts
+*.8
+*.7
+*.5
+mkinitramfs
+
+# vim undo files
+.*.un~
+
+# backup files
+*.bak
+
+# dist tarballs
+*.tar.gz
