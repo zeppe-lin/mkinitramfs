@@ -17,9 +17,9 @@ jobs:
       run: sudo apt-get install -y shellcheck
 
     - name: Check shell scripts for errors
-      run: make -f utils.mk shellcheck
+      run: make -f Makefile.lint shellcheck
 
     - name: Check PODs for errors
-      run: make -f utils.mk podchecker
+      run: make -f Makefile.lint podchecker
 
 # End of file.
