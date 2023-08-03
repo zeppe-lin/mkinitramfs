@@ -1,4 +1,4 @@
-# mkinitramfs(8) completion
+# bash completion for mkinitramfs(8)
 
 _mkinitramfs()
 {
