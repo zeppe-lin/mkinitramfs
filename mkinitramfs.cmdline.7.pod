@@ -28,9 +28,9 @@ List of builtin breakpoints:
 
 =over
 
-=item * boot
+=item - boot
 
-=item * root
+=item - root
 
 =back
 
