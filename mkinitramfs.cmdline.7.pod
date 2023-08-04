@@ -41,7 +41,7 @@ more information.
 
 Specify which way initramfs will use to look up root filesystem.
 
-=over 8
+=over 10
 
 =item I<UUID>
 
