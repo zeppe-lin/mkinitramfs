@@ -15,9 +15,9 @@ panic() {
   exit 1
 } >&2
 
-usage() {
+print_help() {
   cat << EOF
-Usage: ${0##*/} [OPTION]...
+Usage: mkinitramfs [OPTION]...
 Create an initial ramdisk environment.
 
 Mandatory arguments to long options are mandatory for short options too.
@@ -35,79 +35,34 @@ Mandatory arguments to long options are mandatory for short options too.
 EOF
 }
 
+print_version() {
+  echo "mkinitramfs @VERSION@"
+}
+
 parse_options() {
-  while [ "$1" ]; do case "$1" in
+  local _SOPTS="o:c:k:m:H:D:I:dfvh"
+  local _LOPTS="output:,config:,kernel:,modules:,hooks:,helper:,init:,debug,force,version,help"
 
-    -o|--output)
-      output="${2:?}"; shift 2
-      ;;
-    -o*|--output=*)
-      output="$(echo "$1" | sed 's/^-\(-output=\|o\)//')"; shift 1
-      ;;
+  eval set -- "$(getopt -n "mkinitramfs" -a -o "$_SOPTS" -l "$_LOPTS" -- "$@")"
 
-    -c|--config)
-      config="${2:?}"; shift 2
-      ;;
-    -c*|--config=*)
-      config="$(echo "$1" | sed 's/^-\(-config=\|c\)//')"; shift 1
-      ;;
-
-    -k|--kernel)
-      kernel="${2:?}"; shift 2
-      ;;
-    -k*|--kernel=*)
-      kernel="$(echo "$1" | sed 's/^-\(-kernel=\|k\)//')"; shift 1
-      ;;
-
-    -m|--modules)
-      moddir="${2:?}"; shift 2
-      ;;
-    -m*|--modules=*)
-      moddir="$(echo "$1" | sed 's/^-\(-modules=\|m\)//')"; shift 1
-      ;;
-
-    -H|--hooks)
-      hksdir="${2:?}"; shift 2
-      ;;
-    -H*|--hooks=*)
-      hksdir="$(echo "$1" | sed 's/^-\(-hooks=\|H\)//')"; shift 1
-      ;;
-
-    -D|--helper)
-      helper="${2:?}"; shift 2
-      ;;
-    -D*|--helper=*)
-      helper="$(echo "$1" | sed 's/^-\(-helper=\|D\)//')"; shift 1
-      ;;
-
-    -I|--init)
-      init="${2:?}"; shift 2
-      ;;
-    -I*|--init=*)
-      init="$(echo "$1" | sed 's/^-\(-init=\|I\)//')"; shift 1
-      ;;
-
-    -d|--debug)
-      debug=1; shift 1
-      ;;
-    -f|--force)
-      force=1; shift 1
-      ;;
-
-    -h|--help)
-      usage; exit 0
-      ;;
-    -v|--version)
-      echo "${0##*/} @VERSION@" ; exit 0
-      ;;
-
-    *)
-      printf "invalid option: %s\n" "$1"
-
-      usage; exit 1
-      ;;
-
-  esac; done
+  while true; do
+    case $1 in
+    -o| --output)  output="$2"   ; shift  ;;
+    -c| --config)  config="$2"   ; shift  ;;
+    -k| --kernel)  kernel="$2"   ; shift  ;;
+    -m|--modules)  moddir="$2"   ; shift  ;;
+    -H|  --hooks)  hksdir="$2"   ; shift  ;;
+    -D| --helper)  helper="$2"   ; shift  ;;
+    -I|   --init)  init="$2"     ; shift  ;;
+    -d|  --debug)  debug="$1"             ;;
+    -f|  --force)  force="$1"             ;;
+    -v|--version)  print_version ; exit 0 ;;
+    -h|   --help)  print_help    ; exit 0 ;;
+              --)  shift         ; break  ;;
+               *)  panic "internal error" ;;
+    esac
+    shift
+  done
 
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
