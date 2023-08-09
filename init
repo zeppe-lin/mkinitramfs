@@ -14,12 +14,14 @@ export PATH=/bin TERM=linux SHELL=/bin/sh LANG=C LC_ALL=C PS1="# " \
 
 # Print info message to stdout.
 #  arg $1: message
+#
 info() {
   echo "=======> $1"
 }
 
 # Print error message to stderr and terminate the program.
 #  arg $1: message
+#
 error() {
   echo "=======> ERROR: $1" >&2
   exit 1
@@ -27,6 +29,7 @@ error() {
 
 # Print error message to stderr and fallback to the sh(1).
 #  arg $1: message
+#
 panic() {
   echo "=======> ERROR: ${1:-Unexpected error occurred}" >&2
 
@@ -36,8 +39,10 @@ panic() {
 # Set ``device'' variable to full path of resolved
 # UUID, PARTUUID, LABEL, or /dev/*.
 #  arg $1: device
+#
 resolve_device() {
-  device="$1" _count="${rootdelay:-30}"
+  device="$1"
+  local _COUNT="${2:-30}"
 
   case "${device%%=*}" in
       UUID)  device="/dev/disk/by-uuid/${device#*=}"      ;;
@@ -53,7 +58,7 @@ resolve_device() {
   while : ; do
     if [ -b "$device" ]; then
       return 0
-    elif [ "$((_count -= 1))" = 0 ]; then
+    elif [ "$((_COUNT -= 1))" = 0 ]; then
       break
     else
       sleep 1
@@ -63,27 +68,31 @@ resolve_device() {
   panic "Failed to lookup partition: $device"
 }
 
+# Run hooks (by type) if any exist.
+#  arg $1: hook type (init or init.late)
+#
 run_hook() {
-  _type="$1"
+  local _HOOK
+  local _HOOKTYPE="$1"
 
-  # Run hooks if any exist.
-  #
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  for _hook in $hooks; do
-    [ -f "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_type" ] ||
-      continue
-
-    . "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_type"
+  for _HOOK in $hooks; do
+    if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE" ]; then
+      . "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE"
+    fi
   done
 }
 
+# Mount base filesystems, like /proc, /sys, /run and /dev.
+#
 mount_basefs() {
   mount -t proc     -o nosuid,noexec,nodev     proc /proc
   mount -t sysfs    -o nosuid,noexec,nodev     sys  /sys
   mount -t tmpfs    -o nosuid,nodev,mode=0755  run  /run
   mount -t devtmpfs -o nosuid,noexec,mode=0755 dev  /dev
 
+  # HACK! Some scripts needs this.
   ln -s /proc/self/fd /dev/fd
   ln -s fd/0          /dev/stdin
   ln -s fd/1          /dev/stdout
@@ -91,6 +100,7 @@ mount_basefs() {
 }
 
 # Read kernel command-line arguments.
+#
 parse_cmdline() {
   local _CMDLINE
   local _PARAM
@@ -103,18 +113,21 @@ parse_cmdline() {
     rootfstype=*)  root_type="${_PARAM#*=}"            ;;
      rootflags=*)  root_opts="${_PARAM#*=}"            ;;
      rootdelay=*)  root_wait="${_PARAM#*=}"            ;;
+        rootwait)  root_wait=-1                        ;;
          debug=1)  set -x                              ;;
-         ro | rw)  rorw="$_PARAM"                      ;;
+           ro|rw)  rorw="$_PARAM"                      ;;
              --*)  init_args="${_PARAM##*-- }" ; break ;;
              *=*)  command export "$_PARAM"            ;;
                *)  command export "$_PARAM=1"          ;;
-  esac 2> /dev/null || : ; done
+  esac 2>/dev/null || : ; done
 }
 
+# Mount root filesystem.
+#
 mount_root() {
   [ "$break" = root ] && { info "break before mount_root()"; sh; }
 
-  resolve_device "$root"
+  resolve_device "$root" "${root_wait:-$rootdelay}"
 
   # https://www.shellcheck.net/wiki/SC2086
   # shellcheck disable=2086
@@ -124,11 +137,17 @@ mount_root() {
     -- "$device" /mnt/root || panic "Failed to mount rootfs: $device"
 }
 
+# Switch to mounted root filesystem as the root of the mount tree and
+# start init process.
+#
 boot_system() {
+  local _DIR
+
   [ "$break" = boot ] && { info "break before boot_system()"; sh; }
 
-  for _dir in run dev sys proc; do
-    mount -o move "/$_dir" "/mnt/root/$_dir" || :
+  # XXX seems like switch_root(8) already doing this
+  for _DIR in run dev sys proc; do
+    mount -o move "/$_DIR" "/mnt/root/$_DIR" || :
   done
 
   # POSIX 'exec' has no '-c' flag to execute command with empty
