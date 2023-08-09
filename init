@@ -75,7 +75,7 @@ run_hook() {
   done
 }
 
-prepare_environment() {
+mount_basefs() {
   export PATH=/bin TERM=linux SHELL=/bin/sh LANG=C LC_ALL=C PS1="# " \
     HOME=/root
 
@@ -90,6 +90,7 @@ prepare_environment() {
   ln -s fd/2          /dev/stderr
 }
 
+# Read kernel command-line arguments.
 parse_cmdline() {
   read -r cmdline < /proc/cmdline
 
@@ -150,7 +151,7 @@ trap panic EXIT
 # shellcheck disable=1091
 . /etc/mkinitramfs/config
 
-prepare_environment
+mount_basefs
 parse_cmdline
 run_hook init
 mount_root
