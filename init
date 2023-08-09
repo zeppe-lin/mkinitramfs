@@ -5,6 +5,9 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
+export PATH=/bin TERM=linux SHELL=/bin/sh LANG=C LC_ALL=C PS1="# " \
+       HOME=/root
+
 ######################################################################
 # Notification helpers.                                              #
 ######################################################################
@@ -76,9 +79,6 @@ run_hook() {
 }
 
 mount_basefs() {
-  export PATH=/bin TERM=linux SHELL=/bin/sh LANG=C LC_ALL=C PS1="# " \
-    HOME=/root
-
   mount -t proc     -o nosuid,noexec,nodev     proc /proc
   mount -t sysfs    -o nosuid,noexec,nodev     sys  /sys
   mount -t tmpfs    -o nosuid,nodev,mode=0755  run  /run
