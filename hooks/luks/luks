@@ -8,19 +8,15 @@
 if [ "$luks_key" ]; then
   copy_file "${luks_key#*=}" /root/key 400 0
 
-  sed "s|${luks_key#*=}|/root/key|" \
-    "$tmpdir/etc/mkinitramfs/config" > "$tmpdir/_"
-
-  mv "$tmpdir/_" "$tmpdir/etc/mkinitramfs/config"
+  sed -i "s|${luks_key#*=}|/root/key|" \
+    "$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
 fi
 
 if [ "$luks_header" ]; then
   copy_file "${luks_header#*=}" /root/header 400 0
 
-  sed "s|${luks_header#*=}|/root/header|" \
-    "$tmpdir/etc/mkinitramfs/config" > "$tmpdir/_"
-
-  mv "$tmpdir/_" "$tmpdir/etc/mkinitramfs/config"
+  sed -i "s|${luks_header#*=}|/root/header|" \
+    "$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
 fi
 
 if [ "$hostonly" = 1 ]; then

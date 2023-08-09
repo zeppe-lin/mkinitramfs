@@ -12,11 +12,11 @@ done
 
 printf "%s\n" \
   'SUBSYSTEM=block;.* 0:0 660 @device-helper' \
-  > "${tmpdir}/etc/mdev.conf"
+  > "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
 
 [ "$monolith" = 1 ] || printf "%s\n" \
   '$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"' \
-  >> "${tmpdir}/etc/mdev.conf"
+  >> "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
 
 # vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.

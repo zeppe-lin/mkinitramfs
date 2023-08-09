@@ -9,14 +9,14 @@ for _binary in /lib/systemd/systemd-udevd udevadm; do
   copy_binary "$_binary"
 done
 
-mkdir -p "${tmpdir}/lib/udev/rules.d"
+mkdir -p "$MKINITRAMFS_WORK_DIR/lib/udev/rules.d"
 
-cat >    "${tmpdir}/lib/udev/rules.d/device-helper.rules" <<EOF
+cat >    "$MKINITRAMFS_WORK_DIR/lib/udev/rules.d/device-helper.rules" <<EOF
 SUBSYSTEMS=="block", ACTION=="add", RUN+="/bin/device-helper"
 EOF
 
 if [ "$monolith" != 1 ]; then
-  cat >> "${tmpdir}/lib/udev/rules.d/device-helper.rules" <<EOF
+  cat >> "$MKINITRAMFS_WORK_DIR/lib/udev/rules.d/device-helper.rules" <<EOF
 ENV{MODALIAS}=="?*", ACTION=="add", RUN+="/bin/modprobe %E{MODALIAS}"
 EOF
 fi

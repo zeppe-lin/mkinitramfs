@@ -131,42 +131,42 @@ I<UUID>|I<LABEL>|I</dev/*>|I<PARTUUID>.
 
 =over 8
 
-=item B<BI: debug>
+=item B<BI: DEBUG>
 
-1 if debug mode enabled
+1 if debug mode enabled.
 
 =item B<I: break>
 
 Breakpoint for debugging.
 
-=item B<B: tmpdir>
+=item B<B: MKINITRAMFS_WORK_DIR>
 
 Full path of B<mkinitramfs> working directory (initramfs rootfs in
 future).
 
-=item B<B: kernel>
+=item B<B: KERNEL_VERSION>
 
 Kernel version.
 
-=item B<B: moddir>
+=item B<B: KERNEL_MOD_DIR>
 
-Modules directory.
+Kernel modules directory.
 
-=item B<B: init>
+=item B<B: MKINITRAMFS_INIT>
 
 Path to init script.
 
-=item B<B: helper>
+=item B<B: MKINITRAMFS_DEVHELPER>
 
 Path to device-helper script.
 
-=item B<B: config>
+=item B<B: MKINITRAMFS_CONF>
 
 Config location.
 
-=item B<B: output>
+=item B<B: MKINITRAMFS_IMAGE>
 
-Output path.
+Output path where initramfs image is stored.
 
 =item B<BI: ...>
 

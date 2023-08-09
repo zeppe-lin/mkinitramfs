@@ -47,88 +47,89 @@ parse_options() {
 
   while true; do
     case $1 in
-    -o| --output)  output="$2"   ; shift  ;;
-    -c| --config)  config="$2"   ; shift  ;;
-    -k| --kernel)  kernel="$2"   ; shift  ;;
-    -m|--modules)  moddir="$2"   ; shift  ;;
-    -H|  --hooks)  hksdir="$2"   ; shift  ;;
-    -D| --helper)  helper="$2"   ; shift  ;;
-    -I|   --init)  init="$2"     ; shift  ;;
-    -d|  --debug)  debug="$1"             ;;
-    -f|  --force)  force="$1"             ;;
-    -v|--version)  print_version ; exit 0 ;;
-    -h|   --help)  print_help    ; exit 0 ;;
-              --)  shift         ; break  ;;
-               *)  panic "internal error" ;;
+    -o| --output)  MKINITRAMFS_IMAGE="$2"     ; shift  ;;
+    -c| --config)  MKINITRAMFS_CONF="$2"      ; shift  ;;
+    -k| --kernel)  KERNEL_VERSION="$2"        ; shift  ;;
+    -m|--modules)  KERNEL_MOD_DIR="$2"        ; shift  ;;
+    -H|  --hooks)  MKINITRAMFS_HOOKS_DIR="$2" ; shift  ;;
+    -D| --helper)  MKINITRAMFS_DEVHELPER="$2" ; shift  ;;
+    -I|   --init)  MKINITRAMFS_INIT="$2"      ; shift  ;;
+    -d|  --debug)  DEBUG="$1"                          ;;
+    -f|  --force)  FORCE="$1"                          ;;
+    -v|--version)  print_version              ; exit 0 ;;
+    -h|   --help)  print_help                 ; exit 0 ;;
+              --)  shift                      ; break  ;;
+               *)  panic "internal error"              ;;
     esac
     shift
   done
 
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
-  . "${config:=/etc/mkinitramfs/config}"
+  . "${MKINITRAMFS_CONF:=/etc/mkinitramfs/config}"
 
-  : "${kernel:=$(uname -r)}"
-  : "${moddir:=/lib/modules}"
-  : "${init:=/usr/share/mkinitramfs/init}"
-  : "${helper:=/usr/share/mkinitramfs/device-helper}"
-  : "${output:=${TMPDIR:-/tmp}/mkinitramfs-${kernel}}"
+  : "${KERNEL_VERSION:=$(uname -r)}"
+  : "${KERNEL_MOD_DIR:=/lib/modules}"
+  : "${MKINITRAMFS_INIT:=/usr/share/mkinitramfs/init}"
+  : "${MKINITRAMFS_DEVHELPER:=/usr/share/mkinitramfs/device-helper}"
+  : "${MKINITRAMFS_IMAGE:=${TMPDIR:-/tmp}/mkinitramfs-$KERNEL_VERSION}"
 
-  mkdir -p "${tmpdir:=${TMPDIR:-/tmp}/mkinitramfs.$$}"
+  mkdir -p "${MKINITRAMFS_WORK_DIR:=${TMPDIR:-/tmp}/mkinitramfs.$$}"
 
   # https://www.shellcheck.net/wiki/SC2015
   # shellcheck disable=2015
-  [ "$debug" = 1 ] && set -x || trap 'rm -rf $tmpdir' EXIT INT
+  [ "$DEBUG" = 1 ] && set -x || trap 'rm -rf $MKINITRAMFS_WORK_DIR' EXIT INT
 }
 
 prepare_initramfs() {
   print "preparing initramfs"
 
   # https://wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-  mkdir -p                    \
-    "$tmpdir/dev"             \
-    "$tmpdir/sys"             \
-    "$tmpdir/tmp"             \
-    "$tmpdir/run"             \
-    "$tmpdir/var"             \
-    "$tmpdir/proc"            \
-    "$tmpdir/root"            \
-    "$tmpdir/usr/lib"         \
-    "$tmpdir/usr/bin"         \
-    "$tmpdir/mnt/root"        \
-    "$tmpdir/etc/mkinitramfs"
+  mkdir -p                                  \
+    "$MKINITRAMFS_WORK_DIR/dev"             \
+    "$MKINITRAMFS_WORK_DIR/sys"             \
+    "$MKINITRAMFS_WORK_DIR/tmp"             \
+    "$MKINITRAMFS_WORK_DIR/run"             \
+    "$MKINITRAMFS_WORK_DIR/var"             \
+    "$MKINITRAMFS_WORK_DIR/proc"            \
+    "$MKINITRAMFS_WORK_DIR/root"            \
+    "$MKINITRAMFS_WORK_DIR/usr/lib"         \
+    "$MKINITRAMFS_WORK_DIR/usr/bin"         \
+    "$MKINITRAMFS_WORK_DIR/mnt/root"        \
+    "$MKINITRAMFS_WORK_DIR/etc/mkinitramfs"
 
-  ln -s usr/lib      "$tmpdir/usr/lib64"
-  ln -s usr/lib      "$tmpdir/lib64"
-  ln -s usr/lib      "$tmpdir/lib"
-  ln -s usr/bin      "$tmpdir/bin"
-  ln -s usr/bin      "$tmpdir/sbin"
-  ln -s ../run       "$tmpdir/var/run"
-  ln -s ../run/lock  "$tmpdir/var/lock"
-  ln -s bin          "$tmpdir/usr/sbin"
+  ln -s usr/lib      "$MKINITRAMFS_WORK_DIR/usr/lib64"
+  ln -s usr/lib      "$MKINITRAMFS_WORK_DIR/lib64"
+  ln -s usr/lib      "$MKINITRAMFS_WORK_DIR/lib"
+  ln -s usr/bin      "$MKINITRAMFS_WORK_DIR/bin"
+  ln -s usr/bin      "$MKINITRAMFS_WORK_DIR/sbin"
+  ln -s ../run       "$MKINITRAMFS_WORK_DIR/var/run"
+  ln -s ../run/lock  "$MKINITRAMFS_WORK_DIR/var/lock"
+  ln -s bin          "$MKINITRAMFS_WORK_DIR/usr/sbin"
 
   for _bin in \
-    \[ sh ln env mkdir sleep mount printf switch_root "$helper"
+    \[ sh ln env mkdir sleep mount printf switch_root \
+    "$MKINITRAMFS_DEVHELPER"
   do
     copy_binary "$_bin"
   done
 
   command -v blkid >/dev/null && copy_binary blkid
 
-  copy_file "$init"   /init                   755 0
-  copy_file "$config" /etc/mkinitramfs/config 644 0
+  copy_file "$MKINITRAMFS_INIT" /init                   755 0
+  copy_file "$MKINITRAMFS_CONF" /etc/mkinitramfs/config 644 0
 }
 
 copy_file() (
   _file="$1" _dest="$2" _mode="$3" _strip="$4"
 
-  [ -e "$tmpdir/$_dest" ] && return 0
+  [ -e "$MKINITRAMFS_WORK_DIR/$_dest" ] && return 0
 
-  mkdir -p "$tmpdir/${_dest%/*}" || panic
+  mkdir -p "$MKINITRAMFS_WORK_DIR/${_dest%/*}" || panic
 
   # Iterate through symlinks and copy them.
   while [ -h "$_file" ]; do
-    cp -P "$_file" "$tmpdir/${_dest%/*}/${_file##*/}"
+    cp -P "$_file" "$MKINITRAMFS_WORK_DIR/${_dest%/*}/${_file##*/}"
     cd -P "${_file%/*}"
 
     _symlink=$(ls -ld "$_file")
@@ -142,16 +143,16 @@ copy_file() (
   done
 
   # Handle case when _file and _dest have same basenames
-  [ -h "$tmpdir/$_dest" ] && _dest="$_file"
+  [ -h "$MKINITRAMFS_WORK_DIR/$_dest" ] && _dest="$_file"
 
   {
-    cp    "$_file" "$tmpdir/$_dest"
-    chmod "$_mode" "$tmpdir/$_dest"
+    cp    "$_file" "$MKINITRAMFS_WORK_DIR/$_dest"
+    chmod "$_mode" "$MKINITRAMFS_WORK_DIR/$_dest"
   } || panic
 
   # https://www.shellcheck.net/wiki/SC2015
   # shellcheck disable=2015
-  [ "$_strip" = 1 ] && strip "$tmpdir/$_dest" >/dev/null 2>&1 || :
+  [ "$_strip" = 1 ] && strip "$MKINITRAMFS_WORK_DIR/$_dest" >/dev/null 2>&1 || :
 )
 
 copy_binary() {
@@ -200,7 +201,7 @@ copy_binary() {
 
 copy_module() {
   # arg $1: module name
-  modprobe -S "$kernel" -D "$1" 2>/dev/null |
+  modprobe -S "$KERNEL_VERSION" -D "$1" 2>/dev/null |
     while read -r _typ _mod _param || [ "$_mod" ]; do
       #[ "$_typ" = "builtin" ] || copy_file "$_mod" "$_mod" 0644 0
       case $_mod in /*) copy_file "$_mod" "$_mod" 0644 0; esac
@@ -210,7 +211,7 @@ copy_module() {
 copy_hook() {
   # arg $1: hook
 
-  for _hookdir in "$hksdir" \
+  for _hookdir in "$MKINITRAMFS_HOOKS_DIR" \
     /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks
   do
       [ -f "$_hookdir/$1/$1" ] && break
@@ -246,7 +247,7 @@ copy_modules() {
       while read -r _mod || [ "$_mod" ]; do
         # Skip unneeded modules and skip modules which depends on
         # them as well.
-        case $(modprobe -S "$kernel" -D "$_mod") in
+        case $(modprobe -S "$KERNEL_VERSION" -D "$_mod") in
         *wmi*|*gpu*|*net*) continue ;;
         esac 2>/dev/null
 
@@ -267,35 +268,35 @@ copy_modules() {
     print "copying all modules"
 
     find \
-      "$moddir/$kernel/kernel/fs"                   \
-      "$moddir/$kernel/kernel/lib"                  \
-      "$moddir/$kernel/kernel/arch"                 \
-      "$moddir/$kernel/kernel/crypto"               \
-      "$moddir/$kernel/kernel/drivers/md"           \
-      "$moddir/$kernel/kernel/drivers/ata"          \
-      "$moddir/$kernel/kernel/drivers/scsi"         \
-      "$moddir/$kernel/kernel/drivers/block"        \
-      "$moddir/$kernel/kernel/drivers/virtio"       \
-      "$moddir/$kernel/kernel/drivers/usb/host"     \
-      "$moddir/$kernel/kernel/drivers/usb/storage"  \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/fs"                   \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/lib"                  \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/arch"                 \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/crypto"               \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/md"           \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/ata"          \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/scsi"         \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/block"        \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/virtio"       \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/host"     \
+      "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/storage"  \
       -type f 2>/dev/null |
         while read -r _mod || [ "$_mod" ]; do
           # Intentional.
           # shellcheck disable=2295
-          copy_file "$_mod" "/lib/modules/${_mod#$moddir}" 644 0
+          copy_file "$_mod" "/lib/modules/${_mod#$KERNEL_MOD_DIR}" 644 0
         done
   fi
 
   copy_binary modprobe
 
-  copy_file "$moddir/$kernel/modules.order" \
-    "/lib/modules/$kernel/modules.order" 644 0
+  copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.order" \
+    "/lib/modules/$KERNEL_VERSION/modules.order" 644 0
 
-  copy_file "$moddir/$kernel/modules.builtin" \
-    "/lib/modules/$kernel/modules.builtin" 644 0
+  copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin" \
+    "/lib/modules/$KERNEL_VERSION/modules.builtin" 644 0
 
-  copy_file "$moddir/$kernel/modules.builtin.modinfo" \
-    "/lib/modules/$kernel/modules.builtin.modinfo" 644 0
+  copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin.modinfo" \
+    "/lib/modules/$KERNEL_VERSION/modules.builtin.modinfo" 644 0
 
   print "copying local /etc/modprobe.d config files"
   find /etc/modprobe.d/ -type f -name "*.conf" |
@@ -303,20 +304,21 @@ copy_modules() {
       copy_file "$_cfg" "$_cfg" 0644
     done
 
-  depmod -b "$tmpdir" "$kernel"
+  depmod -b "$MKINITRAMFS_WORK_DIR" "$KERNEL_VERSION"
 }
 
 make_initramfs() (
   print "generating initramfs image"
 
-  [ "$force" != 1 ] && [ -e "$output" ] &&
+  [ "$FORCE" != 1 ] && [ -e "$MKINITRAMFS_IMAGE" ] &&
     panic "initramfs image already exist"
 
-  cd "$tmpdir"
-  find . | cpio -oH newc 2>/dev/null | ${compress:-cat} >"$output" ||
+  cd "$MKINITRAMFS_WORK_DIR"
+  find . | cpio -oH newc 2>/dev/null | ${compress:-cat} \
+    >"$MKINITRAMFS_IMAGE" ||
     panic "failed to generate initramfs image"
 
-  print "done! check out $output" "\033[1;32m>>\033[m"
+  print "done! check out $MKINITRAMFS_IMAGE" "\033[1;32m>>\033[m"
 )
 
 # -e: Exit if command return status greater than 0

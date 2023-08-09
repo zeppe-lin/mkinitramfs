@@ -46,7 +46,7 @@ Default: C<uname -r>.
 
 =item B<-m>, B<--modules>=I<PATH>
 
-Specify directory where modules stored.
+Specify directory where kernel modules stored.
 
 Default: F</lib/modules>.
 
