@@ -223,8 +223,10 @@ copy_module() {
     done
 }
 
+# Copy hook.
+#  arg $1: hook name
 copy_hook() {
-  # arg $1: hook
+  local _hookdir _hooktype
 
   for _hookdir in "$MKINITRAMFS_HOOKS_DIR" \
     /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks
@@ -238,13 +240,13 @@ copy_hook() {
   # shellcheck disable=1090
   . "$_hookdir/$1/$1"
 
-  for _hooktyp in init init.late; do
-    [ -f "$_hookdir/$1/$1.$_hooktyp" ] || continue
+  for _hooktype in init init.late; do
+    [ -f "$_hookdir/$1/$1.$_hooktype" ] || continue
 
-    echo "copying $1.$_hooktyp"
+    echo "copying $1.$_hooktype"
 
-    copy_file "$_hookdir/$1/$1.$_hooktyp" \
-      "/usr/share/mkinitramfs/hooks/$1/$1.$_hooktyp" 644 0
+    copy_file "$_hookdir/$1/$1.$_hooktype" \
+      "/usr/share/mkinitramfs/hooks/$1/$1.$_hooktype" 644 0
   done
 }
 
