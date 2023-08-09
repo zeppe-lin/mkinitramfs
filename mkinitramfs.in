@@ -251,6 +251,8 @@ copy_hook() {
 }
 
 copy_modules() {
+  local _mod _dir _type
+
   # Skip this function if kernel compiled with builtin modules.
   if [ "$monolith" = 1 ]; then
     return 0
@@ -271,13 +273,13 @@ copy_modules() {
         copy_module "$_mod"
       done
 
+    # Copy root fs module (+ try to autodetect).
     if [ "$root_type" ]; then
       copy_module "$root_type"
     else
       while read -r _ _dir _type _; do
         [ "$_dir" = / ] && break
       done < /proc/mounts || error "failed to autodetect root fs module"
-
       copy_module "$_type"
     fi
 
@@ -315,6 +317,7 @@ copy_modules() {
   copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin.modinfo" \
     "/lib/modules/$KERNEL_VERSION/modules.builtin.modinfo" 644 0
 
+  # FIXME: refactor
   info "Copying local /etc/modprobe.d config files"
   find /etc/modprobe.d/ -type f -name "*.conf" |
     while read -r _cfg; do
@@ -339,14 +342,14 @@ make_initramfs() (
 )
 
 main() {
+  local _hook
+
   parse_options "$@"
 
   prepare_initramfs
-
   for _hook in $hooks; do
     copy_hook "$_hook"
   done
-
   copy_modules
   make_initramfs
 }
