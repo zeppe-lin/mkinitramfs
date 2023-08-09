@@ -211,8 +211,11 @@ copy_binary() {
   done
 }
 
+# Copy kernel module (skip if builtin).
+#  arg $1: module name
 copy_module() {
-  # arg $1: module name
+  local _typ _mod _param
+
   modprobe -S "$KERNEL_VERSION" -D "$1" 2>/dev/null |
     while read -r _typ _mod _param || [ "$_mod" ]; do
       #[ "$_typ" = "builtin" ] || copy_file "$_mod" "$_mod" 0644 0
