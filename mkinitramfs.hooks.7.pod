@@ -68,7 +68,7 @@ to easily interact with build and init system.
 
 =over 8
 
-=item B<BI: print> I<MESSAGE>
+=item B<BI: info> I<MESSAGE>
 
 Print message to stdout.
 

@@ -5,12 +5,27 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-print() {
-  printf "%b %s\n" "${2:-">>"}" "$1"
+######################################################################
+# Notification helpers.                                              #
+######################################################################
+
+# Print info message to stdout.
+#  arg $1: message
+info() {
+  echo "=======> $1"
 }
 
+# Print error message to stderr and terminate the program.
+#  arg $1: message
+error() {
+  echo "=======> ERROR: $1" >&2
+  exit 1
+}
+
+# Print error message to stderr and fallback to the sh(1).
+#  arg $1: message
 panic() {
-  print "${1:-unexpected error occurred}" "\033[1;31m!!\033[m" >&2
+  echo "=======> ERROR: ${1:-Unexpected error occurred}" >&2
 
   sh
 }
@@ -39,7 +54,7 @@ resolve_device() {
     fi
   done
 
-  panic "failed to lookup partition: $device"
+  panic "Failed to lookup partition: $device"
 }
 
 run_hook() {
@@ -91,7 +106,7 @@ parse_cmdline() {
 }
 
 mount_root() {
-  [ "$break" = root ] && { print "break before mount_root()"; sh; }
+  [ "$break" = root ] && { info "break before mount_root()"; sh; }
 
   resolve_device "$root"
 
@@ -100,11 +115,11 @@ mount_root() {
   mount \
     -o "${rorw:-ro}${root_opts:+,$root_opts}"  \
     ${root_type:+-t $root_type} \
-    -- "$device" /mnt/root || panic "failed to mount rootfs: $device"
+    -- "$device" /mnt/root || panic "Failed to mount rootfs: $device"
 }
 
 boot_system() {
-  [ "$break" = boot ] && { print "break before boot_system()"; sh; }
+  [ "$break" = boot ] && { info "break before boot_system()"; sh; }
 
   for _dir in run dev sys proc; do
     mount -o move "/$_dir" "/mnt/root/$_dir" || :
@@ -122,7 +137,7 @@ boot_system() {
   # shellcheck disable=2086
   exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
     switch_root /mnt/root "${init-/sbin/init}" $init_args \
-    || panic "failed to boot system"
+    || panic "Failed to boot system"
 }
 
 # -e: Exit if command return status greater than 0.

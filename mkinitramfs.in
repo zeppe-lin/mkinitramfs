@@ -5,15 +5,26 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-print() {
-  printf "%b %s\n" "${2:-">>"}" "$1"
+######################################################################
+# Notification helpers.                                              #
+######################################################################
+
+# Print info message to stdout.
+#  arg $1: message
+info() {
+  echo "=======> $1"
 }
 
-panic() {
-  print "${1:-unexpected error occurred}" "\033[1;31m!!\033[m"
-
+# Print error message to stderr and terminate the program.
+#  arg $1: message
+error() {
+  echo "=======> ERROR: $1" >&2
   exit 1
-} >&2
+}
+
+######################################################################
+# Command-line helpers.                                              #
+######################################################################
 
 print_help() {
   cat << EOF
@@ -59,7 +70,7 @@ parse_options() {
     -v|--version)  print_version              ; exit 0 ;;
     -h|   --help)  print_help                 ; exit 0 ;;
               --)  shift                      ; break  ;;
-               *)  panic "internal error"              ;;
+               *)  echo >&2 "internal error"  ; exit 1 ;;
     esac
     shift
   done
@@ -82,7 +93,7 @@ parse_options() {
 }
 
 prepare_initramfs() {
-  print "preparing initramfs"
+  info "Preparing initramfs"
 
   # https://wikipedia.org/wiki/Filesystem_Hierarchy_Standard
   mkdir -p                                  \
@@ -125,7 +136,8 @@ copy_file() (
 
   [ -e "$MKINITRAMFS_WORK_DIR/$_dest" ] && return 0
 
-  mkdir -p "$MKINITRAMFS_WORK_DIR/${_dest%/*}" || panic
+  mkdir -p "$MKINITRAMFS_WORK_DIR/${_dest%/*}" ||
+    error "mkdir '$MKINITRAMFS_WORK_DIR/${_dest%/*}' failed"
 
   # Iterate through symlinks and copy them.
   while [ -h "$_file" ]; do
@@ -148,7 +160,7 @@ copy_file() (
   {
     cp    "$_file" "$MKINITRAMFS_WORK_DIR/$_dest"
     chmod "$_mode" "$MKINITRAMFS_WORK_DIR/$_dest"
-  } || panic
+  } || error "cp & chmod $_mode '$MKINITRAMFS_WORK_DIR/$_dest' failed"
 
   # https://www.shellcheck.net/wiki/SC2015
   # shellcheck disable=2015
@@ -170,7 +182,7 @@ copy_binary() {
   */*)
     ;;
   "")
-    panic "$1 does not exist"
+    error "$1 does not exist"
     ;;
   *)
     IFS=:; set -- $PATH; unset IFS
@@ -181,7 +193,7 @@ copy_binary() {
       binary="${_dir}/${_binary}"
 
       [ -x "$binary" ] && break
-    done || panic "$_binary does not exist"
+    done || error "$_binary does not exist"
     ;;
   esac
 
@@ -215,7 +227,7 @@ copy_hook() {
     /etc/mkinitramfs/hooks /usr/share/mkinitramfs/hooks
   do
       [ -f "$_hookdir/$1/$1" ] && break
-  done || panic "could not find $1 hook"
+  done || error "could not find $1 hook"
 
   print "running $1 hook"
 
@@ -259,7 +271,7 @@ copy_modules() {
     else
       while read -r _ _dir _type _; do
         [ "$_dir" = / ] && break
-      done < /proc/mounts || panic "failed to autodetect root fs module"
+      done < /proc/mounts || error "failed to autodetect root fs module"
 
       copy_module "$_type"
     fi
@@ -308,17 +320,17 @@ copy_modules() {
 }
 
 make_initramfs() (
-  print "generating initramfs image"
+  info "Generating initramfs image"
 
   [ "$FORCE" != 1 ] && [ -e "$MKINITRAMFS_IMAGE" ] &&
-    panic "initramfs image already exist"
+    error "initramfs image already exist"
 
   cd "$MKINITRAMFS_WORK_DIR"
   find . | cpio -oH newc 2>/dev/null | ${compress:-cat} \
     >"$MKINITRAMFS_IMAGE" ||
-    panic "failed to generate initramfs image"
+    error "failed to generate initramfs image"
 
-  print "done! check out $MKINITRAMFS_IMAGE" "\033[1;32m>>\033[m"
+  info "Done! Check out $MKINITRAMFS_IMAGE"
 )
 
 # -e: Exit if command return status greater than 0
