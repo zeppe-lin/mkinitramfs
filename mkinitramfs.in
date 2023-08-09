@@ -336,19 +336,24 @@ make_initramfs() (
   info "Done! Check out $MKINITRAMFS_IMAGE"
 )
 
+main() {
+  parse_options "$@"
+
+  prepare_initramfs
+
+  for _hook in $hooks; do
+    copy_hook "$_hook"
+  done
+
+  copy_modules
+  make_initramfs
+}
+
 # -e: Exit if command return status greater than 0
 # -f: Disable globbing *?[]
 set -ef
 
-parse_options "$@"
-prepare_initramfs
-
-for _hook in $hooks; do
-  copy_hook "$_hook"
-done
-
-copy_modules
-make_initramfs
+main "$@"
 
 # vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
 # End of file.
