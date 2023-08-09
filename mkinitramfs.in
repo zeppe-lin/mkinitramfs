@@ -232,7 +232,7 @@ copy_hook() {
       [ -f "$_hookdir/$1/$1" ] && break
   done || error "could not find $1 hook"
 
-  print "running $1 hook"
+  info "Running $1 hook"
 
   # https://www.shellcheck.net/wiki/SC1090
   # shellcheck disable=1090
@@ -241,7 +241,7 @@ copy_hook() {
   for _hooktyp in init init.late; do
     [ -f "$_hookdir/$1/$1.$_hooktyp" ] || continue
 
-    print "copying $1.$_hooktyp"
+    echo "copying $1.$_hooktyp"
 
     copy_file "$_hookdir/$1/$1.$_hooktyp" \
       "/usr/share/mkinitramfs/hooks/$1/$1.$_hooktyp" 644 0
@@ -254,7 +254,7 @@ copy_modules() {
     return 0
 
   elif [ "$hostonly" = 1 ]; then
-    print "copying hostonly modules"
+    info "Copying hostonly modules"
 
     # Perform autodetection of modules via /sys
     # https://wiki.archlinux.org/index.php/Modalias
@@ -280,7 +280,7 @@ copy_modules() {
     fi
 
   else
-    print "copying all modules"
+    info "Copying all modules"
 
     find \
       "$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/fs"                   \
@@ -313,7 +313,7 @@ copy_modules() {
   copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin.modinfo" \
     "/lib/modules/$KERNEL_VERSION/modules.builtin.modinfo" 644 0
 
-  print "copying local /etc/modprobe.d config files"
+  info "Copying local /etc/modprobe.d config files"
   find /etc/modprobe.d/ -type f -name "*.conf" |
     while read -r _cfg; do
       copy_file "$_cfg" "$_cfg" 0644
