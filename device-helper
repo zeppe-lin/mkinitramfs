@@ -18,7 +18,7 @@ create_symlink() {
 # manager.
 [ -b "/dev/${dev_name=${DEVPATH##*/}}" ] || exit 1
 
-exec > /dev/null 2>&1
+exec >/dev/null 2>&1
 
 read -r dm_name < "/sys/block/${dev_name}/dm/name" && {
   mkdir -p  /dev/mapper
