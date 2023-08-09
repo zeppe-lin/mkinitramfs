@@ -319,7 +319,8 @@ make_initramfs() (
   print "done! check out $output" "\033[1;32m>>\033[m"
 )
 
-# Exit if command fails and disable globbing.
+# -e: Exit if command return status greater than 0
+# -f: Disable globbing *?[]
 set -ef
 
 parse_options "$@"
