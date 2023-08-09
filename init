@@ -30,6 +30,9 @@ panic() {
   sh
 }
 
+# Set ``device'' variable to full path of resolved
+# UUID, PARTUUID, LABEL, or /dev/*.
+#  arg $1: device
 resolve_device() {
   device="$1" _count="${rootdelay:-30}"
 
