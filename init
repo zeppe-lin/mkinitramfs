@@ -28,7 +28,7 @@ error() {
 # Print error message to stderr and fallback to the sh(1).
 #  arg $1: message
 panic() {
-  error "${1:-Unexpected error occurred}"
+  echo "=======> ERROR: ${1:-Unexpected error occurred}" >&2
 
   sh
 }
