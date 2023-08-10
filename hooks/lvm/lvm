@@ -5,12 +5,14 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-[ "$hostonly" = 1 ] &&
-  for _module in \
-    dm-log dm-cache dm-mirror dm-snapshot dm-multipath dm-thin-pool
-  do
-    copy_kmod "$_module"
-  done
+if [ "$hostonly" = 1 ]; then
+  copy_kmod dm-log
+  copy_kmod dm-cache
+  copy_kmod dm-mirror
+  copy_kmod dm-snapshot
+  copy_kmod dm-multipath
+  copy_kmod dm-thin-pool
+fi
 
 copy_binary lvm
 

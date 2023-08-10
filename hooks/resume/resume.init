@@ -7,7 +7,11 @@
 
 # TODO: add resume from swap file
 
-[ "$break" = resume ] && { print "break before resume.init"; sh; }
+if [ "$break" = resume ]; then
+  print "break before resume.init"
+
+  sh
+fi
 
 resolve_device "$resume"
 

@@ -6,7 +6,11 @@
 # https://www.shellcheck.net/wiki/SC2034
 # shellcheck disable=2154,2034
 
-[ "$break" = mdevd ] && { print "break before mdevd.init"; sh; }
+if [ "$break" = mdevd ]; then
+  print "break before mdevd.init"
+
+  sh
+fi
 
 mdevd 2> /dev/null & mdevd_pid="$!"
 mdevd-coldplug

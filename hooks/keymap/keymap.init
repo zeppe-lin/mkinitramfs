@@ -5,7 +5,11 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-[ "$break" = keymap ] && { print "break before keymap.init"; sh; }
+if [ "$break" = keymap ]; then
+  print "break before keymap.init"
+
+  sh
+fi
 
 # TODO support loadkeys
 loadkmap < "$keymap_path"

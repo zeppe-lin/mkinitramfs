@@ -4,7 +4,11 @@
 
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
-[ "$break" = smdev ] && { print "break before smdev.init"; sh; }
+if [ "$break" = smdev ]; then
+  print "break before smdev.init"
+  
+  sh
+fi
 
 mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts \

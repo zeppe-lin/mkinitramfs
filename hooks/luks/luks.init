@@ -5,7 +5,11 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-[ "$break" = luks ] && { print "break before luks.init"; sh; }
+if [ "$break" = luks ]; then
+  print "break before luks.init"
+
+  sh
+fi
 
 mkdir -p /run/cryptsetup
 
