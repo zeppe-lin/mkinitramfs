@@ -123,6 +123,10 @@ booted from Live CD.
 
 See L<fstab(5)> fourth field.
 
+=item B<extrafiles>=I<FILE>...
+
+Add extra I<FILE>s to B<mkinitramfs> image.
+
 =item B<hooks>=I<HOOK>...
 
 Hooks provide a flexible way to extend B<mkinitramfs> with custom
