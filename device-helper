@@ -14,9 +14,6 @@ create_symlink() {
   ln    -s "../../${dev_name}" "${_sym}"
 }
 
-# Load modules via $MODALIAS.
-[ "$MODALIAS" ] && modprobe "$MODALIAS"
-
 # DEVPATH is part of uevent which is exported to environment by device
 # manager.
 [ -b "/dev/${dev_name=${DEVPATH##*/}}" ] || exit 1
