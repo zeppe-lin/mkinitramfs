@@ -77,7 +77,7 @@ Print message to stdout.
 If message was not specified, then B<mkinitramfs> will print default
 error message.  Otherwise, I<MESSAGE> will be printed.
 
-=item B<B: copy_module> I<PATH>
+=item B<B: copy_kmod> I<PATH>
 
 Copy kernel module by I<PATH> (full path to kernel module) to
 B<mkinitramfs> working directory.
@@ -187,7 +187,7 @@ I<ext4>
   print "Copying ext4 dependencies"
 
   for _mod in crc32c libcrc32c; do
-      copy_module "$_mod"
+      copy_kmod "$_mod"
   done
 
 I<ext4.init>
