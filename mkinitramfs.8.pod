@@ -81,6 +81,24 @@ Forcefully overwrite initramfs image.
 
 =back
 
+=head1 EXAMPLES
+
+=over
+
+=item Create an initramfs for current running kernel:
+
+  mkinitramfs -o /tmp/initramfs-`uname -r`.img
+
+=item Create an initramfs for specific kernel:
+
+  mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
+
+=item Debug initramfs creation (check out written logfile):
+
+  sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
+
+=back
+
 =head1 NOTES
 
 If you have modular kernel and you use B<busybox' modprobe> to handle
