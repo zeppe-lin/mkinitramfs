@@ -435,7 +435,7 @@ MKINITRAMFS_CONF=/etc/mkinitramfs/config
 MKINITRAMFS_INIT=/usr/share/mkinitramfs/init
 MKINITRAMFS_DEVHELPER=/usr/share/mkinitramfs/device-helper
 MKINITRAMFS_IMAGE=${TMPDIR:-/tmp}/mkinitramfs-$KERNEL_VERSION
-readonly MKINITRAMFS_WORK_DIR=${TMPDIR:-/tmp}/mktinitramfs.$$
+readonly MKINITRAMFS_WORK_DIR="${TMPDIR:-/tmp}/mktinitramfs.$$"
 FORCE=0
 
 main "$@"
