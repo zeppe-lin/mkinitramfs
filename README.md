@@ -10,7 +10,7 @@ This distribution is a fork of illiliti's tinyramfs as of commit
 - luks hook have been modified to ask the password if header/key-file
   is not defined
 - added resume hook (to resume machines from hibernation)
-- added a possibility to copy modprobe.d configuration files
+- added a directive "extrafiles" to copy additional files
 - added bash completion
 
 See git log for complete/further differences.
