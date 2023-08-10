@@ -23,7 +23,7 @@ The original sources can be downloaded from:
 FEATURES
 --------
 The following advantages can be distinguished:
-- no "local"s, no bashisms, only POSIX shell
+- no bashisms, only POSIX shell (with "local"s exception)
 - portable, no distro specific
 - easy to use configuration
 - build time and init time hooks
@@ -53,7 +53,7 @@ You need a kernel built with:
 
 **Runtime**:
 - POSIX sh(1p) and standard POSIX utilities
-- switch_root(8), mount(8), cpio(1)
+- GNU getopt(1), switch_root(8), mount(8), cpio(1)
 
 The following runtime dependencies are optional:
 
