@@ -9,7 +9,7 @@
   for _module in \
     dm-log dm-cache dm-mirror dm-snapshot dm-multipath dm-thin-pool
   do
-    copy_module "$_module"
+    copy_kmod "$_module"
   done
 
 copy_binary lvm
