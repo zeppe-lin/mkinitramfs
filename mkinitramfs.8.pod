@@ -71,10 +71,6 @@ Specify location to init script.
 
 Default: F</usr/share/mkinitramfs/init>.
 
-=item B<-d>, B<--debug>
-
-Enable debug mode.  Useful for reporting bugs in build stage.
-
 =item B<-f>, B<--force>
 
 Forcefully overwrite initramfs image.
