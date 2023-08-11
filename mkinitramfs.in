@@ -406,7 +406,7 @@ main() {
   fi
 
   if [ -e "$MKINITRAMFS_IMAGE" ] && [ "$FORCE" = 0 ]; then
-    error "Initramfs image '$MKINITRAMFS_IMAGE' already exist (use -f to overwrite)"
+    error "Initramfs image '$MKINITRAMFS_IMAGE' already exist (use -f to ignore and overwrite)"
   fi
 
   info "Building '$MKINITRAMFS_IMAGE' started."
