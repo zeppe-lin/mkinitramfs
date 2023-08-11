@@ -326,10 +326,6 @@ copy_kernmodules() {
 make_initramfs() {
   info "Generate initramfs image."
 
-  if [ -e "$MKINITRAMFS_IMAGE" ] && [ "$FORCE" = 0 ]; then
-    error "Initramfs image already exist"
-  fi
-
   cd "$MKINITRAMFS_WORK_DIR"
 
   find . | cpio -oH newc 2>/dev/null | ${compress:-cat} \
