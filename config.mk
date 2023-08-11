@@ -7,5 +7,5 @@ DIST        = ${NAME}-${VERSION}
 # paths
 PREFIX      = /usr
 MANPREFIX   = ${PREFIX}/share/man
-BASHCOMPDIR = ${PREFIX}/share/bash-completion/completions
 DATADIR     = ${PREFIX}/share/mkinitramfs
+BASHCOMPDIR = ${PREFIX}/share/bash-completion/completions
