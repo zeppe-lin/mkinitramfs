@@ -77,6 +77,23 @@ Forcefully overwrite initramfs image.
 
 =back
 
+=head1 ENVIRONMENT
+
+B<mkinitramfs> uses the TMPDIR environment variable.  If set, it uses
+subdirectories in the given directory to create its temporary working
+directories.  Else it uses C</tmp> as default value for that purpose.
+The given directory should be on a filesystem which allows the
+execution of files stored there, i.e. should not be mounted with the
+B<noexec> mount option.
+
+=head1 FILES
+
+=item F</etc/mkinitramfs/config>
+
+The default configuration file for the script.  See
+L<mkinitramfs.config(5)> for a description of the available
+configuration parameters.
+
 =head1 EXAMPLES
 
 =over
