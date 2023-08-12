@@ -40,8 +40,7 @@ interrupted() {
 # shellcheck disable=2317
 atexit() {
   # clean up after ourselves
-  #[ -d "$MKINITRAMFS_WORK_DIR" ] && rm -rf "$MKINITRAMFS_WORK_DIR"
-  :
+  [ -d "$MKINITRAMFS_WORK_DIR" ] && rm -rf "$MKINITRAMFS_WORK_DIR"
 }
 
 ######################################################################
