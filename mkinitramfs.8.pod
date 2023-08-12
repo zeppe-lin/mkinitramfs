@@ -88,11 +88,15 @@ B<noexec> mount option.
 
 =head1 FILES
 
+=over
+
 =item F</etc/mkinitramfs/config>
 
 The default configuration file for the script.  See
 L<mkinitramfs.config(5)> for a description of the available
 configuration parameters.
+
+=back
 
 =head1 EXAMPLES
 
