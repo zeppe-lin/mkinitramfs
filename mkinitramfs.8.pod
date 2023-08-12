@@ -96,6 +96,20 @@ The default configuration file for the script.  See
 L<mkinitramfs.config(5)> for a description of the available
 configuration parameters.
 
+=item F</usr/share/mkinitramfs/hooks/>
+
+=item F</etc/mkinitramfs/hooks/>
+
+Hooks directories for B<mkinitramfs>.
+
+=item F</usr/share/mkinitramfs/init>
+
+Init for B<mkinitramfs>.
+
+=item F</usr/share/mkinitramfs/device-helper>
+
+Device-helper for B<mkinitramfs>.
+
 =back
 
 =head1 EXAMPLES
