@@ -8,9 +8,9 @@
 # TODO: add resume from swap file
 
 if [ "$break" = resume ]; then
-  print "break before resume.init"
+	print "break before resume.init"
 
-  sh
+	sh
 fi
 
 resolve_device "$resume"
@@ -19,7 +19,7 @@ resolve_device "$resume"
 resume=$(readlink -f "$device" | sed 's|^/dev/||')
 
 awk -v dev="$resume" '$4 == dev { printf "%d:%d", $1, $2 }' \
-  /proc/partitions > /sys/power/resume
+	/proc/partitions > /sys/power/resume
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

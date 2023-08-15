@@ -6,34 +6,32 @@
 # shellcheck disable=2154
 
 if [ "$hostonly" = 1 ]; then
-  copy_kmod dm-log
-  copy_kmod dm-cache
-  copy_kmod dm-mirror
-  copy_kmod dm-snapshot
-  copy_kmod dm-multipath
-  copy_kmod dm-thin-pool
+	copy_kmod dm-log
+	copy_kmod dm-cache
+	copy_kmod dm-mirror
+	copy_kmod dm-snapshot
+	copy_kmod dm-multipath
+	copy_kmod dm-thin-pool
 fi
 
 copy_binary lvm
 
 lvm_config="
-  devices {
-    write_cache_state = 0
-  }
-  backup {
-    backup  = 0
-    archive = 0
-  }
-  global {
-    use_lvmetad = 0
-  }"
+	devices {
+		write_cache_state = 0
+	}
+	backup {
+		backup  = 0
+		archive = 0
+	}
+	global {
+		use_lvmetad = 0
+	}"
 
 mkdir -p "$MKINITRAMFS_WORK_DIR/etc/lvm"
 
-lvm config \
-  --config "$lvm_config" \
-  ${lvm_config:+--mergedconfig} \
-  > "$MKINITRAMFS_WORK_DIR/etc/lvm/lvm.conf"
+lvm config --config "$lvm_config" ${lvm_config:+--mergedconfig} \
+	> "$MKINITRAMFS_WORK_DIR/etc/lvm/lvm.conf"
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

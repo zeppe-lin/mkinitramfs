@@ -6,5 +6,5 @@ copy_binary readlink
 copy_binary sed
 copy_binary awk
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

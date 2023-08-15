@@ -10,13 +10,12 @@ copy_binary mdevd
 copy_binary mdevd-coldplug
 copy_binary kill
 
-printf "%s\n" \
-  'SUBSYSTEM=block;.* 0:0 660 @device-helper'  \
-  >  "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
+printf "%s\n" 'SUBSYSTEM=block;.* 0:0 660 @device-helper' \
+	>  "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
 
-[ "$monolith" = 1 ] || printf "%s\n" \
-  '$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"' \
-  >> "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
+[ "$monolith" = 1 ] ||
+	printf "%s\n" '$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"' \
+	>> "$MKINITRAMFS_WORK_DIR/etc/mdev.conf"
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

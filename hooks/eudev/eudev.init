@@ -6,9 +6,9 @@
 # shellcheck disable=2154
 
 if [ "$break" = eudev ]; then
-  print "break before eudev.init"
+	print "break before eudev.init"
 
-  sh
+	sh
 fi
 
 udevd -dN never
@@ -16,5 +16,5 @@ udevadm trigger -c add -t subsystems
 udevadm trigger -c add -t devices
 udevadm settle
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

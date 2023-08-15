@@ -6,35 +6,35 @@
 # shellcheck disable=2154
 
 if [ "$luks_key" ]; then
-  copy_file "${luks_key#*=}" /root/key 400 0
+	copy_file "${luks_key#*=}" /root/key 400 0
 
-  sed -i "s|${luks_key#*=}|/root/key|" \
-    "$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
+	sed -i "s|${luks_key#*=}|/root/key|" \
+		"$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
 fi
 
 if [ "$luks_header" ]; then
-  copy_file "${luks_header#*=}" /root/header 400 0
+	copy_file "${luks_header#*=}" /root/header 400 0
 
-  sed -i "s|${luks_header#*=}|/root/header|" \
-    "$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
+	sed -i "s|${luks_header#*=}|/root/header|" \
+		"$MKINITRAMFS_WORK_DIR/etc/mkinitramfs/config"
 fi
 
 if [ "$hostonly" = 1 ]; then
-  for _module in \
-    aes ecb xts lrw wp512 sha256 sha512 twofish serpent dm-crypt
-  do
-    copy_kmod "$_module"
-  done
+	for _module in aes ecb xts lrw wp512 sha256 sha512 twofish \
+		serpent dm-crypt
+	do
+		copy_kmod "$_module"
+	done
 fi
 
 # https://bugs.archlinux.org/task/56771
 if [ -e /lib/libgcc_s.so.1 ]; then
-  copy_file /lib/libgcc_s.so.1 /lib/libgcc_s.so.1 755 1
+	copy_file /lib/libgcc_s.so.1 /lib/libgcc_s.so.1 755 1
 elif [ -e /usr/lib/libgcc_s.so.1 ]; then
-  copy_file /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 755 1
+	copy_file /usr/lib/libgcc_s.so.1 /usr/lib/libgcc_s.so.1 755 1
 fi
 
 copy_binary cryptsetup
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

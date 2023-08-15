@@ -6,9 +6,9 @@
 # shellcheck disable=2154
 
 if [ "$break" = luks ]; then
-  print "break before luks.init"
+	print "break before luks.init"
 
-  sh
+	sh
 fi
 
 mkdir -p /run/cryptsetup
@@ -17,20 +17,20 @@ resolve_device "$luks_root"
 
 # TODO: DM_DISABLE_UDEV only when "eudev/systemd-udevd" is unset?
 if [ "$luks_key" ]; then
-  DM_DISABLE_UDEV=1 cryptsetup open          \
-    ${luks_discard:+--allow-discards}        \
-    ${luks_header:+--header="$luks_header"}  \
-    ${luks_key:+--key-file="$luks_key"}      \
-    -- "$device"                             \
-    "${luks_name:-crypt-${device##*/}}"      \
-    || panic "failed to unlock LUKS"
+	DM_DISABLE_UDEV=1 cryptsetup open                \
+		${luks_discard:+--allow-discards}        \
+		${luks_header:+--header="$luks_header"}  \
+		${luks_key:+--key-file="$luks_key"}      \
+		-- "$device"                             \
+		"${luks_name:-crypt-${device##*/}}"      \
+			|| panic "failed to unlock LUKS"
 else
-  DM_DISABLE_UDEV=1 cryptsetup open          \
-    ${luks_discard:+--allow-discards}        \
-    -- "$device"                             \
-    "${luks_name:-crypt-${device##*/}}"      \
-    || panic "failed to unlock LUKS"
+	DM_DISABLE_UDEV=1 cryptsetup open                \
+		${luks_discard:+--allow-discards}        \
+		-- "$device"                             \
+		"${luks_name:-crypt-${device##*/}}"      \
+			|| panic "failed to unlock LUKS"
 fi
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

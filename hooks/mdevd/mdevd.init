@@ -7,13 +7,13 @@
 # shellcheck disable=2154,2034
 
 if [ "$break" = mdevd ]; then
-  print "break before mdevd.init"
+	print "break before mdevd.init"
 
-  sh
+	sh
 fi
 
 mdevd 2> /dev/null & mdevd_pid="$!"
 mdevd-coldplug
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.

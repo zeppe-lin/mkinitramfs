@@ -7,17 +7,17 @@
 # shellcheck disable=2154,2034
 
 if [ "$break" = mdev ]; then
-  print "break before mdev.init"
+	print "break before mdev.init"
 
-  sh
+	sh
 fi
 
 mdev -s
 mdev -df 2> /dev/null & mdev_pid="$!"
 
 find /sys/devices -name uevent | while read -r uevent; do
-  printf add > "$uevent"
+	printf add > "$uevent"
 done 2> /dev/null
 
-# vim:ft=sh:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: ft=sh cc=72 tw=70
 # End of file.
