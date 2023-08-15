@@ -119,7 +119,7 @@ copy_binary() {
 		local _binary="$_BIN"
 
 		for _DIR; do
-			_BIN="${_DIR}/${_binary}"
+			_BIN="$_DIR/$_binary"
 			[ -x "$_BIN" ] && break
 		done || error "$_binary does not exist"
 		;;
@@ -200,7 +200,7 @@ copy_extrafiles() {
 
 	info "Copy extra files."
 
-	for _FILE in $extrafiles; do
+	for _FILE in ${extrafiles}; do
 		[ -f "$_FILE" ] || error "Could not find $_FILE file"
 
 		echo "+ $_FILE"
@@ -221,7 +221,7 @@ process_hooks() {
 
 	info "Process hooks."
 
-	for _HOOK in $hooks; do
+	for _HOOK in ${hooks}; do
 		for _HOOKS_DIR in \
 			"$MKINITRAMFS_HOOKS_DIR" \
 			/etc/mkinitramfs/hooks \
@@ -253,10 +253,10 @@ copy_kernmodules() {
 	local _TYPE
 
 	# Skip this function if kernel compiled with builtin modules.
-	if [ "$monolith" = 1 ]; then
+	if [ "${monolith}" = 1 ]; then
 		return 0
 
-	elif [ "$hostonly" = 1 ]; then
+	elif [ "${hostonly}" = 1 ]; then
 		info "Copy hostonly modules."
 
 		# Perform autodetection of modules via /sys
@@ -275,8 +275,8 @@ copy_kernmodules() {
 
 		# Copy root fs module (try to autodetect if not
 		# specified).
-		if [ "$root_type" ]; then
-			copy_kmod "$root_type"
+		if [ "${root_type}" ]; then
+			copy_kmod "${root_type}"
 		else
 			while read -r _ _DIR _TYPE _; do
 				[ "$_DIR" = / ] && break
