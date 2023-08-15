@@ -3,15 +3,15 @@
 
 # Create /dev/disk/by-* and /dev/mapper/* symlinks.
 create_symlink() {
-  _typ="$1"
-  _sym="$2"
+	_typ="$1"
+	_sym="$2"
 
-  _sym="${_sym%\"}"
-  _sym="${_sym#\"}"
-  _sym="/dev/disk/by-${_typ}/${_sym}"
+	_sym="${_sym%\"}"
+	_sym="${_sym#\"}"
+	_sym="/dev/disk/by-${_typ}/${_sym}"
 
-  mkdir -p "${_sym%/*}"
-  ln    -s "../../${dev_name}" "${_sym}"
+	mkdir -p "${_sym%/*}"
+	ln    -s "../../${dev_name}" "${_sym}"
 }
 
 # DEVPATH is part of uevent which is exported to environment by device
@@ -21,8 +21,8 @@ create_symlink() {
 exec >/dev/null 2>&1
 
 read -r dm_name < "/sys/block/${dev_name}/dm/name" && {
-  mkdir -p  /dev/mapper
-  ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
+	mkdir -p  /dev/mapper
+	ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
 }
 
 command -v blkid || exit 0
@@ -32,18 +32,20 @@ command -v blkid || exit 0
 # blkid to fetch data from device.  To fix this, we simply waiting
 # until blkid is succeeded.
 while ! _blkid=$(blkid "/dev/${dev_name}"); do
-  if [ "$((count += 1))" = 10 ]; then
-    exit 1
-  else
-    sleep 1
-  fi
+	if [ "$((count += 1))" = 10 ]; then
+		exit 1
+	else
+		sleep 1
+	fi
 done
 
-for line in $_blkid; do case        "${line%%=*}" in
-      UUID) create_symlink uuid     "${line##*=}" ;;
-     LABEL) create_symlink label    "${line##*=}" ;;
-  PARTUUID) create_symlink partuuid "${line##*=}" ;;
-esac; done
+for line in $_blkid; do
+	case "${line%%=*}" in
+	    UUID) create_symlink uuid     "${line##*=}" ;;
+	   LABEL) create_symlink label    "${line##*=}" ;;
+	PARTUUID) create_symlink partuuid "${line##*=}" ;;
+	esac
+done
 
-# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: cc=72:tw=70
 # End of file.
