@@ -13,24 +13,24 @@ export PATH=/bin TERM=linux SHELL=/bin/sh LANG=C LC_ALL=C PS1="# " \
 ######################################################################
 
 # Print info message to stdout.
-#  arg $1: message
+#   arg $1: message
 info() {
-  echo "=======> $1"
+	echo "=======> $1"
 }
 
 # Print error message to stderr and terminate the program.
-#  arg $1: message
+#   arg $1: message
 error() {
-  echo "=======> ERROR: $1" >&2
-  exit 1
+	echo "=======> ERROR: $1" 1>&2
+	exit 1
 }
 
 # Print error message to stderr and fallback to the sh(1).
-#  arg $1: message
+#   arg $1: message
 panic() {
-  echo "=======> ERROR: ${1:-Unexpected error occurred}" >&2
+	echo "=======> ERROR: ${1:-Unexpected error occurred}" 1>&2
 
-  sh
+	sh
 }
 
 ######################################################################
@@ -39,62 +39,63 @@ panic() {
 
 # Set ''device'' variable to full path of resolved UUID, PARTUUID,
 # LABEL, or /dev/*.
-#  arg $1: device
+#   arg $1: device
 resolve_device() {
-  device="$1"
-  local _COUNT="${2:-30}"
+	device="$1"
+	local _COUNT="${2:-30}"
 
-  case "${device%%=*}" in
-      UUID)  device="/dev/disk/by-uuid/${device#*=}"      ;;
-     LABEL)  device="/dev/disk/by-label/${device#*=}"     ;;
-  PARTUUID)  device="/dev/disk/by-partuuid/${device#*=}"  ;;
-    /dev/*)                                               ;;
-         *)  return 0                                     ;;
-  esac
+	case "${device%%=*}" in
+	    UUID) device="/dev/disk/by-uuid/${device#*=}"     ;;
+	   LABEL) device="/dev/disk/by-label/${device#*=}"    ;;
+	PARTUUID) device="/dev/disk/by-partuuid/${device#*=}" ;;
+	  /dev/*)                                             ;;
+	       *) return 0                                    ;;
+  	esac
 
-  # Race condition may occur if device manager is not yet initialized
-  # device.  To fix this, we simply waiting until device is available.
-  # If device didn't appear in specified time, we panic.
-  while : ; do
-    if [ -b "$device" ]; then
-      return 0
-    elif [ "$((_COUNT -= 1))" = 0 ]; then
-      break
-    else
-      sleep 1
-    fi
-  done
+	# Race condition may occur if device manager is not yet
+	# initialized device.  To fix this, we simply waiting until
+	# device is available.  If device didn't appear in specified
+	# time, we panic.
+	while : ; do
+		if [ -b "$device" ]; then
+			return 0
+		elif [ "$((_COUNT -= 1))" = 0 ]; then
+			break
+		else
+			sleep 1
+		fi
+	done
 
-  panic "Failed to lookup partition: $device"
+	panic "Failed to lookup partition: $device"
 }
 
 # Run hooks (by type) if any exist.
-#  arg $1: hook type (init or init.late)
+#   arg $1: hook type (init or init.late)
 run_hook() {
-  local _HOOK
-  local _HOOKTYPE="$1"
+	local _HOOK
+	local _HOOKTYPE="$1"
 
-  # https://www.shellcheck.net/wiki/SC1090
-  # shellcheck disable=1090
-  for _HOOK in $hooks; do
-    if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE" ]; then
-      . "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE"
-    fi
-  done
+	# https://www.shellcheck.net/wiki/SC1090
+	# shellcheck disable=1090
+	for _HOOK in $hooks; do
+		if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE" ]; then
+			. "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE"
+		fi
+	done
 }
 
 # Mount base filesystems, like /proc, /sys, /run and /dev.
 mount_basefs() {
-  mount -t proc     -o nosuid,noexec,nodev     proc /proc
-  mount -t sysfs    -o nosuid,noexec,nodev     sys  /sys
-  mount -t tmpfs    -o nosuid,nodev,mode=0755  run  /run
-  mount -t devtmpfs -o nosuid,noexec,mode=0755 dev  /dev
+	mount -t proc     -o nosuid,noexec,nodev     proc /proc
+	mount -t sysfs    -o nosuid,noexec,nodev     sys  /sys
+	mount -t tmpfs    -o nosuid,nodev,mode=0755  run  /run
+	mount -t devtmpfs -o nosuid,noexec,mode=0755 dev  /dev
 
-  # HACK! Some scripts needs this.
-  ln -s /proc/self/fd /dev/fd
-  ln -s fd/0          /dev/stdin
-  ln -s fd/1          /dev/stdout
-  ln -s fd/2          /dev/stderr
+	# HACK! Some scripts needs this.
+	ln -s /proc/self/fd /dev/fd
+	ln -s fd/0          /dev/stdin
+	ln -s fd/1          /dev/stdout
+	ln -s fd/2          /dev/stderr
 }
 
 # Read kernel command-line arguments.
@@ -136,28 +137,33 @@ mount_root() {
 # Switch to mounted root filesystem as the root of the mount tree and
 # start init process.
 boot_system() {
-  local _DIR
+	local _DIR
 
-  [ "$break" = boot ] && { info "break before boot_system()"; sh; }
+	if [ "$break" = boot ]; then
+		info "break before boot_system()"
 
-  # XXX seems like switch_root(8) already doing this
-  for _DIR in run dev sys proc; do
-    mount -o move "/$_DIR" "/mnt/root/$_DIR" || :
-  done
+		sh
+	fi
 
-  # POSIX 'exec' has no '-c' flag to execute command with empty
-  # environment.  Using 'env -i' instead to prevent leaking exported
-  # variables.
-  #
-  # Some implementations of 'switch_root' doesn't conform to POSIX
-  # utility guidelines and doesn't support '--'.  This means that
-  # safety of init_args isn't guaranteed.
-  #
-  # https://shellcheck.net/wiki/SC2086
-  # shellcheck disable=2086
-  exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
-    switch_root /mnt/root "${init-/sbin/init}" $init_args \
-    || panic "Failed to boot system"
+	# XXX seems like switch_root(8) already doing this
+	for _DIR in run dev sys proc; do
+		mount -o move "/$_DIR" "/mnt/root/$_DIR" || :
+	done
+
+	# POSIX 'exec' has no '-c' flag to execute command with empty
+	# environment.  Using 'env -i' instead to prevent leaking
+	# exported variables.
+	#
+	# Some implementations of 'switch_root' doesn't conform to
+	# POSIX utility guidelines and doesn't support '--'.  This
+	# means that safety of init_args isn't guaranteed.
+	#
+	# https://shellcheck.net/wiki/SC2086
+	# shellcheck disable=2086
+	exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
+		switch_root /mnt/root \
+		"${init-/sbin/init}" $init_args ||
+			panic "Failed to boot system"
 }
 
 ######################################################################
@@ -182,5 +188,5 @@ mount_root
 run_hook init.late
 boot_system
 
-# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: cc=72:tw=70
 # End of file.
