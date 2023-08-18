@@ -352,11 +352,17 @@ Mandatory arguments to long options are mandatory for short options too.
   -f, --force            overwrite initramfs image
   -v, --version          print version and exit
   -h, --help             print help and exit
+
+Report bugs to: <@BUGTRACKER@>
+mkinitramfs home page: <@HOMEPAGE@>
 EOF
 }
 
 print_version() {
-	echo "mkinitramfs @VERSION@"
+	cat <<EOF
+mkinitramfs @VERSION@
+@COPYRIGHT & COPYING.BANNER@
+EOF
 }
 
 parse_options() {
