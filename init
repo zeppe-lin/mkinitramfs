@@ -122,7 +122,11 @@ parse_cmdline() {
 
 # Mount root filesystem.
 mount_root() {
-  [ "$break" = root ] && { info "break before mount_root()"; sh; }
+  if [ "$break" = root ]; then
+	  info "break before mount_root()"
+
+	  sh
+  fi
 
   resolve_device "$root" "${root_wait:-$rootdelay}"
 
