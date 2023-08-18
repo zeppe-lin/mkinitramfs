@@ -62,7 +62,9 @@ copy_file() {
 	local _SYMLINK
 
 	# return if _FILE already exists
-	[ -e "$MKINITRAMFS_WORK_DIR/$_DEST" ] && return 0
+	if [ -e "$MKINITRAMFS_WORK_DIR/$_DEST" ]; then
+		return 0
+	fi
 
 	mkdir -p "$MKINITRAMFS_WORK_DIR/${_DEST%/*}"
 
@@ -82,8 +84,9 @@ copy_file() {
 	done
 
 	# Handle case when _FILE and _DEST have same basenames
-	[ -h "$MKINITRAMFS_WORK_DIR/$_DEST" ] && _DEST="$_FILE"
-
+	if [ -h "$MKINITRAMFS_WORK_DIR/$_DEST" ]; then
+		_DEST="$_FILE"
+	fi
 	cp    "$_FILE" "$MKINITRAMFS_WORK_DIR/$_DEST"
 	chmod "$_MODE" "$MKINITRAMFS_WORK_DIR/$_DEST"
 
@@ -122,7 +125,9 @@ copy_binary() {
 
 		for _DIR; do
 			_BIN="$_DIR/$_binary"
-			[ -x "$_BIN" ] && break
+			if [ -x "$_BIN" ]; then
+				break
+			fi
 		done || error "$_binary does not exist"
 		;;
 	esac
@@ -203,7 +208,9 @@ copy_extrafiles() {
 	info "Copy extra files."
 
 	for _FILE in ${extrafiles}; do
-		[ -f "$_FILE" ] || error "Could not find $_FILE file"
+		if [ ! -f "$_FILE" ]; then
+			error "Could not find $_FILE file"
+		fi
 
 		echo "+ $_FILE"
 		copy_file "$_FILE" "$_FILE" 0644 0
@@ -281,7 +288,9 @@ copy_kernmodules() {
 			copy_kmod "${root_type}"
 		else
 			while read -r _ _DIR _TYPE _; do
-				[ "$_DIR" = / ] && break
+				if [ "$_DIR" = / ]; then
+					break
+				fi
 			done < /proc/mounts ||
 				error "Could not autodetect rootfs kernel module"
 			copy_kmod "$_TYPE"
