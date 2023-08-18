@@ -16,16 +16,20 @@ create_symlink() {
 
 # DEVPATH is part of uevent which is exported to environment by device
 # manager.
-[ -b "/dev/${dev_name=${DEVPATH##*/}}" ] || exit 1
+if [ ! -b "/dev/${dev_name=${DEVPATH##*/}}" ]; then
+	exit 1
+fi
 
 exec >/dev/null 2>&1
 
-read -r dm_name < "/sys/block/${dev_name}/dm/name" && {
+if read -r dm_name < "/sys/block/${dev_name}/dm/name"; then
 	mkdir -p  /dev/mapper
 	ln    -sf "../${dev_name}" "/dev/mapper/${dm_name:?}"
-}
+fi
 
-command -v blkid || exit 0
+if ! command -v blkid; then
+	exit 0
+fi
 
 # Race condition may occur if uevent arrives faster(isn't that a
 # kernel bug!?) than the kernel initializes device.  This prevents
