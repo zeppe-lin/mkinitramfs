@@ -371,27 +371,21 @@ print_version() {
 }
 
 parse_options() {
-	eval set -- "$(
-		getopt  -n "mkinitramfs" -a  \
-			-o "$SHORTOPTS"      \
-			-l "$LONGOPTS"       \
-			-- "$@"
-	)"
-
+	OPTS=$(getopt -a -n "$ARGV0" -l $LOPTS -o $SOPTS -- "$@") || exit 1
+	eval set -- "$OPTS"; unset OPTS
 	while true; do
 		case $1 in
-		-o| --output) MKINITRAMFS_IMAGE="$2"     ; shift  ;;
+		-D| --helper) MKINITRAMFS_DEVHELPER="$2" ; shift  ;;
+		-H|  --hooks) MKINITRAMFS_HOOKS_DIR="$2" ; shift  ;;
+		-I|   --init) MKINITRAMFS_INIT="$2"      ; shift  ;;
 		-c| --config) MKINITRAMFS_CONF="$2"      ; shift  ;;
+		-f|  --force) FORCE=1                             ;;
 		-k| --kernel) KERNEL_VERSION="$2"        ; shift  ;;
 		-m|--modules) KERNEL_MOD_DIR="$2"        ; shift  ;;
-		-H|  --hooks) MKINITRAMFS_HOOKS_DIR="$2" ; shift  ;;
-		-D| --helper) MKINITRAMFS_DEVHELPER="$2" ; shift  ;;
-		-I|   --init) MKINITRAMFS_INIT="$2"      ; shift  ;;
-		-f|  --force) FORCE=1                             ;;
+		-o| --output) MKINITRAMFS_IMAGE="$2"     ; shift  ;;
 		-v|--version) print_version              ; exit 0 ;;
 		-h|   --help) print_help                 ; exit 0 ;;
 		          --) shift                      ; break  ;;
-		           *) echo >&2 "internal error"  ; exit 1 ;;
 		esac
 		shift
 	done
@@ -435,8 +429,8 @@ trap "interrupted" HUP  INT  QUIT  TERM
 trap "atexit"      EXIT
 
 # Default globals.
-SHORTOPTS="o:c:k:m:H:D:I:dfvh"
-LONGOPTS="output:,config:,kernel:,modules:,hooks:,helper:,init:,force,version,help"
+LOPTS="helper:,hooks:,init:,config:,force,kernel:,modules:,output:,version,help"
+SOPTS="D:H:I:c:fk:m:o:vh"
 KERNEL_VERSION=$(uname -r)
 KERNEL_MOD_DIR=/lib/modules
 MKINITRAMFS_CONF=/etc/mkinitramfs/config
