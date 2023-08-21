@@ -5,12 +5,13 @@ boot image (initramfs).
 
 This distribution is a fork of illiliti's tinyramfs as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
-- man pages in POD format
+- bash completion
+- command-line options/usage in GNU style
 - experimental smdev hook
 - luks hook: ask for password if header/keyfile is not specified
-- resume hook to resume machines from hibernation
+- man pages in POD format
 - new "extrafiles" directive to copy additional files
-- bash completion
+- resume hook to resume machines from hibernation
 
 See git log for complete/further differences.
 
