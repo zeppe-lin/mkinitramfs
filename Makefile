@@ -1,5 +1,3 @@
-.POSIX:
-
 include config.mk
 
 BIN8 = mkinitramfs
@@ -15,14 +13,7 @@ all: ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 		-s $(subst .,,$(suffix $@)) $< > $@
 
 %: %.in
-	sed -e "s|@HOMEPAGE@|${HOMEPAGE}|" \
-	    -e "s|@BUGTRACKER@|${BUGTRACKER}|" \
-	    -e "s|@VERSION@|${VERSION}|" \
-	    -e "/^@COPYRIGHT & COPYING.BANNER@/{" \
-	    -e   "r ${CURDIR}/COPYRIGHT" \
-	    -e   "r ${CURDIR}/COPYING.BANNER" \
-	    -e   "d" \
-	    -e "}" $< > $@
+	sed "s/@VERSION@/${VERSION}/" $< > $@
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/sbin
