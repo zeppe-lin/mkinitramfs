@@ -353,27 +353,21 @@ Usage: mkinitramfs [OPTION]...
 Create an initial ramdisk environment.
 
 Mandatory arguments to long options are mandatory for short options too.
-  -o, --output=FILE      set path to initramfs image
-  -c, --config=FILE      set path to config
-  -k, --kernel=VERSION   set kernel version
-  -m, --modules=PATH     set path to modules
-  -H, --hooks=PATH       set directory to hooks
-  -D, --helper=FILE      set path to device helper
-  -I, --init=FILE        set path to init script
-  -f, --force            overwrite initramfs image
-  -v, --version          print version and exit
-  -h, --help             print help and exit
-
-Report bugs to: <@BUGTRACKER@>
-mkinitramfs home page: <@HOMEPAGE@>
+  -D, --helper=FILE     specify an alternate device helper
+  -H, --hooks=DIR       specify additional directory for hooks
+  -I, --init=FILE       specify an alternate init script
+  -c, --config=FILE     specify an alternate configuration file
+  -f, --force           forcefully overwrite initramfs image
+  -k, --kernel=VERSION  specify kernel version
+  -m, --modules=DIR     specify an alternate directory for kernel modules
+  -o, --output=FILE     specify an alternate output file for initramfs image
+  -v, --version         print version and exit
+  -h, --help            print help and exit
 EOF
 }
 
 print_version() {
-	cat <<EOF
-mkinitramfs @VERSION@
-@COPYRIGHT & COPYING.BANNER@
-EOF
+	echo "mkinitramfs @VERSION@"
 }
 
 parse_options() {
