@@ -76,6 +76,14 @@ Specify an alternate output file where initramfs image will be stored.
 
 Default: F</tmp/mkinitramfs-C<kernel_version>>
 
+=item B<-v>, B<--version>
+
+Print version and exit.
+
+=item B<-h>, B<--help>
+
+Print help and exit.
+
 =back
 
 =head1 ENVIRONMENT
