@@ -88,12 +88,12 @@ Print help and exit.
 
 =head1 ENVIRONMENT
 
-B<mkinitramfs> uses the TMPDIR environment variable.  If set, it uses
-subdirectories in the given directory to create its temporary working
-directories.  Else it uses C</tmp> as default value for that purpose.
-The given directory should be on a filesystem which allows the
-execution of files stored there, i.e. should not be mounted with the
-B<noexec> mount option.
+B<mkinitramfs> uses the C<TMPDIR> environment variable.  If set, it
+uses subdirectories in the given directory to create its temporary
+working directories.  Else it uses C</tmp> as default value for that
+purpose.  The given directory should be on a filesystem which allows
+the execution of files stored there, i.e. should not be mounted with
+the B<noexec> mount option.
 
 =head1 FILES
 
@@ -166,5 +166,5 @@ L<Using the initial RAM disk (initrd)|https://docs.kernel.org/admin-guide/initrd
 
 =cut
 
-# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: cc=72 tw=70
 # End of file.
