@@ -18,7 +18,7 @@ info() {
 # Print error message to stderr and terminate the program.
 #   arg $1: message
 error() {
-	echo "=======> ERROR: $1" >&2
+	echo "=======> ERROR: $1" 1>&2
 	exit 1
 }
 
@@ -32,8 +32,8 @@ error() {
 # https://www.shellcheck.net/wiki/SC2317
 # shellcheck disable=2317
 interrupted() {
-	echo ""         >&2
-	info "Aborted." >&2
+	echo ""         1>&2
+	info "Aborted." 1>&2
 	exit 1
 }
 
