@@ -1,4 +1,4 @@
-# mkinitramfs.cmdline.7.pod - mkinitramfs.cmdline(7) manual page
+# mkinitramfs.cmdline(7) manual page
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod

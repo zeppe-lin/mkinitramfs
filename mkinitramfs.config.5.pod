@@ -1,4 +1,4 @@
-# mkinitramfs.config.5.pod - mkinitramfs.config(5) manual page
+# mkinitramfs.config(5) manual page
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod
@@ -18,35 +18,35 @@ Each variable must be written in POSIX way, bashism not allowed.
 
 Example:
 
-  key=value
+	key=value
 
 If value contains spaces it must be quoted.
 
-  key="value value2"
+	key="value value2"
 
 If value contains special symbols like C<$>, it must be escaped or
 quoted using single quotes.
 
-  key=\\$value
-  key='$value'
+	key=\\$value
+	key='$value'
 
 If line exceeded maximum space on your display and you want to make it
 more readable, you can concatenate them.
 
-  key=value
-  key="${key}value"
+	key=value
+	key="${key}value"
 
 If you want to temporary undefine variable without actually deleting
 it, you can simply prepend C<#>.
 
-  #key=value
+	#key=value
 
 =head1 MAN PAGE SYNTAX
 
-  |    - OR
-  *    - any value
-  [a]  - optional value
-  ...  - can be repeated
+	|    - OR
+	*    - any value
+	[a]  - optional value
+	...  - can be repeated
 
 =head1 GENERAL OPTIONS
 
@@ -285,63 +285,67 @@ See B<root> (above) for argument details.
 Remember, these just examples! B<Don't copy blindly>!
 Your configuration may (and should) differ.
 
-=head2 ROOT
+=over
 
-  hooks=eudev
-  root=/dev/sda1
+=item B<< ROOT >>
 
-=head2 ROOT + MONOLITH + PROC (CONFIG_UEVENT_HELPER)
+    hooks=eudev
+    root=/dev/sda1
 
-  hooks=proc
-  monolith=1
-  root=/dev/nvme0n1p1
+=item B<< ROOT + MONOLITH + PROC (CONFIG_UEVENT_HELPER) >>
 
-=head2 ROOT + COMPRESS
+    hooks=proc
+    monolith=1
+    root=/dev/nvme0n1p1
 
-  hostonly=1
-  hooks=mdevd
-  compress="gzip -9"
-  root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
+=item B<< ROOT + COMPRESS >>
 
-=head2 ROOT + KEYMAP
+    hostonly=1
+    hooks=mdevd
+    compress="gzip -9"
+    root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
 
-  root_type=f2fs
-  hooks="eudev keymap"
-  root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
-  keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
+=item B<< ROOT + KEYMAP >>
 
-=head2 ROOT + LUKS
+    root_type=f2fs
+    hooks="eudev keymap"
+    root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+    keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
 
-  hooks="mdev luks"
-  root=LABEL=my_root
-  luks_discard=1
-  luks_key=/root/key
-  luks_header=/root/header
-  luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
+=item B<< ROOT + LUKS >>
 
-=head2 ROOT + LVM + LUKS
+    hooks="mdev luks"
+    root=LABEL=my_root
+    luks_discard=1
+    luks_key=/root/key
+    luks_header=/root/header
+    luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
 
-  compress="lz4 -9"
-  hooks="eudev lvm luks"
-  root=/dev/disk/by-uuid/aa82d7bb-ab2b-4739-935f-fd8a5c9a6cb0
-  luks_discard=1
-  luks_root=/dev/sdb2
-  lvm_config=1
-  lvm_discard=1
-  lvm_name=lvm1
-  lvm_group=lvm_grp2
+=item B<< ROOT + LVM + LUKS >>
 
-=head2 ROOT + LUKS + LVM + RESUME
+    compress="lz4 -9"
+    hooks="eudev lvm luks"
+    root=/dev/disk/by-uuid/aa82d7bb-ab2b-4739-935f-fd8a5c9a6cb0
+    luks_discard=1
+    luks_root=/dev/sdb2
+    lvm_config=1
+    lvm_discard=1
+    lvm_name=lvm1
+    lvm_group=lvm_grp2
 
-  hostonly=1
-  compress="gzip --fast"
-  hooks="eudev luks lvm resume"
-  root=/dev/mapper/root
-  root_type=ext4
-  resume=/dev/mapper/swap
-  luks_discard=1
-  luks_name=crypt
-  luks_root=/dev/sda2
+=item B<< ROOT + LUKS + LVM + RESUME >>
+
+    hostonly=1
+    compress="gzip --fast"
+    hooks="eudev luks lvm resume"
+    root=/dev/mapper/root
+    root_type=ext4
+    resume=/dev/mapper/swap
+    luks_discard=1
+    luks_name=crypt
+    luks_root=/dev/sda2
+
+=back
 
 =head1 FILES
 

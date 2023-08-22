@@ -183,17 +183,21 @@ below scripts with appropriate names to that directory.  After that,
 prepend B<ext4> to B<hooks> option in B<mkinitramfs>' config
 (F</etc/mkinitramfs/config>).
 
-I<ext4>
+=over
 
-  print "Copying ext4 dependencies"
+=item I<ext4>:
 
-  for _mod in crc32c libcrc32c; do
-      copy_kmod "$_mod"
-  done
+    print "Copying ext4 dependencies"
 
-I<ext4.init>
+    for _mod in crc32c libcrc32c; do
+            copy_kmod "$_mod"
+    done
 
-  modprobe -a crc32c libcrc32c
+=item I<ext4.init>:
+
+    modprobe -a crc32c libcrc32c
+
+=back
 
 =head1 SEE ALSO
 
@@ -201,5 +205,5 @@ L<mkinitramfs(8)>, L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>
 
 =cut
 
-# vim:sw=2:ts=2:sts=2:et:cc=72:tw=70
+# vim: cc=72 tw=70
 # End of file.
