@@ -8,13 +8,13 @@ DATA = hooks device-helper init
 
 all: ${BIN8} ${MAN5} ${MAN7} ${MAN8}
 
-%: %.pod
-	pod2man -r "${NAME} ${VERSION}" -c ' ' -n $(basename $@) \
-		-s $(subst .,,$(suffix $@)) $< > $@
-
 %: %.in
 	sed "s/@VERSION@/${VERSION}/" $< > $@
 	chmod a+x $@
+
+%: %.pod
+	pod2man -r "${NAME} ${VERSION}" -c ' ' -n $(basename $@) \
+		-s $(subst .,,$(suffix $@)) $< > $@
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/sbin
