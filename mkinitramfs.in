@@ -6,6 +6,10 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
+# Intentional: allow "local"s declaration.a
+# https://www.shellcheck.net/wiki/SC3043
+# shellcheck disable=SC3043
+
 ######################################################################
 # Notification helpers.                                              #
 ######################################################################
