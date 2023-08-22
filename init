@@ -100,24 +100,26 @@ mount_basefs() {
 
 # Read kernel command-line arguments.
 parse_cmdline() {
-  local _CMDLINE
-  local _PARAM
+	local _CMDLINE
+	local _PARAM
 
-  read -r _CMDLINE < /proc/cmdline
+	read -r _CMDLINE < /proc/cmdline
 
-  # https://kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
-  # ... parameters with '=' go into init's environment ...
-  for _PARAM in $_CMDLINE; do case "$_PARAM" in
-    rootfstype=*)  root_type="${_PARAM#*=}"            ;;
-     rootflags=*)  root_opts="${_PARAM#*=}"            ;;
-     rootdelay=*)  root_wait="${_PARAM#*=}"            ;;
-        rootwait)  root_wait=-1                        ;;
-         debug=1)  set -x                              ;;
-           ro|rw)  rorw="$_PARAM"                      ;;
-             --*)  init_args="${_PARAM##*-- }" ; break ;;
-             *=*)  command export "$_PARAM"            ;;
-               *)  command export "$_PARAM=1"          ;;
-  esac 2>/dev/null || : ; done
+	# https://kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
+	# ... parameters with '=' go into init's environment ...
+	for _PARAM in $_CMDLINE; do
+		case "$_PARAM" in
+		rootfstype=*) root_type="${_PARAM#*=}"            ;;
+		 rootflags=*) root_opts="${_PARAM#*=}"            ;;
+		 rootdelay=*) root_wait="${_PARAM#*=}"            ;;
+		    rootwait) root_wait=-1                        ;;
+		     debug=1) set -x                              ;;
+		       ro|rw) rorw="$_PARAM"                      ;;
+		         --*) init_args="${_PARAM##*-- }" ; break ;;
+		         *=*) command export "$_PARAM"            ;;
+		           *) command export "$_PARAM=1"          ;;
+		esac 2>/dev/null || :
+	done
 }
 
 # Mount root filesystem.
