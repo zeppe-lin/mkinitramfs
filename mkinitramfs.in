@@ -396,6 +396,7 @@ main() {
 
 	# Read configuration.
 	if [ -f "$MKINITRAMFS_CONF" ]; then
+		# Intentional.
 		# https://www.shellcheck.net/wiki/SC1090
 		# shellcheck disable=1090
 		. "$MKINITRAMFS_CONF"
