@@ -1,4 +1,4 @@
-# mkinitramfs.hooks.7.pod - mkinitramfs.hooks(7) manual page
+# mkinitramfs.hooks(7) manual page
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod
