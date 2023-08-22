@@ -48,7 +48,8 @@ You need a kernel built with:
 ```
 
 **Build time**:
-- POSIX sh(1p), make(1p) and "mandatory utilities"
+- POSIX sh(1p) and "mandatory utilities"
+- GNU make(1)
 - pod2man(1pm) to build man pages
 
 **Runtime**:
