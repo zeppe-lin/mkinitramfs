@@ -2,6 +2,7 @@
 # mkinitramfs - create an initial ramdisk environment
 # See COPYING and COPYRIGHT files for corresponding information.
 
+# Intentional: "var is referenced but not assigned".
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
