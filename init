@@ -80,8 +80,9 @@ run_hook() {
 	local _HOOK
 	local _HOOKTYPE="$1"
 
+	# Intentional: "can't follow non-constant source".
 	# https://www.shellcheck.net/wiki/SC1090
-	# shellcheck disable=1090
+	# shellcheck disable=SC1090
 	for _HOOK in $hooks; do
 		if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE" ]; then
 			. "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE"
@@ -137,8 +138,9 @@ mount_root() {
 
   resolve_device "$root" "${root_wait:-$rootdelay}"
 
+  # Intentional word splitting.
   # https://www.shellcheck.net/wiki/SC2086
-  # shellcheck disable=2086
+  # shellcheck disable=SC2086
   mount \
     -o "${rorw:-ro}${root_opts:+,$root_opts}"  \
     ${root_type:+-t $root_type} \
@@ -168,9 +170,10 @@ boot_system() {
 	# Some implementations of 'switch_root' doesn't conform to
 	# POSIX utility guidelines and doesn't support '--'.  This
 	# means that safety of init_args isn't guaranteed.
-	#
+
+	# Intentional word splitting.
 	# https://shellcheck.net/wiki/SC2086
-	# shellcheck disable=2086
+	# shellcheck disable=SC2086
 	exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
 		switch_root /mnt/root \
 		"${init-/sbin/init}" $init_args ||
@@ -188,7 +191,7 @@ trap panic EXIT
 
 # Read configuration.
 # https://www.shellcheck.net/wiki/SC1091
-# shellcheck disable=1091
+# shellcheck disable=SC1091
 . /etc/mkinitramfs/config
 
 # Run init helpers.
