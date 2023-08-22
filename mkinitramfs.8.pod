@@ -1,3 +1,4 @@
+# mkinitramfs.8.pod - documentation for mkinitramfs(8) manual page
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod
