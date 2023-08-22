@@ -1,3 +1,4 @@
+# mkinitramfs.config.5.pod - mkinitramfs.config(5) manual page
 # See COPYING and COPYRIGHT files for corresponding information.
 
 =pod
