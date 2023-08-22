@@ -97,7 +97,7 @@ the B<noexec> mount option.
 
 =head1 FILES
 
-=over
+=over 8
 
 =item F</etc/mkinitramfs/config>
 
@@ -105,7 +105,7 @@ The default configuration file for the script.  See
 L<mkinitramfs.config(5)> for a description of the available
 configuration parameters.
 
-=item F</usr/share/mkinitramfs/hooks/>
+=item F</usr/share/mkinitramfs/hooks/>,
 
 =item F</etc/mkinitramfs/hooks/>
 
@@ -123,19 +123,19 @@ Device-helper for B<mkinitramfs>.
 
 =head1 EXAMPLES
 
-=over
+=over 8
 
 =item Create an initramfs for current running kernel:
 
-  mkinitramfs -o /tmp/initramfs-`uname -r`.img
+ mkinitramfs -o /tmp/initramfs-`uname -r`.img
 
 =item Create an initramfs for specific kernel:
 
-  mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
+ mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
 
 =item Debug initramfs creation (check out written logfile):
 
-  sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
+ sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
 
 =back
 
@@ -152,7 +152,7 @@ L<mkinitramfs.hooks(7)> how to do it.
 L<mkinitramfs.config(5)>, L<mkinitramfs.cmdline(7)>,
 L<mkinitramfs.hooks(7)>
 
-=over
+=over 8
 
 =item Kernel subsystem documentation:
 
