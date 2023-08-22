@@ -6,7 +6,7 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=SC2154
 
-# Intentional: allow "local"s declaration.a
+# Intentional: allow "local"s declaration.
 # https://www.shellcheck.net/wiki/SC3043
 # shellcheck disable=SC3043
 
