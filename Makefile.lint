@@ -1,27 +1,55 @@
-# Makefile.lint is the automated checking of mkinitramfs project
-# for various programmatic and stylistic errors.
+# Makefile.lint is the automated checking of this project for various
+# programmatic and stylistic errors.  Requires GNU make(1).
 
-all: deadlinks podchecker shellcheck longlines
+CURMAKE = $(MAKE) -s -f Makefile.lint
+
+all:	deadlinks podchecker shellcheck cppcheck flawfinder longlines
+
+######################################################################
+# Helpers.                                                           #
+######################################################################
+
+greplinks:
+	@grep -EIihor "https?://[^\"\\'> ]+" --exclude-dir=.git*
+
+curllinks:
+	@$(CURMAKE) greplinks | xargs -I{} -r -P10 \
+		curl -I -o/dev/null -sw "[%{http_code}] %{url}\n" '{}'
+
+######################################################################
+# Main Targets.                                                      #
+######################################################################
 
 deadlinks:
 	@echo "=======> Check for dead links"
-	@grep -EIihor "https?://[^\"\\'> ]+" --exclude-dir=.git*  \
-		| xargs -P10 -r -I{} curl -I -o/dev/null          \
-		  -sw "[%{http_code}] %{url}\n" '{}'              \
-		| grep -v '^\[200\]'                              \
-		| sort -u
+	@$(CURMAKE) curllinks | grep -v '^\[200\]' | sort -u
 
 podchecker:
 	@echo "=======> Check PODs for syntax errors"
-	@podchecker *.pod >/dev/null
+	@find . -name '*.pod' -exec podchecker {} +
 
 shellcheck:
 	@echo "=======> Check shell scripts for syntax errors"
 	@grep -m1 -Irl '^#\s*!/bin/sh' --exclude-dir=.git* \
 		| xargs -L10 -r shellcheck -s sh
 
+cppcheck:
+	@echo "=======> Static C/C++ code analysis"
+	@cppcheck --quiet --enable=all --check-level=exhaustive  \
+		--suppress=missingIncludeSystem .
+
+flawfinder:
+	@echo "=======> Check for potential security flaws"
+	@flawfinder --quiet -D .
+
 longlines:
 	@echo "=======> Check for long lines"
 	@! grep -PIrn '^.{81,}$$' --exclude-dir=.git*
 
-.PHONY: all deadlinks podchecker shellcheck longlines
+######################################################################
+
+.PHONY: all greplinks curllinks deadlinks \
+	podchecker shellcheck cppcheck flawfinder longlines
+
+# vim: cc=72 tw=70
+# End of file.
