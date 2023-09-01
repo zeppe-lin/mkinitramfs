@@ -27,6 +27,7 @@ info() {
 #   arg $1: message
 error() {
 	echo "=======> ERROR: $1" 1>&2
+
 	exit 1
 }
 
