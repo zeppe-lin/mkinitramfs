@@ -358,20 +358,26 @@ make_initramfs() {
 
 print_help() {
 	cat << EOF
-Usage: mkinitramfs [OPTION]...
+Usage: mkinitramfs [-f] [-D helperfile] [-H hooksdir] [-I initfile]
+                   [-c conffile] [-k kernel_version] [-m modulesdir]
+                   [-o initramfs]
+       mkinitramfs [-v]
+       mkinitramfs [-h]
 Create an initial ramdisk environment.
 
 Mandatory arguments to long options are mandatory for short options too.
-  -D, --helper=FILE     specify an alternate device helper
-  -H, --hooks=DIR       specify additional directory for hooks
-  -I, --init=FILE       specify an alternate init script
-  -c, --config=FILE     specify an alternate configuration file
-  -f, --force           forcefully overwrite initramfs image
-  -k, --kernel=VERSION  specify kernel version
-  -m, --modules=DIR     specify an alternate directory for kernel modules
-  -o, --output=FILE     specify an alternate output file for initramfs image
-  -v, --version         print version and exit
-  -h, --help            print help and exit
+  -D, --helper=helperfile      specify an alternate device helper
+  -H, --hooks=hooksdir         specify additional directory for hooks
+  -I, --init=initfile          specify an alternate init script
+  -c, --config=conffile        specify an alternate configuration file
+  -f, --force                  forcefully overwrite initramfs image
+  -k, --kernel=kernel_version  specify kernel version
+  -m, --modules=modulesdir     specify an alternate directory for kernel
+                               modules
+  -o, --output=initramfs       specify an alternate output file for initramfs
+                               image
+  -v, --version                print version and exit
+  -h, --help                   print help and exit
 EOF
 }
 
