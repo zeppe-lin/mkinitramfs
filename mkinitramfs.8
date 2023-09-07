@@ -3,9 +3,11 @@
 .Dd September 7, 2023
 .Dt MKINITRAMFS 8
 .Os mkinitramfs @VERSION@
+.\" ==================================================================
 .Sh NAME
 .Nm mkinitramfs
 .Nd create an initial ramdisk environment
+.\" ==================================================================
 .Sh SYNOPSIS
 .Nm mkinitramfs
 .Op Fl f
@@ -20,6 +22,7 @@
 .Op Fl v
 .Nm
 .Op Fl h
+.\" ==================================================================
 .Sh DESCRIPTION
 The
 .Nm
@@ -80,6 +83,7 @@ Print version and exit.
 .It Fl h , Fl \-help
 Print help and exit.
 .El
+.\" ==================================================================
 .Sh ENVIRONMENT
 .Nm
 uses the
@@ -94,6 +98,7 @@ The given directory should be on a filesystem which allows the
 execution of files stored there, i.e.  should not be mounted with the
 .Sy noexec
 mount option.
+.\" ==================================================================
 .Sh FILES
 .Bl -tag -width Ds
 .It Pa /etc/mkinitramfs/config
@@ -109,6 +114,7 @@ Init.
 .It Pa /usr/share/mkinitramfs/device-helper
 Device-helper.
 .El
+.\" ==================================================================
 .Sh EXAMPLES
 .Bl -tag -width Ds
 .It Create an initramfs for current running kernel:
@@ -124,6 +130,7 @@ mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
 sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
 .Ed
 .El
+.\" ==================================================================
 .Sh NOTES
 If you have modular kernel and you use
 .Sy busybox' modprobe
@@ -135,6 +142,7 @@ You must install them yourself using hooks.
 See
 .Xr mkinitramfs.hooks 7
 how to do it.
+.\" ==================================================================
 .Sh SEE ALSO
 .Xr mkinitramfs.config 5 ,
 .Xr mkinitramfs.cmdline 7 ,
