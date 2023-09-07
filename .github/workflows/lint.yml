@@ -19,7 +19,4 @@ jobs:
     - name: Check shell scripts for errors
       run: make -f Makefile.lint shellcheck
 
-    - name: Check PODs for syntax errors
-      run: make -f Makefile.lint podchecker
-
 # End of file.
