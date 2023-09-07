@@ -6,15 +6,18 @@
 .Sh NAME
 .Nm mkinitramfs.cmdline
 .Nd mkinitramfs' kernel command-line parameters
+.\" ==================================================================
 .Sh DESCRIPTION
 The
 .Xr mkinitramfs 8
 utility provides a way to control configuration dynamically via kernel
 parameters without needing to regenerate initramfs image.
+.\" ------------------------------------------------------------------
 .Ss General Parameters
-.Bl -tag -width Ds
+.Bl -tag -width Ds -compact
 .It Sy debug Ns = Ns Aq 0 | 1
 Disable/enable debug mode.
+.Pp
 .It Sy break Ns = Ns Aq BREAKPOINT
 Specify breakpoint where shell should be invoked.
 Useful for debugging.
@@ -27,6 +30,7 @@ List of builtin breakpoints:
 .Pp
 Hooks can provide their own breakpoints.
 See source code of hooks for more information.
+.Pp
 .It Sy root Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
 Specify which way initramfs will use to look up root filesystem.
 .Pp
@@ -48,17 +52,23 @@ utility for ability to use UUID, LABEL, PARTUUID.
 PARTUUID only supported in
 .Sy util-linux Ns '
 .Xr blkid 8 .
-.It Sy root_type Ns = Ns Ao TYPE Ac , Sy rootfstype Ns = Ns Aq TYPE
+.Pp
+.It Sy root_type Ns = Ns Aq TYPE
+.It Sy rootfstype Ns = Ns Aq TYPE
 Explicitly set root filesystem type.
 Kernel must support specified type.
+.Pp
 .It Sy rootdelay Ns = Ns Aq DELAY
 Specify maximum number of seconds to wait for root device instead of
 the default 30 seconds.
-.It Sy root_opts Ns = Ns Ao OPTS Ac , Sy rootflags Ns = Ns Aq OPTS
+.Pp
+.It Sy root_opts Ns = Ns Aq OPTS
+.It Sy rootflags Ns = Ns Aq OPTS
 See
 .Xr fstab 5
 fourth field.
 .El
+.\" ------------------------------------------------------------------
 .Ss Hooks Parameters
 Initramfs must contain appropriate hooks for ability to use below
 parameters.
@@ -109,6 +119,7 @@ Leave empty to disable.
 .Pp
 Useful for SSD's, but you must know that security will be decreased.
 .El
+.\" ==================================================================
 .Sh EXAMPLES
 Specify
 .Sy root
@@ -131,6 +142,7 @@ Pass arguments to real init:
 .Bd -literal -offset indent
 vmlinuz initrd=\einitramfs [...] -- arguments
 .Ed
+.\" ==================================================================
 .Sh SEE ALSO
 .Xr mkinitramfs.config 5 ,
 .Xr mkinitramfs.hooks 7 ,
