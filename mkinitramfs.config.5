@@ -3,11 +3,14 @@
 .Dd September 7, 2023
 .Dt MKINITRAMFS.CONFIG 5
 .Os mkinitramfs @VERSION@
+.\" ==================================================================
 .Sh NAME
 .Nm mkinitramfs.config
 .Nd configuration file for mkinitramfs
+.\" ==================================================================
 .Sh SYNOPSIS
 .Nm /etc/mkinitramfs/config
+.\" ==================================================================
 .Sh DESCRIPTION
 .Sy mkinitramfs
 configuration file is a list of environment variables.
@@ -44,12 +47,13 @@ it, you can simply prepend
 .Bd -literal -offset indent
 #key=value
 .Ed
+.\" ------------------------------------------------------------------
 .Ss General Options
 .Bl -tag -width Ds
 .It Sy monolith Ns = Ns Op 1
 Monolithic kernel means kernel with builtin modules.
-If you didn't build kernel yourself, then in most cases you have modular
-kernel and you don't need to enable this option.
+If you didn't build kernel yourself, then in most cases you have
+modular kernel and you don't need to enable this option.
 To check if you have monolithic you need to check if
 .Dq /lib/modules/<kernel_version>/modules
 exist.
@@ -168,6 +172,7 @@ used "as is".
 More detailed information and how to write your own hooks described in
 .Xr mkinitramfs.hooks 7 .
 .El
+.\" ------------------------------------------------------------------
 .Ss Hooks Options
 The
 .Sy lvm
@@ -250,12 +255,14 @@ See
 .Sy root
 (above) for argument details.
 .El
+.\" ==================================================================
 .Sh FILES
 .Bl -tag -width Ds
 .It Pa /etc/mkinitramfs/config
 Configuration file for
 .Xr mkinitramfs 8 .
 .El
+.\" ==================================================================
 .Sh EXAMPLES
 Remember, these just examples!
 .Sy Don't copy blindly !
@@ -347,6 +354,7 @@ luks_name=crypt
 luks_root=/dev/sda2
 .Ed
 .El
+.\" ==================================================================
 .Sh SEE ALSO
 .Xr mkinitramfs.cmdline 7 ,
 .Xr mkinitramfs.hooks 7 ,
