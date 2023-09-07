@@ -72,8 +72,11 @@ The following runtime dependencies are optional:
 
 INSTALL
 -------
-The shell commands `make && make install` should build and install
-this package.
+The shell command `make install` should install this package.  The
+shell command `make install_bashcomp` should install bash completion
+script.
+
+See `config.mk` file for configuration parameters.
 
 
 USAGE
