@@ -9,7 +9,7 @@ This distribution is a fork of illiliti's tinyramfs as of commit
 - command-line options/usage in GNU style
 - experimental smdev hook
 - luks hook: ask for password if header/keyfile is not specified
-- man pages in POD format
+- man pages in mdoc(7) format
 - new "extrafiles" directive to copy additional files
 - resume hook to resume machines from hibernation
 
@@ -48,9 +48,7 @@ You need a kernel built with:
 ```
 
 **Build time**:
-- POSIX sh(1p) and "mandatory utilities"
-- GNU make(1)
-- pod2man(1pm) to build man pages
+- POSIX sh(1p), make(1p) and "mandatory utilities"
 
 **Runtime**:
 - POSIX sh(1p) and standard POSIX utilities
