@@ -3,6 +3,7 @@
 .Dd September 7, 2023
 .Dt MKINITRAMFS.CMDLINE 7
 .Os mkinitramfs @VERSION@
+.\" ==================================================================
 .Sh NAME
 .Nm mkinitramfs.cmdline
 .Nd mkinitramfs' kernel command-line parameters
@@ -15,8 +16,8 @@ parameters without needing to regenerate initramfs image.
 .\" ------------------------------------------------------------------
 .Ss General Parameters
 .Bl -tag -width Ds -compact
-.It Sy debug Ns = Ns Aq 0 | 1
-Disable/enable debug mode.
+.It Sy debug Ns = Ns Op 1
+Enable debug mode.
 .Pp
 .It Sy break Ns = Ns Aq BREAKPOINT
 Specify breakpoint where shell should be invoked.
