@@ -1,0 +1,355 @@
+.\" mkinitramfs.config(5) manual page
+.\" See COPYING and COPYRIGHT files for corresponding information.
+.Dd September 7, 2023
+.Dt MKINITRAMFS.CONFIG 5
+.Os mkinitramfs @VERSION@
+.Sh NAME
+.Nm mkinitramfs.config
+.Nd configuration file for mkinitramfs
+.Sh SYNOPSIS
+.Nm /etc/mkinitramfs/config
+.Sh DESCRIPTION
+.Sy mkinitramfs
+configuration file is a list of environment variables.
+Each variable must be written in POSIX way, bashism not allowed.
+.Pp
+Example:
+.Bd -literal -offset indent
+key=value
+.Ed
+.Pp
+If value contains spaces it must be quoted.
+.Bd -literal -offset indent
+key="value value2"
+.Ed
+.Pp
+If value contains special symbols like
+.Ql $ ,
+it must be escaped or quoted using single quotes.
+.Bd -literal -offset indent
+key=\e\e$value
+key='$value'
+.Ed
+.Pp
+If line exceeded maximum space on your display and you want to make it
+more readable, you can concatenate them.
+.Bd -literal -offset indent
+key=value
+key="${key}value"
+.Ed
+.Pp
+If you want to temporary undefine variable without actually deleting
+it, you can simply prepend
+.Ql # .
+.Bd -literal -offset indent
+#key=value
+.Ed
+.Ss General Options
+.Bl -tag -width Ds
+.It Sy monolith Ns = Ns Op 1
+Monolithic kernel means kernel with builtin modules.
+If you didn't build kernel yourself, then in most cases you have modular
+kernel and you don't need to enable this option.
+To check if you have monolithic you need to check if
+.Dq /lib/modules/<kernel_version>/modules
+exist.
+If this directory doesn't exist you probably have monolithic kernel
+which means you need to set
+.Sy monolith
+to
+.Sy 1 .
+.It Sy hostonly Ns = Ns Op 1
+Hostonly mode enumerates
+.Xr sysfs 5
+and copies only necessary modules instead of copying all modules.
+Which means that this mode can dramatically reduce initramfs size.
+.Pp
+This option will be ignored if
+.Sy monolith
+was set to
+.Sy 1 .
+.It Sy compress Ns = Ns Aq COMMAND Op ARGS ...
+Specify which command will be used to compress initramfs image.
+.Pp
+There is a lot of commands you can use, such as:
+.Bl -tag -width XXXXX -compact
+.It xz
+.It zstd
+.It gzip
+.It bzip2
+.It ... and many more ...
+.El
+.Pp
+You can set compression level by specifying
+.Dq Li -[0-9]
+in
+.Em ARGS .
+.It Sy root Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
+Specify which way
+.Xr mkinitramfs 8
+will use to look up root filesystem.
+.Pp
+.Bl -tag -width PARTUUID -compact
+.It UUID
+Lookup device by uuid.
+.It LABEL
+Lookup device by label.
+.It /dev/*
+Lookup device by full path.
+.It PARTUUID
+Lookup device by partition uuid.
+.El
+.Pp
+You must install
+.Sy blkid
+utility (available in
+.Sy toybox ,
+.Sy busybox ,
+.Sy util-linux
+or
+.Sy e2fsprogs )
+for ability to use UUID, LABEL, PARTUUID.
+.Pp
+.Sy Note :
+.Em PARTUUID
+only supported in
+.Sy util-linux'
+.Xr blkid 8 .
+.It Sy root_type Ns = Ns Aq TYPE
+Explicitly set root filesystem type instead of automatically
+discovering via
+.Pa /proc/mounts .
+This option must be specified if you booted from Live CD.
+.It Sy root_opts Ns = Ns Aq OPTS
+See
+.Xr fstab 5
+fourth field.
+.It Sy extrafiles Ns = Ns Aq FILE ...
+Add extra
+.Em FILE Ns s
+to
+.Sy initramfs
+image.
+.It Sy hooks Ns = Ns Aq HOOK ...
+Hooks provide a flexible way to extend
+.Xr mkinitramfs 8
+with custom scripts.
+.Sy Hooks are launched in the order in which they are specified .
+.Pp
+List of shipped by default hooks:
+.Bl -enum -compact
+.It
+lvm
+.It
+luks
+.It
+.Lk https://core.suckless.org/smdev/ smdev
+.It
+.Lk https://git.busybox.net/busybox/plain/docs/mdev.txt mdev
+.It
+proc (CONFIG_UEVENT_HELPER)
+.It
+.Lk https://skarnet.org/software/mdevd/ mdevd
+.It
+.Lk https://github.com/eudev-project/eudev eudev
+.It
+keymap
+.It
+resume (resume from hibernation)
+.It
+systemd-udevd
+.El
+.Pp
+See below how to use them.
+.Pp
+If hook doesn't have options, then it's not yet documented or can be
+used "as is".
+.Pp
+More detailed information and how to write your own hooks described in
+.Xr mkinitramfs.hooks 7 .
+.El
+.Ss Hooks Options
+The
+.Sy lvm
+hook has the following options:
+.Bl -tag -width Ds
+.It Sy lvm_tag Ns = Ns Aq TAG
+Specify LVM tag which will be used to trigger LVM.
+.Pp
+This option will be ignored if
+.Sy lvm_name Ns / Ns Sy lvm_group
+was specified.
+.It Sy lvm_name Ns = Ns Aq NAME
+Specify LVM name which will be used to trigger LVM.
+.Pp
+.Sy lvm_group
+(see below) must be specified.
+.It Sy lvm_group Ns = Ns Aq GROUP
+Specify LVM group which will be used to trigger LVM.
+.It Sy lvm_config Ns = Ns Op 1
+Include
+.Pa /etc/lvm/lvm.conf
+in initramfs.
+.It Sy lvm_discard Ns = Ns Op 1
+Pass
+.Dq issue_discards
+to LVM.
+Useful for SSD's.
+.El
+.Pp
+The
+.Sy luks
+hook has the following options:
+.Bl -tag -width Ds
+.It Sy luks_key Ns = Ns Aq PATH
+Specify location to key.
+.Pp
+GPG-encrypted key currently not supported.
+.It Sy luks_name Ns = Ns Aq NAME
+Specify which name will be registered to mapping table after
+.Xr cryptsetup 8
+unlocks LUKS root.
+.It Sy luks_root Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
+See
+.Sy root
+(above) for details.
+.It Sy luks_header Ns = Ns Aq PATH
+Specify location to detached header.
+.It Sy luks_discard Ns = Ns Op 1
+Pass
+.Dq --allow-discards
+to
+.Xr cryptsetup 8 .
+Useful for SSD's, but you must know that security will be decreased.
+.El
+.Pp
+The
+.Sy keymap
+hook has the following options:
+.Bl -tag -width Ds
+.It Sy keymap_path Ns = Ns Aq PATH
+Specify location to binary keymap.
+.Pp
+Currently, this hook supports loading keymap only via
+.Sy busybox' loadkmap .
+.Pp
+.Sy kbd's loadkeys
+not supported.
+.El
+.Pp
+The
+.Sy resume
+hook has the following options:
+.Bl -tag -width Ds
+.It Sy resume Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
+Specify which way
+.Xr mkinitramfs 8
+will use to look up swap device to resume from hibernation.
+.Pp
+See
+.Sy root
+(above) for argument details.
+.El
+.Sh FILES
+.Bl -tag -width Ds
+.It Pa /etc/mkinitramfs/config
+Configuration file for
+.Xr mkinitramfs 8 .
+.El
+.Sh EXAMPLES
+Remember, these just examples!
+.Sy Don't copy blindly !
+Your configuration may (and should) differ.
+.Pp
+.Bl -enum -width Ds -compact
+.It
+Specify root device and add
+.Sy eudev
+hook:
+.Bd -literal -offset indent
+hooks=eudev
+root=/dev/sda1
+.Ed
+.Pp
+.It
+Specify root device, install monolith kernel (without modules) and add
+.Sy proc
+(CONFIG_UEVENT_HELPER) hook.
+.Bd -literal -offset indent
+hooks=proc
+monolith=1
+root=/dev/nvme0n1p1
+.Ed
+.Pp
+.It
+Specify root device, copy only host modules for modular kernel,
+compress initramfs image through
+.Dq gzip -9 ,
+and add
+.Sy mdevd
+hook:
+.Bd -literal -offset indent
+hostonly=1
+hooks=mdevd
+compress="gzip -9"
+root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
+.Ed
+.Pp
+.It
+Specify root device and root filesystem type, add
+.Sy eudev
+and
+.Sy keymap
+hooks, and specify keymap path:
+.Bd -literal -offset indent
+root_type=f2fs
+hooks="eudev keymap"
+root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
+.Ed
+.Pp
+.It
+LUKS setup:
+.Bd -literal -offset indent
+hooks="mdev luks"
+root=LABEL=my_root
+luks_discard=1
+luks_key=/root/key
+luks_header=/root/header
+luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
+.Ed
+.Pp
+.It
+LUKS/LVM setup:
+.Bd -literal -offset indent
+compress="lz4 -9"
+hooks="eudev lvm luks"
+root=/dev/disk/by-uuid/aa82d7bb-ab2b-4739-935f-fd8a5c9a6cb0
+luks_discard=1
+luks_root=/dev/sdb2
+lvm_config=1
+lvm_discard=1
+lvm_name=lvm1
+lvm_group=lvm_grp2
+.Ed
+.Pp
+.It
+LUKS setup + resume from hibernation:
+.Bd -literal -offset indent
+hostonly=1
+compress="gzip --fast"
+hooks="eudev luks lvm resume"
+root=/dev/mapper/root
+root_type=ext4
+resume=/dev/mapper/swap
+luks_discard=1
+luks_name=crypt
+luks_root=/dev/sda2
+.Ed
+.El
+.Sh SEE ALSO
+.Xr mkinitramfs.cmdline 7 ,
+.Xr mkinitramfs.hooks 7 ,
+.Xr mkinitramfs 8
+.\" vim: cc=72 tw=70
+.\" End of file.

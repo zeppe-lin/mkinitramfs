@@ -1,0 +1,195 @@
+.\" mkinitramfs.hooks(7) manual page
+.\" See COPYING and COPYRIGHT files for corresponding information.
+.Dd September 7, 2023
+.Dt MKINITRAMFS.HOOKS 7
+.Os mkinitramfs @VERSION@
+.Sh NAME
+.Nm mkinitramfs.hooks
+.Nd mkinitramfs hooks and related stuff
+.\" ==================================================================
+.Sh DESCRIPTION
+.Sy mkinitramfs
+hooks provides a way to extend initramfs' build and init process.
+Hooks must be written in POSIX shell.
+Bashisms and other non-portable extensions are prohibited.
+.Pp
+Hooks can be located in
+.Pa /usr/share/mkinitramfs/hooks
+(system path) and
+.Pa /etc/mkinitramfs/hooks
+(user path).
+It is also allowed to specify custom location via
+.Xr mkinitramfs 8 Ns \&'
+.Fl H Ar hooksdir
+option.
+.Pp
+In order to write hooks you must know about hook structure.
+Example:
+.Bd -literal -offset indent
+hooks/
+`‐‐ <hook>/               <- Directory of hook scripts
+    |‐‐ <hook>            <- Invoked in build process
+    |‐‐ <hook>.init       <- Invoked in init process
+    `‐‐ <hook>.init.late  <- Invoked after root filesystem
+                             was mounted
+.Ed
+.\" ------------------------------------------------------------------
+.Ss Functions
+The following functions can be used by hooks in build process:
+.Bl -tag -width Ds
+.It Sy copy_kmod Ar PATH
+Copy kernel module by
+.Ar PATH
+(full path to kernel module) to
+.Sy mkinitramfs
+working directory.
+.It Sy copy_binary Ar PATH | NAME
+If
+.Ar PATH
+(full path to binary) was specified and it has executable bit, then it
+will be copied to
+.Pa /bin
+location of
+.Sy mkinitramfs
+working directory.
+.Pp
+If
+.Ar NAME
+was specified, the
+.Sy mkinitramfs
+will try to find command by name in
+.Dq PATH .
+If success, command will be copied to
+.Pa /bin
+location of
+.Sy mkinitramfs
+working directory.
+Otherwise error message will appear.
+.It Sy copy_file Ar FILE DEST MODE STRIP
+.Bl -tag -width Ds
+.It Ar FILE
+Must be full path to file.
+.It Ar DEST
+Must be full path where
+.Ar FILE
+should be stored.
+.Sy mkinitramfs
+will automatically create all leading directories if they aren't exist
+already.
+Also no need to prepend path of
+.Sy mkinitramfs
+working directory.
+.It Ar MODE
+Permissions in octal format.
+.It Ar STRIP
+If was set to
+.Sy 1 ,
+then
+.Sy mkinitramfs
+will attempt to run
+.Xr strip 1p
+on file.
+.Sy mkinitramfs
+will silently ignore errors if strip doesn't exists or failed to strip
+binary.
+.El
+.El
+.Pp
+The following functions can be used by hooks in init process:
+.Bl -tag -width Ds
+.It Sy resolve_device Ar UUID | LABEL | /dev/\&* | PARTUUID
+Sets
+.Sy device
+variable to full path of resolved UUID, LABEL, /dev/\&*, or PARTUUID.
+.El
+.Pp
+The following functions can be used by hooks in both processes
+.Pq build and init :
+.Bl -tag -width Ds
+.It Sy info Ar MESSAGE
+Print message to stdout.
+.It Sy panic Op Ar MESSAGE
+If message was not specified, then
+.Sy mkinitramfs
+will print default error message.
+Otherwise,
+.Em MESSAGE
+will be printed.
+.El
+.\" ------------------------------------------------------------------
+.Ss Global Variables
+The following variables can be used by hooks in build process:
+.Bl -tag -width Ds
+.It Sy MKINITRAMFS_WORK_DIR
+Full path of
+.Sy mkinitramfs
+working directory (initramfs rootfs in future).
+.It Sy KERNEL_VERSION
+Kernel version.
+.It Sy KERNEL_MOD_DIR
+Kernel modules directory.
+.It Sy MKINITRAMFS_INIT
+Path to init script.
+.It Sy MKINITRAMFS_DEVHELPER
+Path to device-helper script.
+.It Sy MKINITRAMFS_CONF
+Config location.
+.It Sy MKINITRAMFS_IMAGE
+Output path where initramfs image is stored.
+.El
+.Pp
+The following variables can be used by hooks in init process:
+.Bl -tag -width Ds
+.It Sy break
+Breakpoint for debugging.
+.El
+.Pp
+The following variables can be used by hooks in both processes
+.Pq build and init :
+.Bl -tag -width Ds
+.It Sy DEBUG
+Equals 1 if debug mode enabled.
+.El
+.Pp
+See
+.Xr mkinitramfs.config 5
+for additional information about available hooks.
+.\" ==================================================================
+.Sh EXAMPLES
+This example will show how to handle soft dependencies of
+.Sy ext4
+module.
+Create
+.Pa /etc/mkinitramfs/hooks/ext4
+directory and copy below scripts with appropriate names to that
+directory.
+After that, prepend
+.Sy ext4
+to
+.Sy hooks
+option in
+.Sy mkinitramfs Ns '
+config
+.Pf ( Pa /etc/mkinitramfs/config Ns ).
+.Bl -tag -width Ds
+.It Em ext4 :
+.Bd -literal -offset indent
+print "Copying ext4 dependencies"
+
+for _mod in crc32c libcrc32c; do
+        copy_kmod "$_mod"
+done
+.Ed
+.It Em ext4.init :
+.Bd -literal -offset indent
+modprobe -a crc32c libcrc32c
+.Ed
+.El
+.\" ==================================================================
+.Sh SEE ALSO
+.Xr mkinitramfs.config 5 ,
+.Xr mkinitramfs.cmdline 7 ,
+.Xr mkinitramfs 8
+.\" ==================================================================
+.\" vim: cc=72 tw=70
+.\" End of file.

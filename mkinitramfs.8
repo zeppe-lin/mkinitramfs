@@ -1,0 +1,149 @@
+.\" mkinitramfs(8) manual page
+.\" See COPYING and COPYRIGHT files for corresponding information.
+.Dd September 7, 2023
+.Dt MKINITRAMFS 8
+.Os mkinitramfs @VERSION@
+.Sh NAME
+.Nm mkinitramfs
+.Nd create an initial ramdisk environment
+.Sh SYNOPSIS
+.Nm mkinitramfs
+.Op Fl f
+.Op Fl D Ar helperfile
+.Op Fl H Ar hooksdir
+.Op Fl I Ar initfile
+.Op Fl c Ar conffile
+.Op Fl k Ar kernel_version
+.Op Fl m Ar modulesdir
+.Op Fl o Ar initramfs
+.Nm
+.Op Fl v
+.Nm
+.Op Fl h
+.Sh DESCRIPTION
+The
+.Nm
+utility creates an initial ramdisk environment for booting the Linux
+kernel.
+The initial ramdisk is in essence a very small environment (early
+userspace) which loads various kernel modules and sets up necessary
+things before handing over control to init.
+This makes it possible to have, for example, encrypted root file
+systems and root file systems on a software RAID array.
+.Nm
+can be extended with custom hooks.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl D Ar helperfile , Fl \-helper Ns = Ns Ar helperfile
+Specify an alternate device helper file instead of the default
+.Pa /usr/share/mkinitramfs/device-helper .
+.It Fl H Ar hooksdir , Fl \-hooks Ns = Ns Ar hooksdir
+Specify additional directory for hooks.
+By default,
+.Nm
+uses
+.Pa /usr/share/mkinitramfs/hooks
+and
+.Pa /etc/mkinitramfs/hooks .
+.It Fl I Ar initfile , Fl \-init Ns = Ns Ar initfile
+Specify an alternate init script instead of the default
+.Pa /usr/share/mkinitramfs/init .
+.It Fl c Ar conffile , Fl \-config Ns = Ns Em conffile
+Specify an alternate configuration file instead of the default
+.Pa /etc/mkinitramfs/config .
+.It Fl f , Fl \-force
+Forcefully overwrite initramfs image.
+.It Fl k Ar kernel_version , Fl \-kernel Ns = Ns Ar kernel_version
+Specify kernel version instead of using the version of current running
+kernel
+.Po
+.Dq uname -r
+.Pc .
+Useful for bootstrapping future system with modular kernel.
+.It Fl m Ar modulesdir , Fl \-modules Ns = Ns Ar modulesdir
+Specify an alternate directory where where kernel modules stored
+instead of the default
+.Pa /lib/modules .
+.Pp
+This option has no effect if
+.Sy monolith
+or
+.Sy hostonly
+were enabled in configuration file.
+.It Fl o Ar initramfs , Fl \-output Ns = Ns Ar initramfs
+Specify an alternate output file where initramfs image will be stored
+instead of the default
+.Pa /tmp/mkinitramfs- Ns Qo Li kernel_version Qc
+.It Fl v , Fl \-version
+Print version and exit.
+.It Fl h , Fl \-help
+Print help and exit.
+.El
+.Sh ENVIRONMENT
+.Nm
+uses the
+.Ev TMPDIR
+environment variable.
+If set, it uses subdirectories in the given directory to create its
+temporary working directories.
+Else it uses
+.Pa /tmp
+as default value for that purpose.
+The given directory should be on a filesystem which allows the
+execution of files stored there, i.e.  should not be mounted with the
+.Sy noexec
+mount option.
+.Sh FILES
+.Bl -tag -width Ds
+.It Pa /etc/mkinitramfs/config
+The default configuration file.
+See
+.Xr mkinitramfs.config 5
+for a description of the available configuration parameters.
+.It Pa /usr/share/mkinitramfs/hooks/ ,
+.It Pa /etc/mkinitramfs/hooks/
+Hooks directories.
+.It Pa /usr/share/mkinitramfs/init
+Init.
+.It Pa /usr/share/mkinitramfs/device-helper
+Device-helper.
+.El
+.Sh EXAMPLES
+.Bl -tag -width Ds
+.It Create an initramfs for current running kernel:
+.Bd -literal -offset indent
+mkinitramfs -o /tmp/initramfs-`uname -r`.img
+.Ed
+.It Create an initramfs for specific kernel:
+.Bd -literal -offset indent
+mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
+.Ed
+.It Debug initramfs creation (check out written logfile):
+.Bd -literal -offset indent
+sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
+.Ed
+.El
+.Sh NOTES
+If you have modular kernel and you use
+.Sy busybox' modprobe
+to handle modules, you must note that
+.Sy busybox' modprobe
+doesn't have ability to install soft dependencies of modules (i.e.
+.Pa modules.softdep Ns ).
+You must install them yourself using hooks.
+See
+.Xr mkinitramfs.hooks 7
+how to do it.
+.Sh SEE ALSO
+.Xr mkinitramfs.config 5 ,
+.Xr mkinitramfs.cmdline 7 ,
+.Xr mkinitramfs.hooks 7
+.Pp
+.Lk https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html \
+"Kernel subsystem documentation: Ramfs, rootfs and initramfs" .
+.Pp
+.Lk https://docs.kernel.org/admin-guide/initrd.html \
+"The Linux kernel user's and administrator's guide: Using the initial RAM disk (initrd)" .
+.\" vim: cc=72 tw=70
+.\" End of file.
