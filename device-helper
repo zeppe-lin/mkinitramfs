@@ -31,7 +31,7 @@ if ! command -v blkid; then
 	exit 0
 fi
 
-# Race condition may occur if uevent arrives faster(isn't that a
+# Race condition may occur if uevent arrives faster (isn't that a
 # kernel bug!?) than the kernel initializes device.  This prevents
 # blkid to fetch data from device.  To fix this, we simply waiting
 # until blkid is succeeded.
