@@ -12,10 +12,10 @@ install:
 	mkdir -p ${DESTDIR}${DATADIR}
 	sed "s/@VERSION@/${VERSION}/" mkinitramfs \
 		> ${DESTDIR}${PREFIX}/sbin/mkinitramfs
-	cp -f mkinitramfs.config.5  ${DESTDIR}${MANPREFIX}/man5/mkinitramfs.config.5
-	cp -f mkinitramfs.cmdline.7 ${DESTDIR}${MANPREFIX}/man7/mkinitramfs.cmdline.7
-	cp -f mkinitramfs.hooks.7   ${DESTDIR}${MANPREFIX}/man7/mkinitramfs.hooks.7
-	cp -f mkinitramfs.8         ${DESTDIR}${MANPREFIX}/man8/mkinitramfs.8
+	cp -f mkinitramfs.config.5  ${DESTDIR}${MANPREFIX}/man5/
+	cp -f mkinitramfs.cmdline.7 ${DESTDIR}${MANPREFIX}/man7/
+	cp -f mkinitramfs.hooks.7   ${DESTDIR}${MANPREFIX}/man7/
+	cp -f mkinitramfs.8         ${DESTDIR}${MANPREFIX}/man8/
 	cp -R hooks device-helper init ${DESTDIR}${DATADIR}/
 	chmod 0755 ${DESTDIR}${PREFIX}/sbin/mkinitramfs
 	chmod 0644 ${DESTDIR}${MANPREFIX}/man5/mkinitramfs.config.5
