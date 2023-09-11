@@ -10,16 +10,16 @@ install:
 	mkdir -p ${DESTDIR}${MANPREFIX}/man7
 	mkdir -p ${DESTDIR}${MANPREFIX}/man5
 	mkdir -p ${DESTDIR}${DATADIR}
-	sed "s/@VERSION@/${VERSION}/" mkinitramfs > \
-		${DESTDIR}${PREFIX}/sbin/mkinitramfs
-	sed "s/@VERSION@/${VERSION}/" mkinitramfs.config.5 > \
-		${DESTDIR}${MANPREFIX}/man5/mkinitramfs.config.5
-	sed "s/@VERSION@/${VERSION}/" mkinitramfs.cmdline.7 > \
-		${DESTDIR}${MANPREFIX}/man7/mkinitramfs.cmdline.7
-	sed "s/@VERSION@/${VERSION}/" mkinitramfs.hooks.7 > \
-		${DESTDIR}${MANPREFIX}/man7/mkinitramfs.hooks.7
-	sed "s/@VERSION@/${VERSION}/" mkinitramfs.8 > \
-		${DESTDIR}${MANPREFIX}/man8/mkinitramfs.8
+	sed "s/@VERSION@/${VERSION}/" mkinitramfs \
+		> ${DESTDIR}${PREFIX}/sbin/mkinitramfs
+	sed "s/^\.Os/.Os ${NAME} ${VERSION}/" mkinitramfs.config.5 \
+		> ${DESTDIR}${MANPREFIX}/man5/mkinitramfs.config.5
+	sed "s/^\.Os/.Os ${NAME} ${VERSION}/" mkinitramfs.cmdline.7 \
+		> ${DESTDIR}${MANPREFIX}/man7/mkinitramfs.cmdline.7
+	sed "s/^\.Os/.Os ${NAME} ${VERSION}/" mkinitramfs.hooks.7 \
+		> ${DESTDIR}${MANPREFIX}/man7/mkinitramfs.hooks.7
+	sed "s/^\.Os/.Os ${NAME} ${VERSION}/" mkinitramfs.8 \
+		> ${DESTDIR}${MANPREFIX}/man8/mkinitramfs.8
 	cp -R hooks device-helper init ${DESTDIR}${DATADIR}/
 	chmod 0755 ${DESTDIR}${PREFIX}/sbin/mkinitramfs
 	chmod 0644 ${DESTDIR}${MANPREFIX}/man5/mkinitramfs.config.5
