@@ -37,8 +37,8 @@ error() {
 # https://www.shellcheck.net/wiki/SC2317
 # shellcheck disable=SC2317
 interrupted() {
-	echo ""                      1>&2
-	info "=======> Interrupted." 1>&2
+	echo ""             1>&2
+	info "Interrupted." 1>&2
 	exit 1
 }
 
