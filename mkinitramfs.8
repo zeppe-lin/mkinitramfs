@@ -100,17 +100,20 @@ execution of files stored there, i.e.  should not be mounted with the
 mount option.
 .\" ==================================================================
 .Sh FILES
-.Bl -tag -width Ds
+.Bl -tag -width Ds  -compact
 .It Pa /etc/mkinitramfs/config
 The default configuration file.
 See
 .Xr mkinitramfs.config 5
 for a description of the available configuration parameters.
+.Pp
 .It Pa /usr/share/mkinitramfs/hooks/ ,
 .It Pa /etc/mkinitramfs/hooks/
 Hooks directories.
+.Pp
 .It Pa /usr/share/mkinitramfs/init
 Init.
+.Pp
 .It Pa /usr/share/mkinitramfs/device-helper
 Device-helper.
 .El
