@@ -116,20 +116,20 @@ Device-helper.
 .El
 .\" ==================================================================
 .Sh EXAMPLES
-.Bl -tag -width Ds
-.It Create an initramfs for current running kernel:
+Create an initramfs for current running kernel:
 .Bd -literal -offset indent
 mkinitramfs -o /tmp/initramfs-`uname -r`.img
 .Ed
-.It Create an initramfs for specific kernel:
+.Pp
+Create an initramfs for specific kernel:
 .Bd -literal -offset indent
 mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
 .Ed
-.It Debug initramfs creation (check out written logfile):
+.Pp
+Debug initramfs creation (check out written logfile):
 .Bd -literal -offset indent
 sh -x `which mkinitramfs` -o /tmp/initramfs-`uname -r` 2>/tmp/log
 .Ed
-.El
 .\" ==================================================================
 .Sh NOTES
 If you have modular kernel and you use
