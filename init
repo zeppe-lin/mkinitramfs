@@ -85,8 +85,8 @@ run_hook() {
 	# https://www.shellcheck.net/wiki/SC1090
 	# shellcheck disable=SC1090
 	for _HOOK in $hooks; do
-		if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE" ]; then
-			. "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_TYPE"
+		if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_HOOKTYPE" ]; then
+			. "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_HOOKTYPE"
 		fi
 	done
 }
