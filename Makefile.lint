@@ -3,7 +3,7 @@
 
 CURMAKE = $(MAKE) -s -f Makefile.lint
 
-all:	deadlinks mandoc_check podchecker shellcheck cppcheck \
+all:	deadlinks mancheck podchecker shellcheck cppcheck \
 	flawfinder longlines
 
 ######################################################################
@@ -25,7 +25,7 @@ deadlinks:
 	@echo "=======> Check for dead links"
 	@$(CURMAKE) curllinks | grep -v '^\[200\]' | sort -u
 
-mandoc_check:
+mancheck:
 	@echo "=======> Check man pages for syntax errors"
 	@find . -not -path '*/.*' -type f -name '*.[1-9]' \
 		-exec mandoc -T lint {} +
@@ -55,7 +55,7 @@ longlines:
 ######################################################################
 
 .PHONY: all greplinks curllinks deadlinks \
-	mandoc_check podchecker shellcheck cppcheck flawfinder longlines
+	mancheck podchecker shellcheck cppcheck flawfinder longlines
 
 # vim: cc=72 tw=70
 # End of file.
