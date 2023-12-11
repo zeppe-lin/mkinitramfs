@@ -386,8 +386,8 @@ print_version() {
 }
 
 parse_options() {
-	OPTS=$(getopt -a -n "$ARGV0" -l $LOPTS -o $SOPTS -- "$@") || exit 1
-	eval set -- "$OPTS"; unset OPTS
+	_OPTS=$(getopt -a -n "$ARGV0" -l "$LOPTS" -o "$SOPTS" -- "$@") || exit 1
+	eval set -- "$_OPTS"; unset _OPTS
 	while true; do
 		case $1 in
 		-D| --helper) MKINITRAMFS_DEVHELPER="$2" ; shift  ;;
