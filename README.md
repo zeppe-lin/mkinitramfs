@@ -1,7 +1,7 @@
 OVERVIEW
 --------
-This directory contains mkinitramfs, a tool used to create a Linux
-boot image (initramfs).
+This directory contains mkinitramfs, a tool used to create a
+Linux boot image (initramfs).
 
 This distribution is a fork of illiliti's tinyramfs as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
@@ -60,24 +60,26 @@ You need a kernel built with:
 The following runtime dependencies are optional:
 
 - ldd(1) required for copying binary dependencies
-- strip(1p) required for reducing image size by stripping binaries
+- strip(1p) required for reducing image size by stripping
+  binaries
 - blkid(8) required for UUID, LABEL, PARTUUID support
 - smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
-  CONFIG_UEVENT_HELPER required for modular kernel, /dev/mapper/* and
-  /dev/disk/*
+  CONFIG_UEVENT_HELPER required for modular kernel,
+  /dev/mapper/* and /dev/disk/*
 - lvm(8) required for LVM support
 - cryptsetup(8) required for LUKS support
 - busybox' loadkmap required for keymap support
-- kmod OR busybox' modutils+[patch][1] required for monolithic kernel
+- kmod OR busybox' modutils+[patch][1] required for monolithic
+  kernel
 
 [1]: /patches/modprobe-kernel-version.patch
 
 
 INSTALL
 -------
-The shell command `make install` should install this package.  The
-shell command `make install_bashcomp` should install bash completion
-script.
+The shell command `make install` should install this package.
+The shell command `make install_bashcomp` should install bash
+completion script.
 
 See `config.mk` file for configuration parameters.
 
@@ -113,7 +115,7 @@ illilliti / (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
 
 LICENSE
 -------
-mkinitramfs is licensed through the GNU General Public License v3 or
-later <https://gnu.org/licenses/gpl.html>.
+mkinitramfs is licensed through the GNU General Public License
+v3 or later <https://gnu.org/licenses/gpl.html>.
 Read the COPYING file for copying conditions.
 Read the COPYRIGHT file for copyright notices.
