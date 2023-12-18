@@ -21,6 +21,9 @@ curllinks:
 # Main Targets.                                                      #
 ######################################################################
 
+spellcheck:
+	mandoc -T html ./mkinitramfs.8 | hunspell -H -l - | sort | uniq
+
 deadlinks:
 	@echo "=======> Check for dead links"
 	@$(CURMAKE) curllinks | grep -v '^\[200\]' | sort -u
