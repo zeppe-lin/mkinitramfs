@@ -22,7 +22,7 @@ curllinks:
 ######################################################################
 
 spellcheck:
-	mandoc -T html ./mkinitramfs.8 | hunspell -H -l - | sort | uniq
+	@mandoc -T html *.5 *.7 *.8 | hunspell -H -l - | sort | uniq
 
 deadlinks:
 	@echo "=======> Check for dead links"
