@@ -57,7 +57,7 @@ atexit() {
 # Copy file to mkinitramfs' working directory.
 #   arg $1: source file full path
 #   arg $2: destination file full path
-#   arg $3: destination file mode bits (e.g., 0755)
+#   arg $3: destination file mode bits (e.g. 0755)
 #   arg $4: strip destination file? 1=true, 0=false
 copy_file() {
 	local _FILE="$1"
