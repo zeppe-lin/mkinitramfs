@@ -26,14 +26,13 @@ deadlinks:
 
 spellcheck:
 	@echo "=======> Check man pages for spelling errors"
-	@mandoc -T html *.5 *.7 *.8 | hunspell -H -l - | sort -u
+	@mandoc -T html *.[1-9] | hunspell -H -l - | sort -u
 	@echo "=======> Check README.md for spelling errors"
 	@hunspell -l README.md | sort -u
 
 mancheck:
 	@echo "=======> Check man pages for syntax errors"
-	@find . -not -path '*/.*' -type f -name '*.[1-9]' \
-		-exec mandoc -T lint {} +
+	@mandoc -T lint *.[1-9]
 
 shellcheck:
 	@echo "=======> Check shell scripts for syntax errors"
