@@ -22,7 +22,10 @@ curllinks:
 ######################################################################
 
 spellcheck:
+	@echo "=======> Check man pages for spelling errors"
 	@mandoc -T html *.5 *.7 *.8 | hunspell -H -l - | sort -u
+	@echo "=======> Check README.md for spelling errors"
+	@hunspell -l README.md | sort -u
 
 deadlinks:
 	@echo "=======> Check for dead links"
