@@ -6,9 +6,9 @@ Linux boot image (initramfs).
 This distribution is a fork of illiliti's tinyramfs as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
 - bash completion
-- cmdline options/help/usage in GNU style
+- GNU-style command-line options/help/usage
 - switch to the GNU getopt(1) for cmdline parsing
-- locals to prevent namespace violations
+- "local"s to prevent namespace violations
 - rootdelay cmdline option
 - experimental smdev hook
 - luks hook: ask for password if header/keyfile is not specified
