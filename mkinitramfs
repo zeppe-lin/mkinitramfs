@@ -386,7 +386,10 @@ print_version() {
 }
 
 parse_options() {
-	_OPTS=$(getopt -a -n "$ARGV0" -l "$LOPTS" -o "$SOPTS" -- "$@") || exit 1
+	if ! _OPTS=$(getopt -a -n "$ARGV0" -l "$LOPTS" -o "$SOPTS" -- "$@"); then
+		echo "Try 'mkinitramfs --help' for more information." >&2
+		exit 1
+	fi
 	eval set -- "$_OPTS"; unset _OPTS
 	while true; do
 		case $1 in
