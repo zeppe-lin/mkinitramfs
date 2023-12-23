@@ -7,7 +7,7 @@ This distribution is a fork of illiliti's tinyramfs as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
 - bash completion
 - GNU-style command-line options/help/usage
-- switch to the GNU getopt(1) for cmdline parsing
+- switch to the GNU getopt(1) for command-line parsing
 - "local"s to prevent namespace violations
 - rootdelay cmdline option
 - experimental smdev hook
