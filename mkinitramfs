@@ -386,7 +386,7 @@ print_version() {
 }
 
 parse_options() {
-	if ! _OPTS=$(getopt -a -n "$ARGV0" -l "$LOPTS" -o "$SOPTS" -- "$@"); then
+	if ! _OPTS=$(getopt -a -n mkinitramfs -l "$LOPTS" -o "$SOPTS" -- "$@"); then
 		echo "Try 'mkinitramfs --help' for more information." 1>&2
 		exit 1
 	fi
