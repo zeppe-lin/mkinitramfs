@@ -9,7 +9,7 @@ This distribution is a fork of illiliti's tinyramfs as of commit
 - GNU-style options/help/usage
 - switch to the GNU getopt(1) for command-line parsing
 - "local"s to prevent namespace violations
-- rootdelay command-line option
+- support rootdelay kernel's command-line parameter
 - experimental smdev hook
 - luks hook: ask for password if header/keyfile is not specified
 - manual pages in mdoc(7) format
