@@ -1,6 +1,0 @@
-TODO mkinitramfs
-
-	- [ ] Add loadkeys(1)/kbd support to keymap hook!
-	- [ ] Add font hook?
-
-End of file.
