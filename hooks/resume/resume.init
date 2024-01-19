@@ -16,11 +16,17 @@ fi
 
 resolve_device "$resume"
 
-# resolve link and get device name
-resume=$(readlink -f "$device" | sed 's|^/dev/||')
+if [ -n "$device" ]; then
+	dev_link=$(readlink -f "$device")
+	dev_majmin_nums=/sys/class/block/"${dev_link##*/}"/dev
 
-awk -v dev="$resume" '$4 == dev { printf "%d:%d", $1, $2 }' \
-	/proc/partitions > /sys/power/resume
+	if [ ! -f "$dev_majmin_nums" ]; then
+		panic "failed to find $dev_majmin_nums"
+	else
+		cat "$dev_majmin_nums" > /sys/power/resume ||
+			panic "failed to resume"
+	fi
+fi
 
 # vim: ft=sh cc=72 tw=70
 # End of file.

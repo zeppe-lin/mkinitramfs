@@ -4,8 +4,7 @@
 # shellcheck shell=sh
 
 copy_binary readlink
-copy_binary sed
-copy_binary awk
+copy_binary cat
 
 # vim: ft=sh cc=72 tw=70
 # End of file.
