@@ -174,7 +174,7 @@ boot_system() {
 	# means that safety of init_args isn't guaranteed.
 
 	# Intentional word splitting.
-	# https://shellcheck.net/wiki/SC2086
+	# https://www.shellcheck.net/wiki/SC2086
 	# shellcheck disable=SC2086
 	exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
 		switch_root /mnt/root \
