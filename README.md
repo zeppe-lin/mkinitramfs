@@ -9,12 +9,12 @@ This distribution is a fork of illiliti's tinyramfs as of commit
 - GNU-style options/help/usage
 - switch to the GNU getopt(1) for command-line parsing
 - "local"s to prevent namespace violations
-- support rootdelay kernel's command-line parameter
+- support "rootdelay" kernel's command-line parameter
 - experimental smdev hook
 - luks hook: ask for password if header/keyfile is not specified
 - manual pages in mdoc(7) format
 - new "extrafiles" directive to copy additional files
-- resume hook to resume machines from hibernation
+- "resume" hook to resume machines from hibernation
 
 See git log for complete/further differences.
 
