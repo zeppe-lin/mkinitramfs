@@ -122,6 +122,7 @@ parse_cmdline() {
 		    rootwait) root_wait=-1                        ;;
 		     debug=1) set -x                              ;;
 		       ro|rw) rorw="$_PARAM"                      ;;
+		      init=*) init="${_PARAM#*=}"                 ;;
 		         --*) init_args="${_PARAM##*-- }" ; break ;;
 		         *=*) command export "$_PARAM"            ;;
 		           *) command export "$_PARAM=1"          ;;
