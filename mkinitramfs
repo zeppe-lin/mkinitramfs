@@ -317,6 +317,7 @@ copy_kernmodules() {
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/virtio"       \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/host"     \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/storage"  \
+			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/input/keyboard"       \
 			-type f 2>/dev/null |
 				while read -r _MOD || [ "$_MOD" ]; do
 					# Intentional pattern
