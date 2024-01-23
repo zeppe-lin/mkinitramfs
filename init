@@ -1,5 +1,5 @@
 #!/bin/sh
-# Tiny init.
+# init - tiny init for initial ramdisk environment
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # Intentional: "var is referenced but not assigned".
