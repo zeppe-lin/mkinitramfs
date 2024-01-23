@@ -105,11 +105,11 @@ copy_file() {
 # Copy binary file to /bin location of mkinitramfs' working directory.
 #   arg $1: name or full path to binary
 copy_binary() {
-	local _BIN
-	local _LIB
-	local _DIR
+	local _bin
+	local _lib
+	local _dir
 
-	_BIN=$(command -v "$1")
+	_bin=$(command -v "$1")
 
 	# If output is
 	# empty            -> do panic
@@ -119,7 +119,7 @@ copy_binary() {
 	# Intentional word splitting.
 	# https://www.shellcheck.net/wiki/SC2086
 	# shellcheck disable=SC2086
-	case "$_BIN" in
+	case "$_bin" in
 	*/*)
 		;;
 	"")
@@ -127,28 +127,28 @@ copy_binary() {
 		;;
 	*)
 		IFS=:; set -- $PATH; unset IFS
-		local _binary="$_BIN"
+		local _binary="$_bin"
 
-		for _DIR; do
-			_BIN="$_DIR/$_binary"
-			if [ -x "$_BIN" ]; then
+		for _dir; do
+			_bin="$_dir/$_binary"
+			if [ -x "$_bin" ]; then
 				break
 			fi
 		done || error "$_binary does not exist"
 		;;
 	esac
 
-	copy_file "$_BIN" "/bin/${_BIN##*/}" 755 1
+	copy_file "$_bin" "/bin/${_bin##*/}" 755 1
 
 	# Skip copying binary dependencies if ldd not available.
 	command -v ldd >/dev/null || return 0
 
 	# Copy binary dependencies if any exist.
-	ldd "$_BIN" 2>/dev/null | while read -r _LIB || [ "$_LIB" ]; do
-		_LIB="${_LIB#* => }"
-		_LIB="${_LIB% *}"
+	ldd "$_bin" 2>/dev/null | while read -r _lib || [ "$_lib" ]; do
+		_lib="${_lib#* => }"
+		_lib="${_lib% *}"
 
-		[ -e "$_LIB" ] && copy_file "$_LIB" "/lib/${_LIB##*/}" 755 1
+		[ -e "$_lib" ] && copy_file "$_lib" "/lib/${_lib##*/}" 755 1
 	done
 }
 
