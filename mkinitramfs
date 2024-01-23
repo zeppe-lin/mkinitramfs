@@ -387,11 +387,11 @@ print_version() {
 }
 
 parse_options() {
-	if ! _OPTS=$(getopt -a -n mkinitramfs -l "$LOPTS" -o "$SOPTS" -- "$@"); then
+	if ! _opts=$(getopt -a -n mkinitramfs -l "$LOPTS" -o "$SOPTS" -- "$@"); then
 		echo "Try 'mkinitramfs --help' for more information." 1>&2
 		exit 1
 	fi
-	eval set -- "$_OPTS"; unset _OPTS
+	eval set -- "$_opts"; unset _opts
 	while true; do
 		case $1 in
 		-D| --helper) MKINITRAMFS_DEVHELPER="$2" ; shift  ;;
