@@ -153,7 +153,7 @@ mount_root() {
 # Switch to mounted root filesystem as the root of the mount tree and
 # start init process.
 boot_system() {
-	local _DIR
+	local _dir
 
 	if [ "$break" = boot ]; then
 		info "break before boot_system()"
@@ -162,8 +162,8 @@ boot_system() {
 	fi
 
 	# XXX seems like switch_root(8) already doing this
-	for _DIR in run dev sys proc; do
-		mount -o move "/$_DIR" "/mnt/root/$_DIR" || :
+	for _dir in run dev sys proc; do
+		mount -o move "/$_dir" "/mnt/root/$_dir" || :
 	done
 
 	# POSIX 'exec' has no '-c' flag to execute command with empty
@@ -178,8 +178,7 @@ boot_system() {
 	# https://www.shellcheck.net/wiki/SC2086
 	# shellcheck disable=SC2086
 	exec env -i TERM=linux PATH=/bin:/sbin:/usr/bin:/usr/sbin \
-		switch_root /mnt/root \
-		"${init-/sbin/init}" $init_args ||
+		switch_root /mnt/root "${init-/sbin/init}" $init_args ||
 			panic "Failed to boot system"
 }
 
