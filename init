@@ -79,15 +79,15 @@ resolve_device() {
 # Run hooks (by type) if any exist.
 #   arg $1: hook type (init or init.late)
 run_hook() {
-	local _HOOK
-	local _HOOKTYPE="$1"
+	local _hook
+	local _hooktype="$1"
 
 	# Intentional: "can't follow non-constant source".
 	# https://www.shellcheck.net/wiki/SC1090
 	# shellcheck disable=SC1090
-	for _HOOK in $hooks; do
-		if [ -f "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_HOOKTYPE" ]; then
-			. "/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_HOOKTYPE"
+	for _hook in $hooks; do
+		if [ -f "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_hooktype" ]; then
+			. "/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_hooktype"
 		fi
 	done
 }
