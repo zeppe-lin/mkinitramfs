@@ -230,33 +230,33 @@ copy_extrafiles() {
 # 3. copy init-time hooks (init, init.late) to mkinitramfs' working
 #    directory
 process_hooks() {
-	local _HOOK
-	local _HOOK_TYPE
-	local _HOOKS_DIR
+	local _hook
+	local _hook_type
+	local _hooks_dir
 
 	info "Process hooks."
 
-	for _HOOK in ${hooks}; do
-		for _HOOKS_DIR in \
+	for _hook in ${hooks}; do
+		for _hooks_dir in \
 			"$MKINITRAMFS_HOOKS_DIR" \
 			/etc/mkinitramfs/hooks \
 			/usr/share/mkinitramfs/hooks
 		do
-			[ -f "$_HOOKS_DIR/$_HOOK/$_HOOK" ] && break
-		done || error "Could not find $_HOOK hook"
+			[ -f "$_hooks_dir/$_hook/$_hook" ] && break
+		done || error "Could not find $_hook hook"
 
 		# Run build-time hook.
-		echo "+ $_HOOK"
+		echo "+ $_hook"
 		# Intentional: "can't follow non-constant source".
 		# https://www.shellcheck.net/wiki/SC1090
 		# shellcheck disable=SC1090
-		. "$_HOOKS_DIR/$_HOOK/$_HOOK"
+		. "$_hooks_dir/$_hook/$_hook"
 
 		# Copy init-time hooks.
-		for _HOOK_TYPE in init init.late; do
-			if [ -f "$_HOOKS_DIR/$_HOOK/$_HOOK.$_HOOK_TYPE" ]; then
-				copy_file "$_HOOKS_DIR/$_HOOK/$_HOOK.$_HOOK_TYPE" \
-					"/usr/share/mkinitramfs/hooks/$_HOOK/$_HOOK.$_HOOK_TYPE" 644 0
+		for _hook_type in init init.late; do
+			if [ -f "$_hooks_dir/$_hook/$_hook.$_hook_type" ]; then
+				copy_file "$_hooks_dir/$_hook/$_hook.$_hook_type" \
+					"/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_hook_type" 644 0
 			fi
 		done
 	done
