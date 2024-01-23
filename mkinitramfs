@@ -174,7 +174,7 @@ prepare_initramfs() {
 
 	info "Prepare initramfs working directory."
 
-	# https://wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+	# See hier(7) for more information.
 	for _DIR in dev sys tmp run var proc root usr/lib usr/bin \
 		mnt/root etc/mkinitramfs
 	do
