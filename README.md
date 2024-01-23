@@ -110,7 +110,7 @@ CREDITS
 - dylanaraps  <https://github.com/dylanaraps>
 
 You can donate if you like this project to the original author:
-illilliti / (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
+illiliti / (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
 
 
 LICENSE
