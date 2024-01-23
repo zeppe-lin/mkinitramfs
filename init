@@ -108,25 +108,25 @@ mount_basefs() {
 
 # Read kernel command-line arguments.
 parse_cmdline() {
-	local _CMDLINE
-	local _PARAM
+	local _cmdline
+	local _param
 
-	read -r _CMDLINE < /proc/cmdline
+	read -r _cmdline < /proc/cmdline
 
 	# https://kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
 	# ... parameters with '=' go into init's environment ...
-	for _PARAM in $_CMDLINE; do
-		case "$_PARAM" in
-		rootfstype=*) root_type="${_PARAM#*=}"            ;;
-		 rootflags=*) root_opts="${_PARAM#*=}"            ;;
-		 rootdelay=*) root_wait="${_PARAM#*=}"            ;;
+	for _param in $_cmdline; do
+		case "$_param" in
+		rootfstype=*) root_type="${_param#*=}"            ;;
+		 rootflags=*) root_opts="${_param#*=}"            ;;
+		 rootdelay=*) root_wait="${_param#*=}"            ;;
 		    rootwait) root_wait=-1                        ;;
 		     debug=1) set -x                              ;;
-		       ro|rw) rorw="$_PARAM"                      ;;
-		      init=*) init="${_PARAM#*=}"                 ;;
-		         --*) init_args="${_PARAM##*-- }" ; break ;;
-		         *=*) command export "$_PARAM"            ;;
-		           *) command export "$_PARAM=1"          ;;
+		       ro|rw) rorw="$_param"                      ;;
+		      init=*) init="${_param#*=}"                 ;;
+		         --*) init_args="${_param##*-- }" ; break ;;
+		         *=*) command export "$_param"            ;;
+		           *) command export "$_param=1"          ;;
 		esac 2>/dev/null || :
 	done
 }
