@@ -263,9 +263,9 @@ process_hooks() {
 
 # Copy kernel modules to mkinitramfs' working directory.
 copy_kernmodules() {
-	local _MOD
-	local _DIR
-	local _TYPE
+	local _mod
+	local _dir
+	local _type
 
 	# Skip this function if kernel compiled with builtin modules.
 	if [ "${monolith}" = 1 ]; then
@@ -277,29 +277,29 @@ copy_kernmodules() {
 		# Perform autodetection of modules via /sys
 		# https://wiki.archlinux.org/index.php/Modalias
 		find /sys/devices -name modalias -exec sort -u {} + |
-			while read -r _MOD || [ "$_MOD" ]; do
+			while read -r _mod || [ "$_mod" ]; do
 				# Skip unneeded modules and skip
 				# modules which depends on them as
 				# well.
-			case $(modprobe -S "$KERNEL_VERSION" -D "$_MOD") in
-			*wmi*|*gpu*|*net*) continue ;;
-			esac 2>/dev/null
+				case $(modprobe -S "$KERNEL_VERSION" -D "$_mod") in
+				*wmi*|*gpu*|*net*) continue ;;
+				esac 2>/dev/null
 
-			copy_kmod "$_MOD"
-		done
+				copy_kmod "$_mod"
+			done
 
 		# Copy root fs module (try to autodetect if not
 		# specified).
 		if [ "${root_type}" ]; then
 			copy_kmod "${root_type}"
 		else
-			while read -r _ _DIR _TYPE _; do
-				if [ "$_DIR" = / ]; then
+			while read -r _ _dir _type _; do
+				if [ "$_dir" = / ]; then
 					break
 				fi
-			done < /proc/mounts ||
-				error "Could not autodetect rootfs kernel module"
-			copy_kmod "$_TYPE"
+			done < /proc/mounts || error "Could not autodetect rootfs kernel module"
+
+			copy_kmod "$_type"
 		fi
 	else
 		info "Copy all modules."
@@ -318,12 +318,11 @@ copy_kernmodules() {
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/storage"  \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/input/keyboard"       \
 			-type f 2>/dev/null |
-				while read -r _MOD || [ "$_MOD" ]; do
-					# Intentional pattern
-					# matching.
+				while read -r _mod || [ "$_mod" ]; do
+					# Intentional pattern matching.
 					# https://www.shellcheck.net/wiki/SC2295
 					# shellcheck disable=SC2295
-					copy_file "$_MOD" "/lib/modules/${_MOD#$KERNEL_MOD_DIR}" 644 0
+					copy_file "$_mod" "/lib/modules/${_mod#$KERNEL_MOD_DIR}" 644 0
 				done
 	fi
 
