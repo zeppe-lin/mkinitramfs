@@ -155,14 +155,14 @@ copy_binary() {
 # Copy kernel module to mkinitramfs' working directory.
 #   arg $1: module name
 copy_kmod() {
-	local _TYPE
-	local _MOD
-	local _PARAMS
+	local _type
+	local _mod
+	local _params
 
 	modprobe -S "$KERNEL_VERSION" -D "$1" 2>/dev/null |
-		while read -r _TYPE _MOD _PARAMS || [ "$_MOD" ]; do
-			#[ "$_TYPE" = "builtin" ] || copy_file "$_MOD" "$_MOD" 0644 0
-			case $_MOD in /*) copy_file "$_MOD" "$_MOD" 0644 0; esac
+		while read -r _type _mod _params || [ "$_mod" ]; do
+			#[ "$_type" = "builtin" ] || copy_file "$_mod" "$_mod" 0644 0
+			case $_mod in /*) copy_file "$_mod" "$_mod" 0644 0; esac
 		done
 }
 
