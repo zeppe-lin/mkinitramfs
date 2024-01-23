@@ -209,17 +209,17 @@ prepare_initramfs() {
 
 # Add extra files to mkinitramfs' working directory.
 copy_extrafiles() {
-	local _FILE
+	local _file
 
 	info "Copy extra files."
 
-	for _FILE in ${extrafiles}; do
-		if [ ! -f "$_FILE" ]; then
-			error "Could not find $_FILE file"
+	for _file in ${extrafiles}; do
+		if [ ! -f "$_file" ]; then
+			error "Could not find $_file file"
 		fi
 
-		echo "+ $_FILE"
-		copy_file "$_FILE" "$_FILE" 0644 0
+		echo "+ $_file"
+		copy_file "$_file" "$_file" 0644 0
 	done
 }
 
