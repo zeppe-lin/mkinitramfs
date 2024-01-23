@@ -46,9 +46,10 @@ panic() {
 # Set ''device'' variable to full path of resolved UUID, PARTUUID,
 # LABEL, or /dev/*.
 #   arg $1: device
+#   arg $2: seconds to wait until device is available (optional)
 resolve_device() {
+	local _count="${2:-30}"
 	device="$1"
-	local _COUNT="${2:-30}"
 
 	case "${device%%=*}" in
 	    UUID) device="/dev/disk/by-uuid/${device#*=}"     ;;
@@ -65,7 +66,7 @@ resolve_device() {
 	while : ; do
 		if [ -b "$device" ]; then
 			return 0
-		elif [ "$((_COUNT -= 1))" = 0 ]; then
+		elif [ "$((_count -= 1))" = 0 ]; then
 			break
 		else
 			sleep 1
