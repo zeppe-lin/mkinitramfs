@@ -60,45 +60,45 @@ atexit() {
 #   arg $3: destination file mode bits (e.g. 0755)
 #   arg $4: strip destination file? 1=true, 0=false
 copy_file() {
-	local _FILE="$1"
-	local _DEST="$2"
-	local _MODE="$3"
-	local _STRIP="$4"
-	local _SYMLINK
+	local _file="$1"
+	local _dest="$2"
+	local _mode="$3"
+	local _strip="$4"
+	local _symlink
 
-	# return if _FILE already exists
-	if [ -e "$MKINITRAMFS_WORK_DIR/$_DEST" ]; then
+	# return if _file already exists
+	if [ -e "$MKINITRAMFS_WORK_DIR/$_dest" ]; then
 		return 0
 	fi
 
-	mkdir -p "$MKINITRAMFS_WORK_DIR/${_DEST%/*}"
+	mkdir -p "$MKINITRAMFS_WORK_DIR/${_dest%/*}"
 
 	# Iterate through symlinks and copy them.
-	while [ -h "$_FILE" ]; do
-		cp -P "$_FILE" "$MKINITRAMFS_WORK_DIR/${_DEST%/*}/${_FILE##*/}"
-		cd -P "${_FILE%/*}"
+	while [ -h "$_file" ]; do
+		cp -P "$_file" "$MKINITRAMFS_WORK_DIR/${_dest%/*}/${_file##*/}"
+		cd -P "${_file%/*}"
 
-		_SYMLINK=$(ls -ld "$_FILE")
-		_SYMLINK="${_SYMLINK##* -> }"
+		_symlink=$(ls -ld "$_file")
+		_symlink="${_symlink##* -> }"
 
 		# TODO handle ../../..
-		case "$_SYMLINK" in
-		/*) _FILE="$_SYMLINK"            ;;
-		 *) _FILE="$PWD/${_SYMLINK##*/}" ;;
+		case "$_symlink" in
+		/*) _file="$_symlink"            ;;
+		 *) _file="$PWD/${_symlink##*/}" ;;
 		esac
 	done
 
-	# Handle case when _FILE and _DEST have same basenames
-	if [ -h "$MKINITRAMFS_WORK_DIR/$_DEST" ]; then
-		_DEST="$_FILE"
+	# Handle case when _file and _dest have same basenames
+	if [ -h "$MKINITRAMFS_WORK_DIR/$_dest" ]; then
+		_dest="$_file"
 	fi
-	cp    "$_FILE" "$MKINITRAMFS_WORK_DIR/$_DEST"
-	chmod "$_MODE" "$MKINITRAMFS_WORK_DIR/$_DEST"
+	cp    "$_file" "$MKINITRAMFS_WORK_DIR/$_dest"
+	chmod "$_mode" "$MKINITRAMFS_WORK_DIR/$_dest"
 
 	# https://www.shellcheck.net/wiki/SC2015
 	# shellcheck disable=SC2015
-	if [ "$_STRIP" = 1 ]; then
-		strip "$MKINITRAMFS_WORK_DIR/$_DEST" >/dev/null 2>&1 || :
+	if [ "$_strip" = 1 ]; then
+		strip "$MKINITRAMFS_WORK_DIR/$_dest" >/dev/null 2>&1 || :
 	fi
 }
 
