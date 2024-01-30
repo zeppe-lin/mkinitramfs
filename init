@@ -133,21 +133,22 @@ parse_cmdline() {
 
 # Mount root filesystem.
 mount_root() {
-  if [ "$break" = root ]; then
-	  info "break before mount_root()"
+	if [ "$break" = root ]; then
+		info "break before mount_root()"
 
-	  sh
-  fi
+		sh
+	fi
 
-  resolve_device "$root" "${root_wait:-$rootdelay}"
+	resolve_device "$root" "${root_wait:-$rootdelay}"
 
-  # Intentional word splitting.
-  # https://www.shellcheck.net/wiki/SC2086
-  # shellcheck disable=SC2086
-  mount \
-    -o "${rorw:-ro}${root_opts:+,$root_opts}"  \
-    ${root_type:+-t $root_type} \
-    -- "$device" /mnt/root || panic "Failed to mount rootfs: $device"
+	# Intentional word splitting.
+	# https://www.shellcheck.net/wiki/SC2086
+	# shellcheck disable=SC2086
+	mount \
+		-o "${rorw:-ro}${root_opts:+,$root_opts}"  \
+		${root_type:+-t $root_type} \
+		-- "$device" /mnt/root ||
+		panic "Failed to mount rootfs: $device"
 }
 
 # Switch to mounted root filesystem as the root of the mount tree and
