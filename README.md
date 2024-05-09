@@ -1,10 +1,12 @@
 OVERVIEW
---------
+========
+
 This directory contains mkinitramfs, a tool used to create a Linux boot image
 (initramfs).
 
-This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9
-(Fri May 21 2021) with the following differences:
+This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9 (Fri
+May 21 2021) with the following differences:
+
 - bash completion
 - GNU-style options/help/usage
 - switch to the GNU getopt(1) for command-line parsing
@@ -24,8 +26,10 @@ The original sources can be downloaded from:
 
 
 FEATURES
---------
+========
+
 The following advantages can be distinguished:
+
 - no bashisms, only POSIX shell (with "local"s exception)
 - portable, no distro specific
 - easy to use configuration
@@ -35,8 +39,10 @@ The following advantages can be distinguished:
 
 
 REQUIREMENTS
-------------
-**Kernel**:
+============
+
+Kernel
+------
 
 You need a kernel built with the following features (statically or as modules):
 ```
@@ -67,10 +73,12 @@ features too:
     <*> User-space interface for symmetric key cipher algorithms
 ```
 
-**Build time**:
+Build time
+----------
 - POSIX sh(1p), make(1p) and "mandatory utilities"
 
-**Runtime**:
+Runtime
+-------
 - POSIX sh(1p) and standard POSIX utilities
 - GNU getopt(1), switch_root(8), mount(8), cpio(1)
 
@@ -90,16 +98,18 @@ The following runtime dependencies are optional:
 
 
 INSTALL
--------
+=======
+
 The shell command `make install` should install this package.
-The shell command `make install_bashcomp` should install bash
-completion script.
+The shell command `make install_bashcomp` should install bash completion
+script.
 
 See `config.mk` file for configuration parameters.
 
 
 USAGE
------
+=====
+
 To use mkinitramfs, read [mkinitramfs.config(5)][2] and setup
 /etc/mkinitramfs/config file conform your needs.  Next, run the following
 command:
@@ -120,7 +130,8 @@ Reboot.
 
 
 CREDITS
--------
+=======
+
 - illiliti    <https://github.com/illiliti>
 - E5ten       <https://github.com/E5ten>
 - dylanaraps  <https://github.com/dylanaraps>
@@ -131,7 +142,8 @@ You can donate if you like this project to the original author:
 
 
 LICENSE
--------
+=======
+
 mkinitramfs is licensed through the GNU General Public License v3 or later
 <https://gnu.org/licenses/gpl.html>.
 Read the COPYING file for copying conditions.
