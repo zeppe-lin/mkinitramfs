@@ -357,11 +357,9 @@ make_initramfs() {
 
 print_help() {
 	cat << EOF
-Usage: mkinitramfs [-f] [-D helperfile] [-H hooksdir] [-I initfile]
+Usage: mkinitramfs [-fhv] [-D helperfile] [-H hooksdir] [-I initfile]
                    [-c conffile] [-k kernel_version] [-m modulesdir]
                    [-o initramfs]
-       mkinitramfs [-v]
-       mkinitramfs [-h]
 Create an initial ramdisk environment.
 
 Mandatory arguments to long options are mandatory for short options too.
