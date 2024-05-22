@@ -15,7 +15,7 @@
 .Op Fl H Ar hooksdir
 .Op Fl I Ar initfile
 .Op Fl c Ar conffile
-.Op Fl k Ar kernel_version
+.Op Fl k Ar kernelversion
 .Op Fl m Ar modulesdir
 .Op Fl o Ar initramfs
 .\" ==================================================================
@@ -53,7 +53,7 @@ Specify an alternate configuration file instead of the default
 .Pa /etc/mkinitramfs/config .
 .It Fl f , Fl \-force
 Forcefully overwrite initramfs image.
-.It Fl k Ar kernel_version , Fl \-kernel Ns = Ns Ar kernel_version
+.It Fl k Ar kernelversion , Fl \-kernel Ns = Ns Ar kernelversion
 Specify kernel version instead of using the version of current running
 kernel
 .Po
@@ -73,7 +73,7 @@ were enabled in configuration file.
 .It Fl o Ar initramfs , Fl \-output Ns = Ns Ar initramfs
 Specify an alternate output file where initramfs image will be stored
 instead of the default
-.Pa mkinitramfs- Ns Qo Li kernel_version Qc
+.Pa mkinitramfs- Ns Qo Li kernelversion Qc
 directory, created in
 .Ev TMPDIR
 or (if unavailable) in
