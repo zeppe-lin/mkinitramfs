@@ -16,7 +16,7 @@ parameters without needing to regenerate initramfs image.
 .\" ------------------------------------------------------------------
 .Ss General Parameters
 .Bl -tag -width Ds -compact
-.It Sy debug Ns = Ns Op 1
+.It Sy debug Ns = Ns Aq 0 | 1
 Enable debug mode.
 .Pp
 .It Sy break Ns = Ns Aq BREAKPOINT
@@ -91,7 +91,7 @@ Specify LVM name which will be used to trigger LVM.
 (see below) must be specified.
 .It Sy lvm_group Ns = Ns Aq GROUP
 Specify LVM group which will be used to trigger LVM.
-.It Sy lvm_discard Ns = Ns Op 1
+.It Sy lvm_discard Ns = Ns Aq 0 | 1
 Pass
 .Em issue_discards
 to LVM.
@@ -111,7 +111,7 @@ unlocks LUKS root.
 See
 .Sy root
 (above) for details.
-.It Sy luks_discard Ns = Ns Op 1
+.It Sy luks_discard Ns = Ns Aq 0 | 1
 Pass
 .Dq --allow-discards
 to
