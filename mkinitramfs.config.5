@@ -50,7 +50,7 @@ it, you can simply prepend
 .\" ------------------------------------------------------------------
 .Ss General Options
 .Bl -tag -width Ds
-.It Sy monolith Ns = Ns Op 1
+.It Sy monolith Ns = Ns Aq 0 | 1
 Monolithic kernel means kernel with builtin modules.
 If you didn't build kernel yourself, then in most cases you have
 modular kernel and you don't need to enable this option.
@@ -62,7 +62,7 @@ which means you need to set
 .Sy monolith
 to
 .Sy 1 .
-.It Sy hostonly Ns = Ns Op 1
+.It Sy hostonly Ns = Ns Aq 0 | 1
 Hostonly mode enumerates
 .Xr sysfs 5
 and copies only necessary modules instead of copying all modules.
@@ -191,11 +191,11 @@ Specify LVM name which will be used to trigger LVM.
 (see below) must be specified.
 .It Sy lvm_group Ns = Ns Aq GROUP
 Specify LVM group which will be used to trigger LVM.
-.It Sy lvm_config Ns = Ns Op 1
+.It Sy lvm_config Ns = Ns Aq 0 | 1
 Include
 .Pa /etc/lvm/lvm.conf
 in initramfs.
-.It Sy lvm_discard Ns = Ns Op 1
+.It Sy lvm_discard Ns = Ns Aq 0 | 1
 Pass
 .Dq issue_discards
 to LVM.
@@ -220,7 +220,7 @@ See
 (above) for details.
 .It Sy luks_header Ns = Ns Aq PATH
 Specify location to detached header.
-.It Sy luks_discard Ns = Ns Op 1
+.It Sy luks_discard Ns = Ns Aq 0 | 1
 Pass
 .Dq --allow-discards
 to
