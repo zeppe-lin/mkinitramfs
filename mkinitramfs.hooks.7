@@ -28,10 +28,10 @@ In order to write hooks you must know about hook structure.
 Example:
 .Bd -literal -offset indent
 hooks/
-`‐‐ <hook>/               <- Directory of hook scripts
-    |‐‐ <hook>            <- Invoked in build process
-    |‐‐ <hook>.init       <- Invoked in init process
-    `‐‐ <hook>.init.late  <- Invoked after root filesystem
+`‐‐ <hook>/               \(<- Directory of hook scripts
+    |‐‐ <hook>            \(<- Invoked in build process
+    |‐‐ <hook>.init       \(<- Invoked in init process
+    `‐‐ <hook>.init.late  \(<- Invoked after root filesystem
                              was mounted
 .Ed
 .\" ------------------------------------------------------------------
