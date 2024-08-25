@@ -123,7 +123,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 Reboot.
 
-[2]: http://zeppel.ink/mkinitramfs.config.5.html
+[2]: https://zeppe-lin.github.io/mkinitramfs.config.5.html
 
 
 CREDITS
