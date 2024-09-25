@@ -124,7 +124,7 @@ parse_cmdline() {
 		     debug=1) set -x                              ;;
 		       ro|rw) rorw="$_param"                      ;;
 		      init=*) init="${_param#*=}"                 ;;
-		         --*) init_args="${_param##*-- }" ; break ;;
+		         --*) init_args="${cmdline##*--}" ; break ;;
 		         *=*) command export "$_param"            ;;
 		           *) command export "$_param=1"          ;;
 		esac 2>/dev/null || :
