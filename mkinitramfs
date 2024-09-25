@@ -314,6 +314,8 @@ copy_kernmodules() {
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/scsi"         \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/block"        \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/virtio"       \
+			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/core"     \
+			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/common"   \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/host"     \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/drivers/usb/storage"  \
 			"$KERNEL_MOD_DIR/$KERNEL_VERSION/kernel/input/keyboard"       \
