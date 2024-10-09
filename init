@@ -57,7 +57,7 @@ resolve_device() {
 	PARTUUID) device="/dev/disk/by-partuuid/${device#*=}" ;;
 	  /dev/*)                                             ;;
 	       *) return 0                                    ;;
-  	esac
+	esac
 
 	# Race condition may occur if device manager is not yet
 	# initialized device.  To fix this, we simply waiting until
