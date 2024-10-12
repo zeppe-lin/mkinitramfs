@@ -161,7 +161,7 @@ boot_system() {
 		sh
 	fi
 
-	# XXX seems like switch_root(8) already doing this
+	# XXX Isn't switch_root(8) already doing this?
 	for _dir in run dev sys proc; do
 		mount -o move "/$_dir" "/mnt/root/$_dir" || :
 	done

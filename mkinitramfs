@@ -66,7 +66,7 @@ copy_file() {
 	local _strip="$4"
 	local _symlink
 
-	# return if _file already exists
+	# Return if _file already exists.
 	if [ -e "$MKINITRAMFS_WORK_DIR/$_dest" ]; then
 		return 0
 	fi
@@ -88,7 +88,7 @@ copy_file() {
 		esac
 	done
 
-	# Handle case when _file and _dest have same basenames
+	# Handle case when _file and _dest have same basenames.
 	if [ -h "$MKINITRAMFS_WORK_DIR/$_dest" ]; then
 		_dest="$_file"
 	fi
@@ -274,7 +274,7 @@ copy_kernmodules() {
 	elif [ "${hostonly}" = 1 ]; then
 		info "Copy hostonly modules."
 
-		# Perform autodetection of modules via /sys
+		# Perform autodetection of modules via /sys.
 		# https://wiki.archlinux.org/index.php/Modalias
 		find /sys/devices -name modalias -exec sort -u {} + |
 			while read -r _mod || [ "$_mod" ]; do
@@ -438,8 +438,8 @@ main() {
 
 ######################################################################
 
-# -e: Exit if command return status greater than 0
-# -f: Disable globbing *?[]
+# -e: Exit if command return status greater than 0.
+# -f: Disable globbing *?[].
 set -ef
 
 # Set exit hooks.
