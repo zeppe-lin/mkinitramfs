@@ -4,8 +4,8 @@ OVERVIEW
 This directory contains mkinitramfs, a tool used to create a Linux boot image
 (initramfs).
 
-This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9 (Fri
-May 21 2021) with the following differences:
+This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9
+(Fri May 21 2021) with the following differences:
   * bash completion
   * GNU-style options/help/usage
   * switch to the GNU getopt(1) for command-line parsing
