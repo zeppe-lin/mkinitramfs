@@ -15,10 +15,11 @@ cat >    "$MKINITRAMFS_WORK_DIR/lib/udev/rules.d/device-helper.rules" <<EOF
 SUBSYSTEMS=="block", ACTION=="add", RUN+="/bin/device-helper"
 EOF
 
-[ "$monolith" = 1 ] ||
+if [ "$monolith" != 1 ]; then
   cat >> "$MKINITRAMFS_WORK_DIR/lib/udev/rules.d/device-helper.rules" <<EOF
 ENV{MODALIAS}=="?*", ACTION=="add", RUN+="/bin/modprobe %E{MODALIAS}"
 EOF
+fi
 
 # vim: ft=sh cc=72 tw=70
 # End of file.
