@@ -44,7 +44,7 @@ interrupted() {
 
 # shellcheck disable=SC2317
 atexit() {
-	# clean up after ourselves
+	# Clean up after ourselves.
 	if [ -d "$MKINITRAMFS_WORK_DIR" ]; then
 		rm -rf "$MKINITRAMFS_WORK_DIR"
 	fi
