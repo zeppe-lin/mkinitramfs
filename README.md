@@ -1,8 +1,8 @@
 OVERVIEW
 ========
 
-This directory contains mkinitramfs, a tool used to create a Linux boot image
-(initramfs).
+This directory contains mkinitramfs, a tool used to create a Linux boot
+image (initramfs).
 
 This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9
 (Fri May 21 2021) with the following differences:
@@ -42,7 +42,8 @@ REQUIREMENTS
 Kernel
 ------
 
-You need a kernel built with the following features (statically or as modules):
+You need a kernel built with the following features (statically or as
+modules):
 ```
   General setup
     [*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
@@ -54,8 +55,8 @@ You need a kernel built with the following features (statically or as modules):
           CONFIG_DEVTMPFS=y
 ```
 
-To use `mkinitramfs` with encrypted root is needed to include the following
-features too:
+To use `mkinitramfs` with encrypted root is needed to include the
+following features too:
 ```
   Device Drivers --->
     Multiple devices driver support (RAID and LVM) --->
@@ -85,8 +86,9 @@ The following runtime dependencies are optional:
   * ldd(1): for copying binary dependencies
   * strip(1p): for reducing image size by stripping binaries
   * blkid(8): for UUID, LABEL, PARTUUID support
-  * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or CONFIG_UEVENT_HELPER:
-    for modular kernel, /dev/mapper/* and /dev/disk/*
+  * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
+    `CONFIG_UEVENT_HELPER`: for modular kernel, `/dev/mapper/*` and
+    `/dev/disk/*`
   * lvm(8): for LVM support
   * cryptsetup(8): for LUKS support
   * busybox' loadkmap: for keymap support
@@ -110,8 +112,8 @@ USAGE
 =====
 
 To use mkinitramfs, read [mkinitramfs.config(5)][2] and setup
-/etc/mkinitramfs/config file conform your needs.  Next, run the following
-command:
+/etc/mkinitramfs/config file conform your needs.  Next, run the
+following command:
 
 ```sh
 sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
@@ -143,7 +145,7 @@ You can donate if you like this project to the original author:
 LICENSE
 =======
 
-mkinitramfs is licensed through the GNU General Public License v3 or later
-<https://gnu.org/licenses/gpl.html>.
+mkinitramfs is licensed through the GNU General Public License v3 or
+later <https://gnu.org/licenses/gpl.html>.
 Read the COPYING file for copying conditions.
 Read the COPYRIGHT file for copyright notices.
