@@ -148,7 +148,9 @@ copy_binary() {
 		_lib="${_lib#* => }"
 		_lib="${_lib% *}"
 
-		[ -e "$_lib" ] && copy_file "$_lib" "/lib/${_lib##*/}" 755 1
+		if [ -e "$_lib" ]; then
+			copy_file "$_lib" "/lib/${_lib##*/}" 755 1
+		fi
 	done
 }
 
@@ -196,7 +198,9 @@ prepare_initramfs() {
 
 	copy_file "$MKINITRAMFS_DEVHELPER" /bin/device-helper 0755 1
 
-	command -v blkid >/dev/null && copy_binary blkid
+	if command -v blkid >/dev/null; then
+		copy_binary blkid
+	fi
 
 	copy_file "$MKINITRAMFS_INIT" /init                   755 0
 	copy_file "$MKINITRAMFS_CONF" /etc/mkinitramfs/config 644 0
@@ -241,7 +245,9 @@ process_hooks() {
 			/etc/mkinitramfs/hooks \
 			/usr/share/mkinitramfs/hooks
 		do
-			[ -f "$_hooks_dir/$_hook/$_hook" ] && break
+			if [ -f "$_hooks_dir/$_hook/$_hook" ]; then
+				break
+			fi
 		done || error "Could not find $_hook hook"
 
 		# Run build-time hook.
