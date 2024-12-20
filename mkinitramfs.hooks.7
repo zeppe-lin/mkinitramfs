@@ -175,7 +175,7 @@ config
 .Bl -tag -width Ds
 .It Em ext4 :
 .Bd -literal -offset indent
-print "Copying ext4 dependencies"
+info "Copying ext4 dependencies"
 
 for _mod in crc32c libcrc32c; do
         copy_kmod "$_mod"
