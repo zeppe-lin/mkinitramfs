@@ -4,6 +4,9 @@ TODO mkinitramfs
 
 No milestone
 ------------
+  - [ ] completion/bash_completion:
+        fix shellcheck warnings, and add checking to CI.
+
   - [ ] resume hook: add resume from swap file?
         https://github.com/zeppe-lin/mkinitramfs/issues/5
 
