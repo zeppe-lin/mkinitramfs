@@ -7,8 +7,8 @@ BIN8 = mkinitramfs
 all: $(BIN8)
 
 lint:
-	shellcheck -s sh mkinitramfs.in share/device-helper share/init \
-		share/hooks/*/*
+	shellcheck -s sh mkinitramfs.in \
+		share/device-helper share/init share/hooks/*/*
 
 $(BIN8):
 	sed "s/@VERSION@/$(VERSION)/" $@.in > $@
