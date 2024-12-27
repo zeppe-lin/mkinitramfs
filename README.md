@@ -1,11 +1,11 @@
 OVERVIEW
 ========
 
-This directory contains mkinitramfs, a tool used to create a Linux boot
-image (initramfs).
+This directory contains mkinitramfs, a tool used to create a Linux
+boot image (initramfs).
 
-This distribution is a fork of illiliti's tinyramfs as of commit 8abfcc9
-(Fri May 21 2021) with the following differences:
+This distribution is a fork of illiliti's tinyramfs as of commit
+8abfcc9 (Fri May 21 2021) with the following differences:
   * bash completion
   * GNU-style options/help/usage
   * switch to the GNU getopt(1) for command-line parsing
@@ -111,13 +111,11 @@ USAGE
 To use mkinitramfs, read [mkinitramfs.config(5)][2] and setup
 /etc/mkinitramfs/config file conform your needs.  Next, run the
 following command:
-
 ```sh
 sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
 ```
 
 Then update your bootloader config (i.e. grub):
-
 ```sh
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
