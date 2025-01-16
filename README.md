@@ -1,7 +1,7 @@
 OVERVIEW
 ========
 
-This directory contains mkinitramfs, a tool used to create a Linux
+This repository contains mkinitramfs, a tool used to create a Linux
 boot image (initramfs).
 
 This distribution is a fork of illiliti's tinyramfs as of commit
