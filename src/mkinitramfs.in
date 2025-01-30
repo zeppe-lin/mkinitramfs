@@ -11,6 +11,15 @@
 # shellcheck disable=SC3043
 
 ######################################################################
+# Error codes.                                                       #
+######################################################################
+
+# https://tldp.org/LDP/abs/html/exitcodes.html
+readonly E_GENERAL=1     # Generic error code
+readonly E_CMDEXEC=126   # Command invoked cannot execute
+readonly E_INTERRUPT=130 # Script interrupted or terminated by C-c
+
+######################################################################
 # Notification helpers.                                              #
 ######################################################################
 
@@ -24,7 +33,7 @@ info() {
 #   arg $1: message
 error() {
 	echo "=======> ERROR: $1" 1>&2
-	exit 1
+	exit $E_GENERAL
 }
 
 ######################################################################
@@ -39,7 +48,7 @@ error() {
 interrupted() {
 	echo ""             1>&2
 	info "Interrupted." 1>&2
-	exit 1
+	exit $E_INTERRUPT
 }
 
 # shellcheck disable=SC2317
@@ -393,7 +402,7 @@ print_version() {
 parse_options() {
 	if ! _opts=$(getopt -a -n mkinitramfs -l "$LOPTS" -o "$SOPTS" -- "$@"); then
 		echo "Try 'mkinitramfs --help' for more information." 1>&2
-		exit 1
+		exit $E_GENERAL
 	fi
 	eval set -- "$_opts"; unset _opts
 	while true; do
