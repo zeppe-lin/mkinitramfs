@@ -2,10 +2,17 @@ TODO mkinitramfs
 ================
 
 
+Next release
+------------
+
+  - [ ] Blacklisting modules in the initramfs:
+        add an option and config setting to exclude kernel modules copying
+        for hostonly or copyallmodules modes.
+        kmod_blacklist="a b c" ? omit_drivers="..." ?
+
+
 No milestone
 ------------
-  - [ ] add an option and config setting to not include kernel modules.
-        kmod_blacklist="a b c" ? omit_drivers="..." ?
 
   - [ ] completion/bash_completion:
         fix shellcheck warnings, and add checking to CI.
