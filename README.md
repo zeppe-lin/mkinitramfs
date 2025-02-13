@@ -105,29 +105,49 @@ The shell command `make install` should install this package.
 See `config.mk` file for configuration parameters.
 
 
-USAGE
-=====
+DOCUMENTATION
+=============
 
-To use mkinitramfs, read [mkinitramfs.config(5)][2] and setup
-/etc/mkinitramfs/config file conform your needs.  Next, run the
-following command:
+Basic usage
+-----------
+
+Setup `/etc/mkinitramfs/config` file conform your needs (see
+[mkinitramfs.config.5][3] for more information how to do it).
+
+Next, generate the initramfs:
+
 ```sh
 sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
 ```
 
-Then update your bootloader config (i.e. grub):
+Then update your bootloader configuration.
+The following example is for grub2:
+
 ```sh
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 Reboot.
 
-[2]: https://zeppe-lin.github.io/mkinitramfs.config.5.html
+Online documentation
+--------------------
+
+Manual pages:
+- [mkinitramfs.8][2]
+- [mkinitramfs.config.5][3]
+- [mkinitramfs.cmdline.7][4]
+- [mkinitramfs.hooks.7][5]
+
+[2]: https://zeppe-lin.github.io/mkinitramfs.8.html
+[3]: https://zeppe-lin.github.io/mkinitramfs.config.5.html
+[4]: https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html
+[5]: https://zeppe-lin.github.io/mkinitramfs.hooks.7.html
 
 
 CREDITS
 =======
 
+Original developers:
   * illiliti    <https://github.com/illiliti>
   * E5ten       <https://github.com/E5ten>
   * dylanaraps  <https://github.com/dylanaraps>
