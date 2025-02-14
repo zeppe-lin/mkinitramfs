@@ -133,15 +133,10 @@ Online documentation
 --------------------
 
 Manual pages:
-- [mkinitramfs.8][2]
-- [mkinitramfs.config.5][3]
-- [mkinitramfs.cmdline.7][4]
-- [mkinitramfs.hooks.7][5]
-
-[2]: https://zeppe-lin.github.io/mkinitramfs.8.html
-[3]: https://zeppe-lin.github.io/mkinitramfs.config.5.html
-[4]: https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html
-[5]: https://zeppe-lin.github.io/mkinitramfs.hooks.7.html
+- [mkinitramfs.8](https://zeppe-lin.github.io/mkinitramfs.8.html)
+- [mkinitramfs.cmdline.7](https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html)
+- [mkinitramfs.config.5](https://zeppe-lin.github.io/mkinitramfs.config.5.html)
+- [mkinitramfs.hooks.7](https://zeppe-lin.github.io/mkinitramfs.hooks.7.html)
 
 
 CREDITS
