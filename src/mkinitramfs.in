@@ -16,7 +16,7 @@
 
 # https://tldp.org/LDP/abs/html/exitcodes.html
 readonly E_GENERAL=1     # Generic error code
-readonly E_CMDEXEC=126   # Command invoked cannot execute
+#readonly E_CMDEXEC=126  # Command invoked cannot execute
 readonly E_INTERRUPT=130 # Script interrupted or terminated by C-c
 
 ######################################################################
