@@ -2,10 +2,10 @@
 
 include config.mk
 
+SUBDIRS = completion man src
+
 all lint install uninstall clean:
-	cd completion && $(MAKE) $@
-	cd man && $(MAKE) $@
-	cd src && $(MAKE) $@
+	for subdir in $(SUBDIRS); do (cd $$subdir; $(MAKE) $@); done
 
 release:
 	git tag -a v$(VERSION) -m v$(VERSION)
