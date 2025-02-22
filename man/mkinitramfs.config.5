@@ -338,6 +338,17 @@ root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
 keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
 .Ed
 .Pp
+The same example as above, but use
+.Sy GNU kbd's loadkeys
+instead of
+.Sy busybox's loadkmap :
+.Bd -literal -offset indent
+root_type=f2fs
+hooks="eudev loadkeys"
+root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+keymap_path=/usr/share/kbd/keymaps/i386/colemak/en-latin9.map.gz
+.Ed
+.Pp
 .It
 LUKS setup:
 .Bd -literal -offset indent
