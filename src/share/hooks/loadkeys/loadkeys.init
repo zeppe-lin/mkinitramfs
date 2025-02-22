@@ -1,0 +1,18 @@
+# loadkeys init hook
+# See COPYING and COPYRIGHT files for corresponding information.
+
+# shellcheck shell=sh
+#
+# https://www.shellcheck.net/wiki/SC2154
+# shellcheck disable=2154
+
+if [ "$break" = loadkeys ]; then
+	print "break before loadkeys.init"
+
+	sh
+fi
+
+loadkeys < "$keymap_path"
+
+# vim: ft=sh cc=72 tw=70
+# End of file.
