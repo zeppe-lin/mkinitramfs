@@ -50,6 +50,7 @@ it, you can simply prepend
 .\" ------------------------------------------------------------------
 .Ss General Options
 .Bl -tag -width Ds
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy monolith Ns = Ns Aq 0 | 1
 Monolithic kernel means kernel with built-in modules.
 If you didn't build kernel yourself, then in most cases you have
@@ -62,6 +63,7 @@ which means you need to set
 .Sy monolith
 to
 .Sy 1 .
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy hostonly Ns = Ns Aq 0 | 1
 Hostonly mode enumerates
 .Xr sysfs 5
@@ -72,6 +74,7 @@ This option will be ignored if
 .Sy monolith
 was set to
 .Sy 1 .
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy compress Ns = Ns Aq COMMAND Op ARGS ...
 Specify which command will be used to compress initramfs image.
 .Pp
@@ -88,6 +91,7 @@ You can set compression level by specifying
 .Dq Li -[0-9]
 in
 .Em ARGS .
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy root Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
 Specify which way
 .Xr mkinitramfs 8
@@ -119,6 +123,7 @@ for ability to use UUID, LABEL, PARTUUID.
 only supported in
 .Sy util-linux'
 .Xr blkid 8 .
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy root_type Ns = Ns Aq TYPE
 Explicitly set root filesystem type instead of automatically
 discovering via
@@ -128,12 +133,14 @@ This option must be specified if you booted from Live CD.
 See
 .Xr fstab 5
 fourth field.
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy extrafiles Ns = Ns Aq FILE ...
 Add extra
 .Em FILE Ns s
 to
 .Sy initramfs
 image.
+.\" ``````````````````````````````````````````````````````````````````
 .It Sy hooks Ns = Ns Aq HOOK ...
 Hooks provide a flexible way to extend
 .Xr mkinitramfs 8
@@ -290,6 +297,7 @@ Configuration file for
 Remember, these just examples!
 .Sy Don't copy blindly !
 Your configuration may (and should) differ.
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .Bl -enum -width 1n -compact
 .It
@@ -300,6 +308,7 @@ hook:
 hooks=eudev
 root=/dev/sda1
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 Specify root device, install monolith kernel (without modules) and add
@@ -310,6 +319,7 @@ hooks=proc
 monolith=1
 root=/dev/nvme0n1p1
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 Specify root device, copy only host modules for modular kernel,
@@ -324,6 +334,7 @@ hooks=mdevd
 compress="gzip -9"
 root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 Specify root device and root filesystem type, add
@@ -337,6 +348,7 @@ hooks="eudev loadkmap"
 root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
 keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 The same example as above, but use
 .Sy GNU kbd's loadkeys
@@ -348,6 +360,7 @@ hooks="eudev loadkeys"
 root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
 keymap_path=/usr/share/kbd/keymaps/i386/colemak/en-latin9.map.gz
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 LUKS setup:
@@ -359,6 +372,7 @@ luks_key=/root/key
 luks_header=/root/header
 luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 LUKS/LVM setup:
@@ -373,6 +387,7 @@ lvm_discard=1
 lvm_name=lvm1
 lvm_group=lvm_grp2
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 .It
 LUKS setup + resume from hibernation:
@@ -387,6 +402,7 @@ luks_discard=1
 luks_name=crypt
 luks_root=/dev/sda2
 .Ed
+.\" ``````````````````````````````````````````````````````````````````
 .El
 .\" ==================================================================
 .Sh SEE ALSO
