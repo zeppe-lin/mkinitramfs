@@ -157,7 +157,9 @@ proc (CONFIG_UEVENT_HELPER)
 .It
 .Lk https://github.com/eudev\-project/eudev eudev
 .It
-keymap
+loadkeys
+.It
+loadkmap
 .It
 resume (resume from hibernation)
 .It
@@ -174,6 +176,7 @@ More detailed information and how to write your own hooks described in
 .El
 .\" ------------------------------------------------------------------
 .Ss Hooks Options
+.\" ``````````````````````````````````````````````````````````````````
 The
 .Sy lvm
 hook has the following options:
@@ -201,6 +204,7 @@ Pass
 to LVM.
 Useful for SSD's.
 .El
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 The
 .Sy luks
@@ -233,20 +237,33 @@ See
 .Xr cryptsetup 8
 for more information.
 .El
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 The
-.Sy keymap
-hook has the following options:
+.Sy loadkeys
+and
+.Sy loadkmap
+hooks has the following options:
 .Bl -tag -width Ds
 .It Sy keymap_path Ns = Ns Aq PATH
 Specify location to binary keymap.
 .Pp
-Currently, this hook supports loading keymap only via
-.Sy busybox' loadkmap .
-.Pp
-.Sy kbd's loadkeys
-not supported.
+Both hooks are for the same purpose.
+One of them
+.Po
+.Sy loadkeys
+.Pc
+uses
+.Sy GNU kmod's loadkeys(8) ,
+and another
+.Po
+.Sy loadkmap
+.Pc
+uses
+.Sy busybox's loadkmap .
+Use the appropriate, not both of them.
 .El
+.\" ``````````````````````````````````````````````````````````````````
 .Pp
 The
 .Sy resume
@@ -312,11 +329,11 @@ root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
 Specify root device and root filesystem type, add
 .Sy eudev
 and
-.Sy keymap
+.Sy loadkmap
 hooks, and specify keymap path:
 .Bd -literal -offset indent
 root_type=f2fs
-hooks="eudev keymap"
+hooks="eudev loadkmap"
 root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
 keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
 .Ed
