@@ -1,4 +1,4 @@
-# keymap build hook
+# loadkmap build hook
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # shellcheck shell=sh
@@ -6,7 +6,7 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-copy_file "$keymap_path" "$keymap_path" 644 0
+copy_file "$keymap_path" "$keymap_path" 0644 0
 copy_binary loadkmap
 
 # vim: ft=sh cc=72 tw=70
