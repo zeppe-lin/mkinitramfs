@@ -18,6 +18,7 @@ No milestone
         fix shellcheck warnings, and add checking to CI.
 
   - [ ] resume hook: add resume from swap file?
+        pass resume_offset? document grub2 config?
         https://github.com/zeppe-lin/mkinitramfs/issues/5
 
   - [ ] add font hook?
