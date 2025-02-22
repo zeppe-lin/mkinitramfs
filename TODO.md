@@ -23,5 +23,8 @@ No milestone
   - [ ] add font hook?
         https://github.com/zeppe-lin/mkinitramfs/issues/2
 
-  - [ ] add support of loadkeys(1) from kbd package to keymap hook:
+Done
+----
+
+  - [x] add support of loadkeys(1) from kbd package to keymap hook:
         https://github.com/zeppe-lin/mkinitramfs/issues/1
