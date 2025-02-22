@@ -16,6 +16,8 @@ This distribution is a fork of illiliti's tinyramfs as of commit
   * manual pages in mdoc(7) format
   * new "extrafiles" directive to copy additional files
   * "resume" hook to resume machines from hibernation
+  * split keymap hook with only support of busybox's loadkmap into
+    loadkmap and loadkeys with additional support of kmod's loadkeys 
 
 See git log for complete/further differences.
 
@@ -91,7 +93,7 @@ The following runtime dependencies are optional:
     `/dev/disk/*`
   * lvm(8): for LVM support
   * cryptsetup(8): for LUKS support
-  * busybox' loadkmap: for keymap support
+  * busybox's loadkmap or kbd's loadkeys(8): for keymap support
   * kmod OR busybox' modutils+[patch][1]: for non-monolithic kernel
 
 [1]: /patches/modprobe-kernel-version.patch
