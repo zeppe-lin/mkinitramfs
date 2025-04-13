@@ -274,16 +274,38 @@ Use the appropriate, not both of them.
 .Pp
 The
 .Sy resume
-hook has the following options:
+hook enables resuming from hibernation (suspend-to-disk).
+It relies on kernel parameters, typically set via the bootloader
+configuration.
+The relevant parameters are:
 .Bl -tag -width Ds
 .It Sy resume Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
-Specify which way
+Specifies the device to resume from.
 .Xr mkinitramfs 8
-will use to look up swap device to resume from hibernation.
-.Pp
-See
+will use this value to look up the device.
+This can be either a swap \fIpartition\fP or the block
+\fIdevice containing the hibernation image file\fP.
+The lookup method
+.Pq UUID, LABEL, etc.
+works the same way as for the
 .Sy root
-(above) for argument details.
+parameter (see above).
+This value can be set either in the
+.Nm
+configuration file or on the kernel command line
+.Pq kernel command line takes precedence .
+.It Sy resume_offset Ns = Ns Aq OFFSET
+\fBRequired only when resuming from a file.\fP
+This \fIkernel parameter\fP specifies the physical offset of the
+hibernation image file on the device specified by the
+.Sy resume
+parameter.
+This value \fBmust\fP be set on the kernel command line and is
+\fInot\fP configured via the
+.Nm
+configuration file.
+The offset can usually be obtained using tools like
+.Xr filefrag 8 .
 .El
 .\" ==================================================================
 .Sh FILES
