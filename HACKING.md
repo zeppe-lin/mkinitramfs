@@ -19,4 +19,4 @@ Coding style
 Documentation
 -------------
 
-* Check for misspells: `hunspell -l man/*.scdoc`
+* Check docs for misspells: `hunspell -l man/*.scdoc`
