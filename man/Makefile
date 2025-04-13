@@ -14,7 +14,7 @@ $(MAN5) $(MAN7) $(MAN8):
 lint:
 	mandoc -Tlint $(MAN5) $(MAN7) $(MAN8)
 
-install:
+install: all
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man5
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man7
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man8
