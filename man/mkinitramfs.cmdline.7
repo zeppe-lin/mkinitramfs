@@ -1,6 +1,6 @@
 .\" mkinitramfs.cmdline(7) manual page
 .\" See COPYING and COPYRIGHT files for corresponding information.
-.Dd May 22, 2024
+.Dd April 13, 2025
 .Dt MKINITRAMFS.CMDLINE 7
 .Os
 .\" ==================================================================
@@ -119,6 +119,31 @@ to
 Leave empty to disable.
 .Pp
 Useful for SSD's, but you must know that security will be decreased.
+.El
+.Pp
+The parameters for the
+.Sy resume
+hook are as follows:
+.Bl -tag -width Ds
+.It Sy resume Ns = Ns Aq UUID | LABEL | /dev/* | PARTUUID
+Specifies the device to resume from hibernation.
+This can be either a swap \fIpartition\fP or the block
+\fIdevice containing the hibernation image file\fP.
+The lookup method (UUID, LABEL, etc.) works the same way as for the
+.Sy root
+parameter (see above).
+If set on the kernel command line, this overrides any
+.Sy resume
+value set in
+.Xr mkinitramfs.config 5 .
+.It Sy resume_offset Ns = Ns Aq OFFSET
+\fBRequired only when resuming from a file.\fP
+Specifies the physical offset of the hibernation image file on the
+device specified by the
+.Sy resume
+parameter.
+The offset can usually be obtained using tools like
+.Xr filefrag 8 .
 .El
 .\" ==================================================================
 .Sh EXAMPLES
