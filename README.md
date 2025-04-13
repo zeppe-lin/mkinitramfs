@@ -13,7 +13,6 @@ This distribution is a fork of illiliti's tinyramfs as of commit
   * support "rootdelay" kernel's command-line parameter
   * experimental smdev hook
   * luks hook: ask for password if header/keyfile is not specified
-  * manual pages in mdoc(7) format
   * new "extrafiles" directive to copy additional files
   * "resume" hook to resume machines from hibernation
   * split keymap hook with only support of busybox's loadkmap into
