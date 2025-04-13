@@ -8,7 +8,7 @@
 # shellcheck disable=2154,2034
 
 if [ "$break" = mdev ]; then
-	print "break before mdev.init"
+	info "break before mdev.init"
 
 	sh
 fi

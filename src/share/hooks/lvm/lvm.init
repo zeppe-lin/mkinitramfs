@@ -8,7 +8,7 @@
 # shellcheck disable=2154,2068
 
 if [ "$break" = lvm ]; then
-	print "break before lvm.init"
+	info "break before lvm.init"
 
 	sh
 fi

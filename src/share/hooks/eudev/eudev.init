@@ -7,7 +7,7 @@
 # shellcheck disable=2154
 
 if [ "$break" = eudev ]; then
-	print "break before eudev.init"
+	info "break before eudev.init"
 
 	sh
 fi

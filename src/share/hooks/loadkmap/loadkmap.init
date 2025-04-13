@@ -7,7 +7,7 @@
 # shellcheck disable=2154
 
 if [ "$break" = loadkmap ]; then
-	print "break before loadkmap.init"
+	info "break before loadkmap.init"
 
 	sh
 fi

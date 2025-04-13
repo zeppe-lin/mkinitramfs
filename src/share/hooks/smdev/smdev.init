@@ -9,7 +9,7 @@
 export PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
 if [ "$break" = smdev ]; then
-	print "break before smdev.init"
+	info "break before smdev.init"
 
 	sh
 fi

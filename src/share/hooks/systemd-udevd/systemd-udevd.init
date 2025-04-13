@@ -7,7 +7,7 @@
 # shellcheck disable=2154
 
 if [ "$break" = "systemd-udevd" ]; then
-	print "break before systemd-udevd.init"
+	info "break before systemd-udevd.init"
 
 	sh
 fi

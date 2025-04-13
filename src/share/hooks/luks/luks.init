@@ -7,7 +7,7 @@
 # shellcheck disable=2154
 
 if [ "$break" = luks ]; then
-	print "break before luks.init"
+	info "break before luks.init"
 
 	sh
 fi
