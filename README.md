@@ -134,11 +134,7 @@ Reboot.
 Online documentation
 --------------------
 
-Manual pages:
-- [mkinitramfs.8](https://zeppe-lin.github.io/mkinitramfs.8.html)
-- [mkinitramfs.cmdline.7](https://zeppe-lin.github.io/mkinitramfs.cmdline.7.html)
-- [mkinitramfs.config.5](https://zeppe-lin.github.io/mkinitramfs.config.5.html)
-- [mkinitramfs.hooks.7](https://zeppe-lin.github.io/mkinitramfs.hooks.7.html)
+Refer to the human-readable man pages located in the `/man` directory.
 
 
 CREDITS
