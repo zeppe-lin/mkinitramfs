@@ -17,12 +17,8 @@ jobs:
       run: sudo apt-get install -y shellcheck
 
     - name: Check src scripts for errors
-      run: cd src && make lint
-
-#   - name: Check man pages for errors (requires mandoc)
-#     run: cd man && make lint
-
-#   - name: Check completion scripts for errors
-#     run: cd completion && make lint
+      run: |
+        cd src && shellcheck -s sh mkinitramfs.in \
+        share/device-helper share/init share/hooks/*/*
 
 # End of file.
