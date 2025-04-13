@@ -6,8 +6,6 @@
 # https://www.shellcheck.net/wiki/SC2154
 # shellcheck disable=2154
 
-# TODO: add resume from swap file
-
 if [ "$break" = resume ]; then
 	print "break before resume.init"
 
@@ -23,8 +21,22 @@ if [ -n "$device" ]; then
 	if [ ! -f "$dev_majmin_nums" ]; then
 		panic "failed to find $dev_majmin_nums"
 	else
-		cat "$dev_majmin_nums" > /sys/power/resume ||
-			panic "failed to resume"
+		# Read major:minor numbers
+		dev_majmin=$(cat "$dev_majmin_nums")
+
+		# Check if resuming from file (resume_offset kernel
+		# parameter is set)
+		if [ -n "$resume_offset" ]; then
+			print "Resuming from file on $device at offset $resume_offset"
+			echo "$resume_offset" > /sys/power/resume_offset ||
+				panic "failed to write resume_offset"
+			echo "$dev_majmin" > /sys/power/resume ||
+				panic "failed to write resume device (for file resume)"
+		else
+			print "Resuming from partition $device"
+			echo "$dev_majmin" > /sys/power/resume ||
+				panic "failed to write resume device (for partition resume)"
+		fi
 	fi
 fi
 
