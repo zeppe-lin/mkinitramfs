@@ -76,6 +76,7 @@ following features too:
 Build time
 ----------
   * POSIX sh(1p), make(1p) and "mandatory utilities"
+  * scdoc to build man pages
 
 Runtime
 -------
