@@ -1,0 +1,151 @@
+MKINITRAMFS(8)
+
+# NAME
+
+mkinitramfs - create an initial ramdisk environment
+
+# SYNOPSIS
+
+*mkinitramfs*           \
+[*-fhv*]                \
+[*-D* _helperfile_]     \
+[*-H* _hooksdir_]       \
+[*-I* _initfile_]       \
+[*-c* _conffile_]       \
+[*-k* _kernelversion_]  \
+[*-m* _modulesdir_]     \
+[*-o* _initramfs_]      \
+
+# DESCRIPTION
+
+The *mkinitramfs* utility creates an initial ramdisk environment for
+booting the Linux kernel.
+The initial ramdisk is in essence a very small environment (early
+userspace) which loads various kernel modules and sets up necessary
+things before handing over control to init.
+This makes it possible to have, for example, encrypted root file
+systems and root file systems on a software RAID array.
+*mkinitramfs* can be extended with custom hooks.
+
+The options are as follows:
+
+*-D* _helperfile_, *--helper*=_helperfile_:
+	Specify an alternate device helper file instead of the default
+	_/usr/share/mkinitramfs/device-helper_.
+
+*-H* _hooksdir_, *--hooks*=_hooksdir_:
+	Specify additional directory for hooks.
+	By default, *mkinitramfs* uses _/usr/share/mkinitramfs/hooks_
+	and _/etc/mkinitramfs/hooks_.
+
+*-I* _initfile_, *--init*=_initfile_:
+	Specify an alternate init script instead of the default
+	_/usr/share/mkinitramfs/init_.
+
+*-c* _conffile_, *--config*=_conffile_:
+	Specify an alternate configuration file instead of the default
+	_/etc/mkinitramfs/config_.
+
+*-f*, *--force*:
+	Forcefully overwrite initramfs image.
+
+*-k* _kernelversion_, *--kernel*=_kernelversion_:
+	Specify kernel version instead of using the version of current
+	running kernel (*uname -r*).
+	Useful for bootstrapping future system with modular kernel.
+
+*-m* _modulesdir_, *--modules*=_modulesdir_:
+	Specify an alternate directory where kernel modules are stored
+	instead of the default _/lib/modules_.
+
+	This option has no effect if *monolith* or *hostonly* were
+	enabled in configuration file.
+
+*-o* _initramfs_, *--output*=_initramfs_:
+	Specify an alternate output file where initramfs image will be
+	stored instead of the default *mkinitramfs-<kernelversion>*
+	directory, created in *TMPDIR* or (if unavailable) in _/tmp_
+	directory.
+
+*-v*, *--version*:
+	Print version and exit.
+
+*-h*, *--help*:
+	Print help and exit.
+
+# ENVIRONMENT
+
+*mkinitramfs* uses the *TMPDIR* environment variable.
+If set, it uses subdirectories in the given directory to create its
+temporary working directories. Else it uses _/tmp_ as default value
+for that purpose. The given directory should be on a filesystem which
+allows the execution of files stored there, i.e. should not be mounted
+with the *noexec* mount option.
+
+# FILES
+
+_/etc/mkinitramfs/config_:
+	The default configuration file.
+	See *mkinitramfs.config*(5) for a description of the available
+	configuration parameters.
+
+_/usr/share/mkinitramfs/hooks/_, _/etc/mkinitramfs/hooks/_:
+	Hooks directories.
+
+_/usr/share/mkinitramfs/init_:
+	Init script.
+
+_/usr/share/mkinitramfs/device-helper_:
+	Device-helper script.
+
+# EXIT STATUS
+
+The *mkinitramfs* utility exits 0 on success, and >0 if an error occurs.
+
+# EXAMPLES
+
+Create an initramfs for current running kernel:
+```
+mkinitramfs -o /tmp/initramfs-$(uname -r).img
+```
+
+Create an initramfs for specific kernel:
+```
+mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
+```
+
+Debug initramfs creation (check out written logfile):
+```
+sh -x $(which mkinitramfs) -o /tmp/initramfs-$(uname -r) 2>/tmp/log
+```
+
+# NOTES
+
+If you have modular kernel and you use *busybox*'s *modprobe* to
+handle modules, you must note that *busybox*'s *modprobe* doesn't have
+ability to install soft dependencies of modules (i.e.
+_modules.softdep_). You must install them yourself using hooks.
+See *mkinitramfs.hooks*(7) how to do it.
+
+# SEE ALSO
+
+*mkinitramfs.config*(5),
+*mkinitramfs.cmdline*(7),
+*mkinitramfs.hooks*(7)
+
+Kernel subsystem documentation: Ramfs, rootfs and initramfs:
+https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html
+
+The Linux kernel user's and administrator's guide:
+Using the initial RAM disk (initrd):
+https://docs.kernel.org/admin-guide/initrd.html
+
+# AUTHORS
+
+Originally created by illiliti <illiliti@protonmail.com>
+as *tinyramfs*: <https://github.com/illiliti/tinyramfs>.
+
+This implementation was re-worked for Zeppe-Lin by
+Alexandr Savca <alexandr.savca89@gmail.com>.
+
+; vim: ft=scdoc cc=72 tw=70

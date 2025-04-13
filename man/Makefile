@@ -6,7 +6,10 @@ MAN5 = mkinitramfs.config.5
 MAN7 = mkinitramfs.cmdline.7 mkinitramfs.hooks.7
 MAN8 = mkinitramfs.8
 
-all:
+all: $(MAN5) $(MAN7) $(MAN8)
+
+$(MAN5) $(MAN7) $(MAN8):
+	scdoc < $@.scdoc > $@
 
 lint:
 	mandoc -Tlint $(MAN5) $(MAN7) $(MAN8)
@@ -28,5 +31,6 @@ uninstall:
 	cd $(DESTDIR)$(MANPREFIX)/man8 && rm -f $(MAN8)
 
 clean:
+	rm -f $(MAN5) $(MAN7) $(MAN8)
 
 .PHONY: all lint install uninstall clean

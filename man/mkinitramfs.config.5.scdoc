@@ -1,0 +1,322 @@
+MKINITRAMFS.CONFIG(5)
+
+# NAME
+
+mkinitramfs.config - configuration file for mkinitramfs
+
+# SYNOPSIS
+
+*/etc/mkinitramfs/config*
+
+# DESCRIPTION
+
+*mkinitramfs* configuration file is a list of environment variables.
+Each variable must be written in POSIX way, bashism not allowed.
+
+Example:
+```
+key=value
+```
+
+If value contains spaces it must be quoted.
+```
+key="value value2"
+```
+
+If value contains special symbols like '*$*', it must be escaped or
+quoted using single quotes.
+```
+key=\\\\$value
+key='$value'
+```
+
+If line exceeded maximum space on your display and you want to make it
+more readable, you can concatenate them.
+```
+key=value
+key="${key}value"
+```
+
+If you want to temporary undefine variable without actually deleting
+it, you can simply prepend '*#*'.
+```
+#key=value
+```
+
+## General Options
+
+*monolith*=<0 | 1>
+	Monolithic kernel means kernel with built-in modules.  If you
+	didn't build kernel yourself, then in most cases you have
+	modular kernel and you don't need to enable this option.  To
+	check if you have monolithic you need to check if
+	_/lib/modules/<kernel_version>/modules_ exist.  If this
+	directory doesn't exist you probably have monolithic kernel
+	which means you need to set *monolith* to *1*.
+
+*hostonly*=<0 | 1>
+	Hostonly mode enumerates *sysfs*(5) and copies only necessary
+	modules instead of copying all modules.  Which means that this
+	mode can dramatically reduce initramfs size.
+
+	*Note*:
+	This option will be ignored if *monolith* was set to *1*.
+
+*compress*=<COMMAND [ARGS ...]>
+	Specify which command will be used to compress initramfs
+	image.
+
+	There is a lot of commands you can use, such as:
+	- *xz*
+	- *zstd*
+	- *gzip*
+	- *bzip2*
+	- ... and many more ...
+
+	You can set compression level by specifying *-[0-9]* in
+	*ARGS*.
+
+*root*=<UUID | LABEL | /dev/\* | PARTUUID>
+	Specify which way *mkinitramfs*(8) will use to look up root
+	filesystem.
+
+	- UUID      Lookup device by uuid.
+	- LABEL     Lookup device by label.
+	- /dev/\*    Lookup device by full path.
+	- PARTUUID  Lookup device by partition uuid.
+
+	You must install blkid utility (available in toybox, busybox,
+	util-linux or e2fsprogs) for ability to use UUID, LABEL,
+	PARTUUID.
+
+	*Note*: PARTUUID only supported in util-linux' *blkid*(8).
+
+*root_type*=<TYPE>
+	Explicitly set root filesystem type instead of automatically
+	discovering via _/proc/mounts_.  This option must be specified
+	if you booted from Live CD.
+
+*root_opts*=<OPTS>
+	Mount options associated with the filesystem.
+	See *fstab*(5) fourth field.
+
+*extrafiles*=<FILE ...>
+	Add extra FILEs to initramfs image.
+
+*hooks*=<HOOK ...>
+	Hooks provide a flexible way to extend *mkinitramfs*(8) with
+	custom scripts.  Hooks are launched in the order in which they
+	are specified.
+
+	List of shipped by default hooks:
+	. lvm
+	. luks
+	. smdev: https://core.suckless.org/smdev/
+	. mdev: https://git.busybox.net/busybox/plain/docs/mdev.txt
+	. proc (*CONFIG_UEVENT_HELPER*)
+	. mdevd: https://skarnet.org/software/mdevd/
+	. eudev: https://github.com/eudev-project/eudev
+	. loadkeys
+	. loadkmap
+	. resume (resume from hibernation)
+	. systemd-udevd
+
+	See below how to use them.
+
+	If hook doesn't have options, then it's not yet documented
+	(consider as a bug) or can be used "as is".
+
+	More detailed information and how to write your own hooks
+	described in *mkinitramfs.hooks*(7).
+
+## Hooks Options
+
+The *lvm* hook has the following options:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*lvm_tag*=<TAG>
+	Specify LVM tag which will be used to trigger LVM.
+
+	This option will be ignored if *lvm_name*/*lvm_group* was
+	specified.
+
+*lvm_name*=<NAME>
+	Specify LVM name which will be used to trigger LVM.
+
+	*lvm_group* (see below) must be specified.
+
+*lvm_group*=<GROUP>
+	Specify LVM group which will be used to trigger LVM.
+
+*lvm_config*=<0 | 1>
+	Include _/etc/lvm/lvm.conf_ in initramfs.
+
+*lvm_discard*=<0 | 1>
+	Pass "issue_discards" to LVM.  Useful for SSD's.
+
+
+The *luks* hook has the following options:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*luks_key*=<PATH>
+	Specify location to key.
+
+	*GPG-encrypted key currently not supported*.
+
+*luks_name*=<NAME>
+	Specify which name will be registered to mapping table
+	after *cryptsetup*(8) unlocks LUKS root.
+
+*luks_root*=<UUID | LABEL | /dev/\* | PARTUUID>
+	See *root* (above) for details.
+
+*luks_header*=<PATH>
+	Specify location to detached header.
+
+*luks_discard*=<0 | 1>
+	Pass *--allow-discards* to *cryptsetup*(8), that allows the
+	use of discard (TRIM) requests for your luks device.
+
+	*Warning*: This option may have a negative security impact.
+	See *cryptsetup*(8) for more information.
+
+
+The *resume* hook enables resuming from hibernation (suspend-to-disk).
+It relies on kernel parameters, typically set via the bootloader
+configuration.  The relevant parameters are:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*resume*=<UUID | LABEL | /dev/\* | PARTUUID>
+	Specifies the device to resume from. *mkinitramfs*(8) will use
+	this value to look up the device.  This can be either a swap
+	partition or the block device containing the hibernation image
+	file.  The lookup method (UUID, LABEL, etc.) works the same
+	way as for the root parameter (see above).  This value can be
+	set either in the mkinitramfs' configuration file or on the
+	kernel command line (kernel command line takes precedence).
+
+*resume_offset*=<OFFSET>
+	*Required only when resuming from a file*.
+	This kernel parameter specifies the physical offset of the
+	hibernation image file on the device specified by the *resume*
+	parameter.  This value must be set on the kernel command line
+	and is *not* configured via the mkinitramfs' configuration
+	file.  The offset can usually be obtained using tools like
+	*filefrag*(8).
+
+The *loadkeys* and *loadkmap* hooks has the following options:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*keymap_path*=<PATH>
+	Specify location to binary keymap.
+
+	*Both hooks are for the same purpose*.
+	One  of  them (*loadkeys*) uses GNU *kmod*'s *loadkeys*(8),
+	while another (*loadkmap*) uses busybox's *loadkmap*.
+
+	*Use the appropriate, not both of them*.
+
+
+# FILES
+
+_/etc/mkinitramfs/config_
+	Default configuration file for *mkinitramfs(8)*.
+
+# EXAMPLES
+
+Remember, these just examples!
+*Don't copy blindly!*
+Your configuration may (and should) differ.
+
+1. Specify root device and add *eudev* hook:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+hooks=eudev
+root=/dev/sda1
+```
+
+2. Specify root device, install monolith kernel (without modules) and
+add *proc* (*CONFIG_UEVENT_HELPER*) hook:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+hooks=proc
+monolith=1
+root=/dev/nvme0n1p1
+```
+
+3. Specify root device, copy only host modules for modular kernel,
+compress initramfs image through *gzip -9*, and add *mdevd* hook:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+hostonly=1
+hooks=mdevd
+compress="gzip -9"
+root=PARTUUID=8e05009d-a1d5-4fdb-b407-b0e79360555c
+```
+
+4. Specify root device and root filesystem type, add *eudev* and
+*loadkmap* hooks, and specify *keymap* path:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+root_type=f2fs
+hooks="eudev loadkmap"
+root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+keymap_path=/usr/share/bkeymaps/colemak/en-latin9.bmap
+```
+
+The same example as above, but use GNU *kbd*'s *loadkeys* instead of
+busybox's *loadkmap*:
+
+```
+root_type=f2fs
+hooks="eudev loadkeys"
+root=UUID=13bcb7cc-8fe5-4f8e-a1fe-e4b5b336f3ef
+keymap_path=/usr/share/kbd/keymaps/i386/colemak/en-latin9.map.gz
+```
+
+5. LUKS setup:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+hooks="mdev luks"
+root=LABEL=my_root
+luks_discard=1
+luks_key=/root/key
+luks_header=/root/header
+luks_root=PARTUUID=35f923c5-083a-4950-a4da-e611d0778121
+```
+
+6. LUKS/LVM setup:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+compress="lz4 -9"
+hooks="eudev lvm luks"
+root=/dev/disk/by-uuid/aa82d7bb-ab2b-4739-935f-fd8a5c9a6cb0
+luks_discard=1
+luks_root=/dev/sdb2
+lvm_config=1
+lvm_discard=1
+lvm_name=lvm1
+lvm_group=lvm_grp2
+```
+
+7. LUKS setup + *resume* from hibernation:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+hostonly=1
+compress="gzip --fast"
+hooks="eudev luks lvm resume"
+root=/dev/mapper/root
+root_type=ext4
+resume=/dev/mapper/swap
+luks_discard=1
+luks_name=crypt
+luks_root=/dev/sda2
+```
+
+# SEE ALSO
+
+*mkinitramfs.cmdline*(7),
+*mkinitramfs.hooks*(7),
+*mkinitramfs*(8)
+
+; vim: ft=scdoc cc=72 tw=70

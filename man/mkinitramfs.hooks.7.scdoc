@@ -1,0 +1,159 @@
+MKINITRAMFS.HOOKS(7)
+
+# NAME
+
+mkinitramfs.hooks - mkinitramfs hooks and related stuff
+
+# DESCRIPTION
+
+*mkinitramfs* hooks provides a way to extend initramfs' build and init
+process.  Hooks must be written in POSIX shell.  Bashisms and other
+non-portable extensions are prohibited.
+
+Hooks can be located in _/usr/share/mkinitramfs/hooks_ (system path)
+and _/etc/mkinitramfs/hooks_ (user path).  It is also allowed to
+specify custom location via *mkinitramfs*(8):
+
+```
+mkinitramfs -H hooksdir
+```
+
+In order to write hooks you must know about hook structure.  Example:
+
+```
+hooks/
+`-- <hook>/               <- Directory of hook scripts
+    |-- <hook>            <- Invoked in build process
+    |-- <hook>.init       <- Invoked in init process
+    `-- <hook>.init.late  <- Invoked after root filesystem
+                              was mounted
+```
+
+## Functions
+
+The following functions can be used by hooks in *build* process:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*copy_kmod* PATH
+	Copy kernel module by PATH (full path to kernel module) to
+	*mkinitramfs* working directory.
+
+*copy_binary* PATH | NAME
+	If PATH (full path to binary) was specified and it has
+	executable bit, then it will be copied to _/bin_ location of
+	*mkinitramfs* working directory.
+
+	If NAME was specified, the mkinitramfs will try to find
+	command by name in *PATH* environment variable.  If success,
+	command will be copied to _/bin_ location of *mkinitramfs*
+	working directory.  Otherwise error message will appear.
+
+*copy_file* FILE DEST MODE STRIP
+	FILE: Must be full path to file.
+
+	DEST: Must be full path where FILE should be stored.
+	*mkinitramfs* will automatically create all leading
+	directories if they aren't exist already.  Also no need to
+	prepend path of *mkinitramfs* working directory.
+
+	MODE: Permissions in octal format.
+
+	STRIP: If was set to *1*, then *mkinitramfs* will attempt to
+	run *strip*(1p) on file.  *mkinitramfs* will silently ignore
+	errors if strip doesn't exists or failed to strip binary.
+
+
+The following functions can be used by hooks in *init* process:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*resolve_device* UUID | LABEL | /dev/\* | PARTUUID
+	Sets device variable to full path of resolved UUID, LABEL,
+	/dev/\*, or PARTUUID.
+
+
+The following functions can be used by hooks in both processes
+(*build* and *init*):
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*info* MESSAGE
+	Print message to stdout.
+
+*panic* [MESSAGE]
+	If message was not specified, then *mkinitramfs* will print
+	default error message.  Otherwise, MESSAGE will be printed.
+
+
+## Global Variables
+
+The following variables can be used by hooks in *build* process:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*MKINITRAMFS_WORK_DIR*
+	Full path of *mkinitramfs* working directory (initramfs rootfs
+	in future).
+
+*KERNEL_VERSION*
+	Kernel version.
+
+*KERNEL_MOD_DIR*
+	Kernel modules directory.
+
+*MKINITRAMFS_INIT*
+	Path to init script.
+
+*MKINITRAMFS_DEVHELPER*
+	Path to device-helper script.
+
+*MKINITRAMFS_CONF*
+	Config location.
+
+*MKINITRAMFS_IMAGE*
+	Output path where initramfs image is stored.
+
+
+The following variables can be used by hooks in *init* process:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*break*
+	Breakpoint for debugging.
+
+The following variables can be used by hooks in both processes
+(*build* and *init*):
+
+*DEBUG*
+	Equals *1* if debug mode enabled.
+
+See *mkinitramfs.config*(5) for additional information about available
+hooks.
+
+# EXAMPLES
+
+This example will show how to handle soft dependencies of *ext4*
+module. Create _/etc/mkinitramfs/hooks/ext4_ directory and copy below
+scripts with appropriate names to that directory.  After that, prepend
+*ext4* to *hooks* option in *mkinitramfs*' configuration file
+(_/etc/mkinitramfs/config_).
+
+*ext4*:
+
+```
+info "Copying ext4 dependencies"
+
+for _mod in crc32c libcrc32c; do
+     copy_kmod "$_mod"
+done
+```
+
+*ext4.init*:
+
+```
+modprobe -a crc32c libcrc32c
+```
+
+# SEE ALSO
+
+*mkinitramfs.config*(5),
+*mkinitramfs.cmdline*(7),
+*mkinitramfs*(8)
+
+; vim: ft=scdoc cc=72 tw=70

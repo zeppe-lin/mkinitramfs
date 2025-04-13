@@ -1,0 +1,139 @@
+MKINITRAMFS.CMDLINE(7)
+
+# NAME
+
+mkinitramfs.cmdline - mkinitramfs' kernel command-line parameters
+
+# DESCRIPTION
+
+The *mkinitramfs(8)* utility provides a way to control configuration
+dynamically via kernel parameters without needing to regenerate
+initramfs image.
+
+## General Parameters
+
+*debug*=<0 | 1>
+	Enable or disable debug mode.  Disabled by default.
+
+*break*=<BREAKPOINT>
+	Specify breakpoint where shell should be invoked.  Useful for
+	debugging.
+
+	List of built-in breakpoints:
+		- boot
+		- root
+
+	Hooks can provide their own breakpoints.  See source code of
+	hooks for more information.
+
+*root*=<UUID | LABEL | /dev/\* | PARTUUID>
+	Specify which way initramfs will use to look up root
+	filesystem.
+
+	- UUID      Lookup device by uuid.
+	- LABEL     Lookup device by label.
+	- /dev/\*    Lookup device by full path.
+	- PARTUUID  Lookup device by partition uuid.
+
+	Initramfs must contain blkid utility for ability to use UUID,
+	LABEL, PARTUUID.
+
+	*Note:* PARTUUID only supported in util-linux' *blkid*(8).
+
+*root_type*=<TYPE>, *rootfstype*=<TYPE>
+	Explicitly set root filesystem type.  Kernel must support
+	specified type.
+
+*rootdelay*=<DELAY>
+	Specify maximum number of seconds to wait for root device
+	instead of the default 30 seconds.
+
+*root_opts*=<OPTS>, *rootflags*=<OPTS>
+	Mount options associated with the filesystem
+	See *fstab*(5) fourth field.
+
+## Hooks Parameters
+
+Initramfs must contain appropriate hooks for ability to use below
+parameters.
+
+The parameters for *LVM* hook are as follows:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*lvm_tag*=<TAG>
+	Specify LVM tag which will be used to trigger LVM.
+
+	This option will be ignored if lvm_name/lvm_group was specified.
+
+*lvm_name*=<NAME>
+	Specify LVM name which will be used to trigger LVM.
+
+	*lvm_group* (see below) must be specified.
+
+*lvm_group*=<GROUP>
+	Specify LVM group which will be used to trigger LVM.
+
+
+*lvm_discard*=<0 | 1>
+	Pass issue_discards to LVM.  Leave empty to disable.  Useful
+	for SSD's.
+
+The parameters for *LUKS* hook are as follows:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+*luks_name*=<NAME>
+	Specify which name will be registered to mapping table after
+	*cryptsetup*(8) unlocks LUKS root.
+
+*luks_root*=<UUID | LABEL | /dev/\* | PARTUUID>
+	See *root* (above) for details.
+
+*luks_discard*=<0 | 1>
+	Pass *--allow-discards* to *cryptsetup*(8).
+	Leave empty to disable.
+
+	Useful for SSD's, but you must know that security will be
+	decreased.
+
+The parameters for the resume hook are as follows:
+
+*resume*=<UUID | LABEL | /dev/\* | PARTUUID>
+	Specifies the device to resume from hibernation.  This can be
+	either a swap partition or the block device containing the
+	hibernation image file.  The lookup method (UUID, LABEL, etc.)
+	works the same way as for the *root* parameter (see above).
+	If set on the kernel command line, this overrides any resume
+	value set in mkinitramfs' config.
+
+*resume_offset*=<OFFSET>
+	*Required only when resuming from a file*.
+	Specifies the physical offset of the hibernation image
+	file on the device specified by the *resume* parameter.
+
+	The offset can usually be obtained using tools like
+	*filefrag*(8).
+
+# EXAMPLES
+
+Specify *root* option argument:
+```
+vmlinuz initrd=\initramfs root=/dev/sda1 [...]
+```
+
+Disable *discards* for LUKS and LVM:
+```
+vmlinuz initrd=\initramfs luks_discard= lvm_discard= [...]
+```
+
+Pass arguments to real init:
+```
+vmlinuz initrd=\initramfs [...] -- arguments
+```
+
+# SEE ALSO
+
+*mkinitramfs.config*(5),
+*mkinitramfs.hooks*(7),
+*mkinitramfs*(8)
+
+; vim: ft=scdoc cc=72 tw=70
