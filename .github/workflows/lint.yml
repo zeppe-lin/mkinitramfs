@@ -19,6 +19,6 @@ jobs:
     - name: Check src scripts for errors
       run: |
         cd src && shellcheck -s sh mkinitramfs.in \
-        share/device-helper share/init share/hooks/*/*
+        helpers/device-helper helpers/init hooks/*/*
 
 # End of file.
