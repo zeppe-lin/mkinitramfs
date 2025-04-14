@@ -1,4 +1,6 @@
 #!/bin/sh -f
+# device-helper - Resolve device identifiers (UUID/LABEL/PATH/etc.) to
+#                 device nodes within initramfs
 # See COPYING and COPYRIGHT files for corresponding information.
 
 # Create /dev/disk/by-* and /dev/mapper/* symlinks.
