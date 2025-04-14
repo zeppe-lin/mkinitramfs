@@ -45,38 +45,36 @@ Kernel
 
 You need a kernel built with the following features (statically or as
 modules):
-```
-  General setup
-    [*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
-        CONFIG_BLK_DEV_INITRD=y
 
-  Device Drivers
-    Generic Driver Options
-      [*] Maintain a devtmpfs filesystem to mount at /dev
-          CONFIG_DEVTMPFS=y
-```
+    General setup
+      [*] Initial RAM filesystem and RAM disk (initramfs/initrd) support
+          CONFIG_BLK_DEV_INITRD=y
+        
+    Device Drivers
+      Generic Driver Options
+        [*] Maintain a devtmpfs filesystem to mount at /dev
+            CONFIG_DEVTMPFS=y
 
-To use `mkinitramfs` with encrypted root is needed to include the
+To use mkinitramfs(8) with encrypted root is needed to include the
 following features too:
-```
-  Device Drivers --->
-    Multiple devices driver support (RAID and LVM) --->
-      [*] Device mapper support
-      [*] Crypt target support
 
-  Cryptographic API --->
-    <*> XTS support
-    <*> SHA224 and SHA256 digest algorithm
-    <*> AES cipher algorithms
-    <*> AES cipher algorithms (x86_64)
-    <*> User-space interface for hash algorithms
-    <*> User-space interface for symmetric key cipher algorithms
-```
+    Device Drivers --->
+      Multiple devices driver support (RAID and LVM) --->
+        [*] Device mapper support
+        [*] Crypt target support
+        
+    Cryptographic API --->
+      <*> XTS support
+      <*> SHA224 and SHA256 digest algorithm
+      <*> AES cipher algorithms
+      <*> AES cipher algorithms (x86_64)
+      <*> User-space interface for hash algorithms
+      <*> User-space interface for symmetric key cipher algorithms
 
 Build time
 ----------
   * POSIX sh(1p), make(1p) and "mandatory utilities"
-  * scdoc to build man pages
+  * scdoc(1) to build manual pages
 
 Runtime
 -------
@@ -89,8 +87,8 @@ The following runtime dependencies are optional:
   * strip(1p): for reducing image size by stripping binaries
   * blkid(8): for UUID, LABEL, PARTUUID support
   * smdev OR mdev OR mdevd OR eudev OR systemd-udevd or
-    `CONFIG_UEVENT_HELPER`: for modular kernel, `/dev/mapper/*` and
-    `/dev/disk/*`
+    CONFIG_UEVENT_HELPER: for modular kernel, /dev/mapper/ and
+    /dev/disk/
   * lvm(8): for LVM support
   * cryptsetup(8): for LUKS support
   * busybox's loadkmap or kbd's loadkeys(8): for keymap support
@@ -102,9 +100,11 @@ The following runtime dependencies are optional:
 INSTALL
 =======
 
-The shell command `make install` should install this package.
+To install this package, run:
 
-See `config.mk` file for configuration parameters.
+    make install
+
+See config.mk file for configuration parameters.
 
 
 DOCUMENTATION
@@ -113,28 +113,24 @@ DOCUMENTATION
 Basic usage
 -----------
 
-Setup `/etc/mkinitramfs/config` file conform your needs (see
+Setup /etc/mkinitramfs/config file conform your needs (see
 [mkinitramfs.config.5][3] for more information how to do it).
 
 Next, generate the initramfs:
 
-```sh
-sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
-```
+    sudo mkinitramfs -o "/boot/initramfs-$(uname -r).img"
 
-Then update your bootloader configuration.
-The following example is for grub2:
+Then update your bootloader configuration.  The following example is
+for GRUB2:
 
-```sh
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 Reboot.
 
 Online documentation
 --------------------
 
-Refer to the human-readable man pages located in the `/man` directory.
+See /man directory for manual pages.
 
 
 CREDITS
