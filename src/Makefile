@@ -14,8 +14,9 @@ install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/sbin
 	cp -f $(BIN8) $(DESTDIR)$(PREFIX)/sbin
 	chmod 0755 $(DESTDIR)$(PREFIX)/sbin/$(BIN8)
-	mkdir -p $(DESTDIR)$(DATADIR)/
-	cp -R share $(DESTDIR)$(DATADIR)/mkinitramfs
+	mkdir -p $(DESTDIR)$(DATADIR)/mkinitramfs
+	cp -R helpers/device-helper helpers/init hooks \
+		$(DESTDIR)$(DATADIR)/mkinitramfs
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/sbin/$(BIN8)
