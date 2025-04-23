@@ -6,9 +6,8 @@ mkinitramfs.cmdline - mkinitramfs' kernel command-line parameters
 
 # DESCRIPTION
 
-The *mkinitramfs(8)* utility provides a way to control configuration
-dynamically via kernel parameters without needing to regenerate
-initramfs image.
+*mkinitramfs(8)* provides a way to control configuration dynamically
+via kernel parameters without needing to regenerate initramfs image.
 
 ## General Parameters
 
