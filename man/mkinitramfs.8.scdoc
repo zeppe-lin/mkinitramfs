@@ -18,11 +18,12 @@ mkinitramfs - create an initial ramdisk environment
 
 # DESCRIPTION
 
-The *mkinitramfs* utility creates an initial ramdisk environment for
-booting the Linux kernel.
+*mkinitramfs* creates an initial ramdisk environment for booting the
+Linux kernel.
+
 The initial ramdisk is in essence a very small environment (early
 userspace) which loads various kernel modules and sets up necessary
-things before handing over control to init.
+things before handing over control to *init*(8).
 This makes it possible to have, for example, encrypted root file
 systems and root file systems on a software RAID array.
 *mkinitramfs* can be extended with custom hooks.
