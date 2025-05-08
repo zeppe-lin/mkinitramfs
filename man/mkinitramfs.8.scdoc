@@ -76,12 +76,11 @@ The options are as follows:
 
 # ENVIRONMENT
 
-*mkinitramfs* uses the *TMPDIR* environment variable.
-If set, it uses subdirectories in the given directory to create its
-temporary working directories. Else it uses _/tmp_ as default value
-for that purpose. The given directory should be on a filesystem which
-allows the execution of files stored there, i.e. should not be mounted
-with the *noexec* mount option.
+*mkinitramfs* relies on the *TMPDIR* environment variable.  If set, it
+creates its temporary working directories as subdirectories within the
+specified location.  Otherwise, it defaults to _/tmp_.  The designated
+directory should reside on a filesystem that permits execution of
+stored files and must not be mounted with the *noexec* option.
 
 # FILES
 
