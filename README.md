@@ -1,15 +1,15 @@
 OVERVIEW
 ========
 
-This repository contains mkinitramfs, a tool used to create a Linux
+This repository contains `mkinitramfs`, a tool used to create a Linux
 boot image (initramfs).
 
-This distribution is a fork of illiliti's tinyramfs as of commit
+This distribution is a fork of illiliti's `tinyramfs` as of commit
 8abfcc9 (Fri May 21 2021) with the following differences:
   * bash completion
   * GNU-style options/help/usage
   * switch to the GNU `getopt(1)` for command-line parsing
-  * "local"s to prevent namespace violations
+  * `local`s to prevent namespace violations
   * support `rootdelay` kernel's command-line parameter
   * experimental `smdev` hook
   * `luks` hook: ask for password if header/keyfile is not specified
@@ -57,7 +57,7 @@ modules):
         [*] Maintain a devtmpfs filesystem to mount at /dev
             CONFIG_DEVTMPFS=y
 
-To use mkinitramfs(8) with encrypted root is needed to include the
+To use `mkinitramfs(8)` with encrypted root is needed to include the
 following features too:
 
     Device Drivers --->
@@ -80,7 +80,7 @@ Build time
 
 Runtime
 -------
-  * Any POSIX-compatible shell with "local" variables support, like
+  * Any POSIX-compatible shell with `local` variables support, like
     `dash(1)`, busybox `ash(1)`, etc
   * GNU `getopt(1)`, `switch_root(8)`, `mount(8)`, `cpio(1)`
 
@@ -118,7 +118,7 @@ Basic usage
 -----------
 
 Setup `/etc/mkinitramfs/config` file conform your needs (see
-[mkinitramfs.config.5][3] for more information how to do it).
+`mkinitramfs.config(5)` for more information how to do it).
 
 Next, generate the initramfs:
 
