@@ -15,13 +15,19 @@ via kernel parameters without needing to regenerate initramfs image.
 	Enable or disable debug mode.  Disabled by default.
 
 *break*=<BREAKPOINT>
-	Specify breakpoint where shell should be invoked.  Useful for
-	debugging.
+	Specify a breakpoint at which the initramfs will drop to an
+	interactive shell for debugging.
 
-	List of built-in breakpoints: _boot_, _root_.
+	The two built-in breakpoints are:
 
-	Hooks can provide their own breakpoints.  See source code of
-	hooks for more information.
+	_root_
+		Before mounting root filesystem.
+	_boot_
+		After root is mounted, before switching to real init.
+
+	Hooks (like _lvm_, _luks_, _eudev_) can define their own
+	breakpoints, e.g., "break=lvm" or "break=luks", allowing shell
+	drops at those hook points.
 
 *root*=<UUID | LABEL | /dev/\* | PARTUUID>
 	Specify which way initramfs will use to look up root
