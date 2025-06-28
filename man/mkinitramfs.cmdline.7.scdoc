@@ -124,17 +124,17 @@ The parameters for the resume hook are as follows:
 
 Specify *root* option argument:
 ```
-vmlinuz initrd=\initramfs root=/dev/sda1 [...]
+vmlinuz initrd=\\initramfs root=/dev/sda1 [...]
 ```
 
 Disable *discards* for LUKS and LVM:
 ```
-vmlinuz initrd=\initramfs luks_discard= lvm_discard= [...]
+vmlinuz initrd=\\initramfs luks_discard= lvm_discard= [...]
 ```
 
 Pass arguments to real init:
 ```
-vmlinuz initrd=\initramfs [...] -- arguments
+vmlinuz initrd=\\initramfs [...] -- arguments
 ```
 
 # SEE ALSO
