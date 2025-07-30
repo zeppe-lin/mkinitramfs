@@ -147,7 +147,7 @@ copy_binary() {
 		;;
 	esac
 
-	copy_file "$_bin" "/bin/${_bin##*/}" 755 1
+	copy_file "$_bin" "/bin/${_bin##*/}" 0755 1
 
 	# Skip copying binary dependencies if ldd not available.
 	command -v ldd >/dev/null || return 0
@@ -158,7 +158,7 @@ copy_binary() {
 		_lib="${_lib% *}"
 
 		if [ -e "$_lib" ]; then
-			copy_file "$_lib" "/lib/${_lib##*/}" 755 1
+			copy_file "$_lib" "/lib/${_lib##*/}" 0755 1
 		fi
 	done
 }
@@ -211,8 +211,8 @@ prepare_initramfs() {
 		copy_binary blkid
 	fi
 
-	copy_file "$MKINITRAMFS_INIT" /init                   755 0
-	copy_file "$MKINITRAMFS_CONF" /etc/mkinitramfs/config 644 0
+	copy_file "$MKINITRAMFS_INIT" /init                   0755 0
+	copy_file "$MKINITRAMFS_CONF" /etc/mkinitramfs/config 0644 0
 }
 
 ######################################################################
@@ -270,7 +270,7 @@ process_hooks() {
 		for _hook_type in init init.late; do
 			if [ -f "$_hooks_dir/$_hook/$_hook.$_hook_type" ]; then
 				copy_file "$_hooks_dir/$_hook/$_hook.$_hook_type" \
-					"/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_hook_type" 644 0
+					"/usr/share/mkinitramfs/hooks/$_hook/$_hook.$_hook_type" 0644 0
 			fi
 		done
 	done
@@ -339,20 +339,20 @@ copy_kernmodules() {
 					# Intentional pattern matching.
 					# https://www.shellcheck.net/wiki/SC2295
 					# shellcheck disable=SC2295
-					copy_file "$_mod" "/lib/modules/${_mod#$KERNEL_MOD_DIR}" 644 0
+					copy_file "$_mod" "/lib/modules/${_mod#$KERNEL_MOD_DIR}" 0644 0
 				done
 	fi
 
 	copy_binary modprobe
 
 	copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.order" \
-		"/lib/modules/$KERNEL_VERSION/modules.order" 644 0
+		"/lib/modules/$KERNEL_VERSION/modules.order"   0644 0
 
 	copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin" \
-		"/lib/modules/$KERNEL_VERSION/modules.builtin" 644 0
+		"/lib/modules/$KERNEL_VERSION/modules.builtin" 0644 0
 
 	copy_file "$KERNEL_MOD_DIR/$KERNEL_VERSION/modules.builtin.modinfo" \
-		"/lib/modules/$KERNEL_VERSION/modules.builtin.modinfo" 644 0
+		"/lib/modules/$KERNEL_VERSION/modules.builtin.modinfo" 0644 0
 
 	depmod -b "$MKINITRAMFS_WORK_DIR" "$KERNEL_VERSION"
 }
