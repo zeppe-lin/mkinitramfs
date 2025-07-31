@@ -27,13 +27,11 @@ if [ -n "$device" ]; then
 		# Check if resuming from file (resume_offset kernel
 		# parameter is set)
 		if [ -n "$resume_offset" ]; then
-			info "Resuming from file on $device at offset $resume_offset"
 			echo "$resume_offset" > /sys/power/resume_offset ||
 				panic "failed to write resume_offset"
 			echo "$dev_majmin" > /sys/power/resume ||
 				panic "failed to write resume device (for file resume)"
 		else
-			info "Resuming from partition $device"
 			echo "$dev_majmin" > /sys/power/resume ||
 				panic "failed to write resume device (for partition resume)"
 		fi
