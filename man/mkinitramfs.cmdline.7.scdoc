@@ -25,7 +25,7 @@ via kernel parameters without needing to regenerate initramfs image.
 	_boot_
 		After root is mounted, before switching to real init.
 
-	Hooks (like _lvm_, _luks_, _eudev_) can define their own
+	Hooks (like *lvm*, *luks*, *eudev*) can define their own
 	breakpoints, e.g., "break=lvm" or "break=luks", allowing shell
 	drops at those hook points.
 
@@ -56,7 +56,7 @@ via kernel parameters without needing to regenerate initramfs image.
 	instead of the default 30 seconds.
 
 *root_opts*=<OPTS>, *rootflags*=<OPTS>
-	Mount options associated with the filesystem
+	Mount options associated with the filesystem.
 	See *fstab*(5) fourth field.
 
 ## Hooks Parameters
@@ -70,7 +70,8 @@ The parameters for *LVM* hook are as follows:
 *lvm_tag*=<TAG>
 	Specify LVM tag which will be used to trigger LVM.
 
-	This option will be ignored if lvm_name/lvm_group was specified.
+	This option will be ignored if *lvm_name*/*lvm_group* was
+	specified.
 
 *lvm_name*=<NAME>
 	Specify LVM name which will be used to trigger LVM.
@@ -122,17 +123,17 @@ The parameters for the resume hook are as follows:
 
 # EXAMPLES
 
-Specify *root* option argument:
+1. Specify *root* option argument:
 ```
 vmlinuz initrd=\\initramfs root=/dev/sda1 [...]
 ```
 
-Disable *discards* for LUKS and LVM:
+2. Disable *discards* for LUKS and LVM:
 ```
 vmlinuz initrd=\\initramfs luks_discard= lvm_discard= [...]
 ```
 
-Pass arguments to real init:
+3. Pass arguments to real init:
 ```
 vmlinuz initrd=\\initramfs [...] -- arguments
 ```

@@ -66,24 +66,22 @@ it, you can simply prepend '*#*'.
 	Specify which command will be used to compress initramfs
 	image.
 
-	There is a lot of commands you can use, such as:
-	- *xz*
-	- *zstd*
-	- *gzip*
-	- *bzip2*
-	- ... and many more ...
-
-	You can set compression level by specifying *-[0-9]* in
-	*ARGS*.
+	There is a lot of _COMMANDs_ you can use, such as "xz",
+	"zstd", "gzip", "bzip2", and many more.  You can set
+	compression level by specifying "-[0-9]" in _ARGS_.
 
 *root*=<UUID | LABEL | /dev/\* | PARTUUID>
 	Specify which way *mkinitramfs*(8) will use to look up root
 	filesystem.
 
-	- UUID      Lookup device by uuid.
-	- LABEL     Lookup device by label.
-	- /dev/\*    Lookup device by full path.
-	- PARTUUID  Lookup device by partition uuid.
+	UUID
+		Lookup device by uuid.
+	LABEL
+		Lookup device by label.
+	/dev/\*
+		Lookup device by full path.
+	PARTUUID
+		Lookup device by partition uuid.
 
 	You must install blkid utility (available in toybox, busybox,
 	util-linux or e2fsprogs) for ability to use UUID, LABEL,
@@ -111,14 +109,14 @@ it, you can simply prepend '*#*'.
 	List of shipped by default hooks:
 	. lvm
 	. luks
-	. smdev: https://core.suckless.org/smdev/
-	. mdev: https://git.busybox.net/busybox/plain/docs/mdev.txt
+	. smdev <https://core.suckless.org/smdev/>
+	. mdev <https://git.busybox.net/busybox/plain/docs/mdev.txt>
 	. proc (*CONFIG_UEVENT_HELPER*)
-	. mdevd: https://skarnet.org/software/mdevd/
-	. eudev: https://github.com/eudev-project/eudev
+	. mdevd <https://skarnet.org/software/mdevd/>
+	. eudev <https://github.com/eudev-project/eudev>
 	. loadkeys
 	. loadkmap
-	. resume (resume from hibernation)
+	. resume
 	. systemd-udevd
 
 	See below how to use them.
@@ -175,7 +173,7 @@ The *luks* hook has the following options:
 
 *luks_discard*=<0 | 1>
 	Pass *--allow-discards* to *cryptsetup*(8), that allows the
-	use of discard (TRIM) requests for your luks device.
+	use of discard (TRIM) requests for your LUKS device.
 
 	*Warning*: This option may have a negative security impact.
 	See *cryptsetup*(8) for more information.
@@ -211,8 +209,8 @@ The *loadkeys* and *loadkmap* hooks has the following options:
 	Specify location to binary keymap.
 
 	*Both hooks are for the same purpose*.
-	One  of  them (*loadkeys*) uses GNU *kmod*'s *loadkeys*(8),
-	while another (*loadkmap*) uses busybox's *loadkmap*.
+	One of them (*loadkeys*) uses GNU kmod's *loadkeys*(8), while
+	another (*loadkmap*) uses busybox's *loadkmap*.
 
 	*Use the appropriate, not both of them*.
 

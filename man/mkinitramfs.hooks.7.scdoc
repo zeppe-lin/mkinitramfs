@@ -105,7 +105,7 @@ The following variables can be used by hooks in *build* process:
 	Path to device-helper script.
 
 *MKINITRAMFS_CONF*
-	Config location.
+	Configuration file location.
 
 *MKINITRAMFS_IMAGE*
 	Output path where initramfs image is stored.
@@ -129,7 +129,7 @@ hooks.
 # EXAMPLES
 
 This example will show how to handle soft dependencies of *ext4*
-module. Create _/etc/mkinitramfs/hooks/ext4_ directory and copy below
+module.  Create _/etc/mkinitramfs/hooks/ext4_ directory and copy below
 scripts with appropriate names to that directory.  After that, prepend
 *ext4* to *hooks* option in *mkinitramfs*' configuration file
 (_/etc/mkinitramfs/config_).
@@ -140,7 +140,7 @@ scripts with appropriate names to that directory.  After that, prepend
 info "Copying ext4 dependencies"
 
 for _mod in crc32c libcrc32c; do
-     copy_kmod "$_mod"
+	copy_kmod "$_mod"
 done
 ```
 

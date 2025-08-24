@@ -121,8 +121,8 @@ sh -x $(which mkinitramfs) -o /tmp/initramfs-$(uname -r) 2>/tmp/log
 
 # NOTES
 
-If you have modular kernel and you use *busybox*'s *modprobe* to
-handle modules, you must note that *busybox*'s *modprobe* doesn't have
+If you have modular kernel and you use busybox's *modprobe* to
+handle modules, you must note that busybox's *modprobe* doesn't have
 ability to install soft dependencies of modules (i.e.
 _modules.softdep_). You must install them yourself using hooks.
 See *mkinitramfs.hooks*(7) how to do it.
