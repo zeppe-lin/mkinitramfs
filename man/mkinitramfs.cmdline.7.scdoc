@@ -12,7 +12,9 @@ via kernel parameters without needing to regenerate initramfs image.
 ## General Parameters
 
 *debug*=<0 | 1>
-	Enable or disable debug mode.  Disabled by default.
+	Enable or disable debug mode.
+
+	Default: 0 (disabled).
 
 *break*=<BREAKPOINT>
 	Specify a breakpoint at which the initramfs will drop to an
@@ -48,8 +50,8 @@ via kernel parameters without needing to regenerate initramfs image.
 	*Note:* PARTUUID only supported in util-linux' *blkid*(8).
 
 *root_type*=<TYPE>, *rootfstype*=<TYPE>
-	Explicitly set root filesystem type.  Kernel must support
-	specified type.
+	Explicitly set root filesystem type.
+	Kernel must support specified type.
 
 *rootdelay*=<DELAY>
 	Specify maximum number of seconds to wait for root device
@@ -81,10 +83,10 @@ The parameters for *LVM* hook are as follows:
 *lvm_group*=<GROUP>
 	Specify LVM group which will be used to trigger LVM.
 
-
 *lvm_discard*=<0 | 1>
-	Pass issue_discards to LVM.  Leave empty to disable.  Useful
-	for SSD's.
+	Pass issue_discards to LVM.
+	Leave empty to disable.
+	Useful for SSD's.
 
 The parameters for *LUKS* hook are as follows:
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -106,10 +108,11 @@ The parameters for *LUKS* hook are as follows:
 The parameters for the resume hook are as follows:
 
 *resume*=<UUID | LABEL | /dev/\* | PARTUUID>
-	Specifies the device to resume from hibernation.  This can be
-	either a swap partition or the block device containing the
-	hibernation image file.  The lookup method (UUID, LABEL, etc.)
-	works the same way as for the *root* parameter (see above).
+	Specifies the device to resume from hibernation.
+	This can be either a swap partition or the block device
+	containing the hibernation image file.
+	The lookup method (UUID, LABEL, etc.) works the same way as
+	for the *root* parameter (see above).
 	If set on the kernel command line, this overrides any resume
 	value set in mkinitramfs' config.
 
@@ -123,17 +126,17 @@ The parameters for the resume hook are as follows:
 
 # EXAMPLES
 
-1. Specify *root* option argument:
+Specify *root* option argument:
 ```
 vmlinuz initrd=\\initramfs root=/dev/sda1 [...]
 ```
 
-2. Disable *discards* for LUKS and LVM:
+Disable *discards* for LUKS and LVM:
 ```
 vmlinuz initrd=\\initramfs luks_discard= lvm_discard= [...]
 ```
 
-3. Pass arguments to real init:
+Pass arguments to real init:
 ```
 vmlinuz initrd=\\initramfs [...] -- arguments
 ```

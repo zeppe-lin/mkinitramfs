@@ -4,9 +4,11 @@ MKINITRAMFS.CONFIG(5)
 
 mkinitramfs.config - configuration file for mkinitramfs
 
+
 # SYNOPSIS
 
 */etc/mkinitramfs/config*
+
 
 # DESCRIPTION
 
@@ -46,18 +48,19 @@ it, you can simply prepend '*#*'.
 ## General Options
 
 *monolith*=<0 | 1>
-	Monolithic kernel means kernel with built-in modules.  If you
-	didn't build kernel yourself, then in most cases you have
-	modular kernel and you don't need to enable this option.  To
-	check if you have monolithic you need to check if
-	_/lib/modules/<kernel_version>/modules_ exist.  If this
-	directory doesn't exist you probably have monolithic kernel
-	which means you need to set *monolith* to *1*.
+	Monolithic kernel means kernel with built-in modules.
+	If you didn't build kernel yourself, then in most cases you
+	have modular kernel and you don't need to enable this option.
+	To check if you have monolithic you need to check if
+	_/lib/modules/<kernel_version>/modules_ exist.
+	If this directory doesn't exist you probably have monolithic
+	kernel which means you need to set *monolith* to *1*.
 
 *hostonly*=<0 | 1>
 	Hostonly mode enumerates *sysfs*(5) and copies only necessary
-	modules instead of copying all modules.  Which means that this
-	mode can dramatically reduce initramfs size.
+	modules instead of copying all modules.
+	Which means that this mode can dramatically reduce initramfs
+	size.
 
 	*Note*:
 	This option will be ignored if *monolith* was set to *1*.
@@ -91,8 +94,8 @@ it, you can simply prepend '*#*'.
 
 *root_type*=<TYPE>
 	Explicitly set root filesystem type instead of automatically
-	discovering via _/proc/mounts_.  This option must be specified
-	if you booted from Live CD.
+	discovering via _/proc/mounts_.
+	This option must be specified if you booted from Live CD.
 
 *root_opts*=<OPTS>
 	Mount options associated with the filesystem.
@@ -103,8 +106,8 @@ it, you can simply prepend '*#*'.
 
 *hooks*=<HOOK ...>
 	Hooks provide a flexible way to extend *mkinitramfs*(8) with
-	custom scripts.  Hooks are launched in the order in which they
-	are specified.
+	custom scripts.
+	Hooks are launched in the order in which they are specified.
 
 	List of shipped by default hooks:
 	. lvm
@@ -150,7 +153,8 @@ The *lvm* hook has the following options:
 	Include _/etc/lvm/lvm.conf_ in initramfs.
 
 *lvm_discard*=<0 | 1>
-	Pass "issue_discards" to LVM.  Useful for SSD's.
+	Pass "issue_discards" to LVM.
+	Useful for SSD's.
 
 
 The *luks* hook has the following options:
@@ -181,25 +185,29 @@ The *luks* hook has the following options:
 
 The *resume* hook enables resuming from hibernation (suspend-to-disk).
 It relies on kernel parameters, typically set via the bootloader
-configuration.  The relevant parameters are:
+configuration.
+The relevant parameters are:
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 *resume*=<UUID | LABEL | /dev/\* | PARTUUID>
-	Specifies the device to resume from. *mkinitramfs*(8) will use
-	this value to look up the device.  This can be either a swap
-	partition or the block device containing the hibernation image
-	file.  The lookup method (UUID, LABEL, etc.) works the same
-	way as for the root parameter (see above).  This value can be
-	set either in the mkinitramfs' configuration file or on the
-	kernel command line (kernel command line takes precedence).
+	Specifies the device to resume from.
+	*mkinitramfs*(8) will use this value to look up the device.
+	This can be either a swap partition or the block device
+	containing the hibernation image file.
+	The lookup method (UUID, LABEL, etc.) works the same way as
+	for the root parameter (see above).
+	This value can be set either in the mkinitramfs' configuration
+	file or on the kernel command line (kernel command line takes
+	precedence).
 
 *resume_offset*=<OFFSET>
 	*Required only when resuming from a file*.
 	This kernel parameter specifies the physical offset of the
 	hibernation image file on the device specified by the *resume*
-	parameter.  This value must be set on the kernel command line
-	and is *not* configured via the mkinitramfs' configuration
-	file.  The offset can usually be obtained using tools like
+	parameter.
+	This value must be set on the kernel command line and is *not*
+	configured via the mkinitramfs' configuration file.
+	The offset can usually be obtained using tools like
 	*filefrag*(8).
 
 The *loadkeys* and *loadkmap* hooks has the following options:
@@ -218,7 +226,8 @@ The *loadkeys* and *loadkmap* hooks has the following options:
 # FILES
 
 _/etc/mkinitramfs/config_
-	Default configuration file for *mkinitramfs(8)*.
+	Default configuration file.
+
 
 # EXAMPLES
 
@@ -310,6 +319,7 @@ luks_discard=1
 luks_name=crypt
 luks_root=/dev/sda2
 ```
+
 
 # SEE ALSO
 

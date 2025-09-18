@@ -7,18 +7,20 @@ mkinitramfs.hooks - mkinitramfs hooks and related stuff
 # DESCRIPTION
 
 *mkinitramfs* hooks provides a way to extend initramfs' build and init
-process.  Hooks must be written in POSIX shell.  Bashisms and other
-non-portable extensions are prohibited.
+process.
+Hooks must be written in POSIX shell.
+Bashisms and other non-portable extensions are prohibited.
 
 Hooks can be located in _/usr/share/mkinitramfs/hooks_ (system path)
-and _/etc/mkinitramfs/hooks_ (user path).  It is also allowed to
-specify custom location via *mkinitramfs*(8):
+and _/etc/mkinitramfs/hooks_ (user path).
+It is also allowed to specify custom location via *mkinitramfs*(8):
 
 ```
 mkinitramfs -H hooksdir
 ```
 
-In order to write hooks you must know about hook structure.  Example:
+In order to write hooks you must know about hook structure.
+Example:
 
 ```
 hooks/
@@ -44,23 +46,26 @@ The following functions can be used by hooks in *build* process:
 	*mkinitramfs* working directory.
 
 	If NAME was specified, the mkinitramfs will try to find
-	command by name in *PATH* environment variable.  If success,
-	command will be copied to _/bin_ location of *mkinitramfs*
-	working directory.  Otherwise error message will appear.
+	command by name in *PATH* environment variable.
+	If success, command will be copied to _/bin_ location of
+	*mkinitramfs* working directory.
+	Otherwise error message will appear.
 
 *copy_file* FILE DEST MODE STRIP
 	FILE: Must be full path to file.
 
 	DEST: Must be full path where FILE should be stored.
 	*mkinitramfs* will automatically create all leading
-	directories if they aren't exist already.  Also no need to
-	prepend path of *mkinitramfs* working directory.
+	directories if they aren't exist already.
+	Also no need to prepend path of *mkinitramfs* working
+	directory.
 
 	MODE: Permissions in octal format.
 
 	STRIP: If was set to *1*, then *mkinitramfs* will attempt to
-	run *strip*(1p) on file.  *mkinitramfs* will silently ignore
-	errors if strip doesn't exists or failed to strip binary.
+	run *strip*(1p) on file.
+	*mkinitramfs* will silently ignore errors if strip doesn't
+	exists or failed to strip binary.
 
 
 The following functions can be used by hooks in *init* process:
@@ -80,7 +85,8 @@ The following functions can be used by hooks in both processes
 
 *panic* [MESSAGE]
 	If message was not specified, then *mkinitramfs* will print
-	default error message.  Otherwise, MESSAGE will be printed.
+	default error message.
+	Otherwise, MESSAGE will be printed.
 
 
 ## Global Variables
@@ -129,10 +135,11 @@ hooks.
 # EXAMPLES
 
 This example will show how to handle soft dependencies of *ext4*
-module.  Create _/etc/mkinitramfs/hooks/ext4_ directory and copy below
-scripts with appropriate names to that directory.  After that, prepend
-*ext4* to *hooks* option in *mkinitramfs*' configuration file
-(_/etc/mkinitramfs/config_).
+module.
+Create _/etc/mkinitramfs/hooks/ext4_ directory and copy below scripts
+with appropriate names to that directory.
+After that, prepend *ext4* to *hooks* option in *mkinitramfs*'
+configuration file (_/etc/mkinitramfs/config_).
 
 *ext4*:
 

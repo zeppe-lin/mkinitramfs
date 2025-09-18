@@ -8,12 +8,12 @@ mkinitramfs - create an initial ramdisk environment
 
 *mkinitramfs*           \
 [*-fhv*]                \
-[*-D* _helperfile_]     \
-[*-H* _hooksdir_]       \
-[*-I* _initfile_]       \
-[*-c* _conffile_]       \
-[*-k* _kernelversion_]  \
-[*-m* _modulesdir_]     \
+[*-D* _helper-file_]    \
+[*-H* _hooks-dir_]      \
+[*-I* _init-file_]      \
+[*-c* _config-file_]    \
+[*-k* _kernel-version_] \
+[*-m* _modules-dir_]    \
 [*-o* _initramfs_]      \
 
 # DESCRIPTION
@@ -30,67 +30,79 @@ systems and root file systems on a software RAID array.
 
 The options are as follows:
 
-*-D* _helperfile_, *--helper*=_helperfile_:
-	Specify an alternate device helper file instead of the default
-	_/usr/share/mkinitramfs/device-helper_.
+*-D* _helper-file_, *--helper*=_helper-file_:
+	Use an alternate device helper file.
 
-*-H* _hooksdir_, *--hooks*=_hooksdir_:
-	Specify additional directory for hooks.
-	By default, *mkinitramfs* uses _/usr/share/mkinitramfs/hooks_
-	and _/etc/mkinitramfs/hooks_.
+	Default: _/usr/share/mkinitramfs/device-helper_.
 
-*-I* _initfile_, *--init*=_initfile_:
-	Specify an alternate init script instead of the default
-	_/usr/share/mkinitramfs/init_.
+*-H* _hooks-dir_, *--hooks*=_hooks-dir_:
+	Use additional directory for hooks.
 
-*-c* _conffile_, *--config*=_conffile_:
-	Specify an alternate configuration file instead of the default
-	_/etc/mkinitramfs/config_.
+	Default: _/usr/share/mkinitramfs/hooks_, and
+	_/etc/mkinitramfs/hooks_.
+
+*-I* _init-file_, *--init*=_init-file_:
+	Use an alternate init script.
+
+	Default: _/usr/share/mkinitramfs/init_.
+
+*-c* _config-file_, *--config*=_config-file_:
+	Use an alternate configuration file.
+
+	Default: _/etc/mkinitramfs/config_.
 
 *-f*, *--force*:
 	Forcefully overwrite initramfs image.
 
-*-k* _kernelversion_, *--kernel*=_kernelversion_:
-	Specify kernel version instead of using the version of current
-	running kernel (*uname -r*).
+*-k* _kernel-version_, *--kernel*=_kernel-version_:
+	Use kernel version.
+
 	Useful for bootstrapping future system with modular kernel.
 
-*-m* _modulesdir_, *--modules*=_modulesdir_:
-	Specify an alternate directory where kernel modules are stored
-	instead of the default _/lib/modules_.
+	Default: Current running kernel ('*uname -r*').
+
+*-m* _modules-dir_, *--modules*=_modules-dir_:
+	Use an alternate directory where kernel modules are stored.
 
 	This option has no effect if *monolith* or *hostonly* were
 	enabled in configuration file.
 
+	Default: _/lib/modules_.
+
 *-o* _initramfs_, *--output*=_initramfs_:
-	Specify an alternate output file where initramfs image will be
-	stored instead of the default *mkinitramfs-<kernelversion>*
-	directory, created in *TMPDIR* or (if unavailable) in _/tmp_
-	directory.
+	Use an alternate output file where initramfs image will be
+	stored.
+
+	Default: *mkinitramfs-<kernelversion>* directory, created in
+	*TMPDIR* or (if unavailable) in _/tmp_ directory.
 
 *-v*, *--version*:
 	Print version and exit.
 
 *-h*, *--help*:
-	Print help and exit.
+	Print usage and exit.
 
 # ENVIRONMENT
 
-*mkinitramfs* relies on the *TMPDIR* environment variable.  If set, it
-creates its temporary working directories as subdirectories within the
-specified location.  Otherwise, it defaults to _/tmp_.  The designated
-directory should reside on a filesystem that permits execution of
-stored files and must not be mounted with the *noexec* option.
+*mkinitramfs* relies on the *TMPDIR* environment variable.
+If set, it creates its temporary working directories as subdirectories
+within the specified location.
+Otherwise, it defaults to _/tmp_.
+The designated directory should reside on a filesystem that permits
+execution of stored files and must not be mounted with the *noexec*
+option.
 
 # FILES
 
 _/etc/mkinitramfs/config_:
 	The default configuration file.
-	See *mkinitramfs.config*(5) for a description of the available
-	configuration parameters.
+
+	See *mkinitramfs.config*(5).
 
 _/usr/share/mkinitramfs/hooks/_, _/etc/mkinitramfs/hooks/_:
 	Hooks directories.
+
+	See *mkinitramfs.hooks*(7).
 
 _/usr/share/mkinitramfs/init_:
 	Init script.
@@ -121,10 +133,10 @@ sh -x $(which mkinitramfs) -o /tmp/initramfs-$(uname -r) 2>/tmp/log
 
 # NOTES
 
-If you have modular kernel and you use busybox's *modprobe* to
-handle modules, you must note that busybox's *modprobe* doesn't have
-ability to install soft dependencies of modules (i.e.
-_modules.softdep_). You must install them yourself using hooks.
+If you have modular kernel and you use busybox's *modprobe* to handle
+modules, you must note that busybox's *modprobe* doesn't have ability
+to install soft dependencies of modules (e.g., _modules.softdep_).
+You must install them yourself using hooks.
 See *mkinitramfs.hooks*(7) how to do it.
 
 # SEE ALSO
