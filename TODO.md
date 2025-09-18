@@ -15,6 +15,7 @@ No milestone
 - [ ] Add font hook?
   https://github.com/zeppe-lin/mkinitramfs/issues/2
 
+
 Done
 ----
 
