@@ -469,7 +469,7 @@ KERNEL_MOD_DIR=/lib/modules
 MKINITRAMFS_CONF=/etc/mkinitramfs/config
 MKINITRAMFS_INIT=/usr/share/mkinitramfs/init
 MKINITRAMFS_DEVHELPER=/usr/share/mkinitramfs/device-helper
-MKINITRAMFS_IMAGE=${TMPDIR:-/tmp}/mkinitramfs-$KERNEL_VERSION
+MKINITRAMFS_IMAGE=${TMPDIR:-/tmp}/initramfs-$KERNEL_VERSION.img
 readonly MKINITRAMFS_WORK_DIR="${TMPDIR:-/tmp}/mkinitramfs.$$"
 FORCE=0
 
