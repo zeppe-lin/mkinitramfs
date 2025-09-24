@@ -1,15 +1,21 @@
 MKINITRAMFS.CMDLINE(7)
 
+; *Important*:
+; Keep in sync the parameters description with mkinitramfs.config(5).
+
 # NAME
 
-mkinitramfs.cmdline - mkinitramfs' kernel command-line parameters
+mkinitramfs.cmdline - kernel command-line parameters for mkinitramfs
 
 # DESCRIPTION
 
-*mkinitramfs(8)* provides a way to control configuration dynamically
-via kernel parameters without needing to regenerate initramfs image.
+The *mkinitramfs(8)* utility provides a way to control configuration
+dynamically via kernel parameters without needing to regenerate the
+initramfs image.
+These parameters take precedence over any corresponding variables set
+in *mkinitramfs.config*(5).
 
-## General Parameters
+## Generic Parameters
 
 *debug*=<0 | 1>
 	Enable or disable debug mode.
@@ -44,13 +50,15 @@ via kernel parameters without needing to regenerate initramfs image.
 	PARTUUID
 		Lookup device by partition uuid.
 
-	Initramfs must contain *blkid* utility for ability to use
-	UUID, LABEL, PARTUUID.
+	Initramfs must contain *blkid* utility (from toybox, busybox,
+	util-linux, or e2fsprogs) for ability to use UUID, LABEL, or
+	PARTUUID.
 
-	*Note:* PARTUUID only supported in util-linux' *blkid*(8).
+	*Note:*
+	PARTUUID is supported only by util-linux *blkid*(8).
 
 *root_type*=<TYPE>, *rootfstype*=<TYPE>
-	Explicitly set root filesystem type.
+	Explicitly set the root filesystem type.
 	Kernel must support specified type.
 
 *rootdelay*=<DELAY>
@@ -58,7 +66,7 @@ via kernel parameters without needing to regenerate initramfs image.
 	instead of the default 30 seconds.
 
 *root_opts*=<OPTS>, *rootflags*=<OPTS>
-	Mount options associated with the filesystem.
+	Mount options for the root filesystem.
 	See *fstab*(5) fourth field.
 
 ## Hooks Parameters
@@ -66,63 +74,59 @@ via kernel parameters without needing to regenerate initramfs image.
 Initramfs must contain appropriate hooks for ability to use below
 parameters.
 
-The parameters for *LVM* hook are as follows:
+The parameters for *lvm* hook are as follows:
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 *lvm_tag*=<TAG>
-	Specify LVM tag which will be used to trigger LVM.
-
-	This option will be ignored if *lvm_name*/*lvm_group* was
-	specified.
+	Trigger LVM volumes by tag.
+	Ignored if *lvm_name* or *lvm_group* is set.
 
 *lvm_name*=<NAME>
-	Specify LVM name which will be used to trigger LVM.
-
-	*lvm_group* (see below) must be specified.
+	Trigger LVM volumes by name.
+	Requires *lvm_group*.
 
 *lvm_group*=<GROUP>
-	Specify LVM group which will be used to trigger LVM.
+	Volume group name.
 
 *lvm_discard*=<0 | 1>
-	Pass issue_discards to LVM.
-	Leave empty to disable.
+	Pass "issue_discards" to LVM.
 	Useful for SSD's.
 
 The parameters for *LUKS* hook are as follows:
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 *luks_name*=<NAME>
-	Specify which name will be registered to mapping table after
-	*cryptsetup*(8) unlocks LUKS root.
+	Name to assign in the device-mapper table after
+	*cryptsetup*(8) unlocks *luks_root*.
 
 *luks_root*=<UUID | LABEL | /dev/\* | PARTUUID>
-	See *root* (above) for details.
+	Device to unlock.
+
+	The lookup method (UUID, LABEL, etc.) works the same way as
+	for the *root* parameter.
 
 *luks_discard*=<0 | 1>
-	Pass *--allow-discards* to *cryptsetup*(8).
-	Leave empty to disable.
+	Pass *--allow-discards* to *cryptsetup*(8), that allows the
+	use of discard (TRIM) requests for your LUKS device.
 
-	Useful for SSD's, but you must know that security will be
-	decreased.
+	*Warning*:
+	This option may have a negative security impact.
+	See *cryptsetup*(8).
 
-The parameters for the resume hook are as follows:
+The parameters for *resume* hook are as follows:
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 *resume*=<UUID | LABEL | /dev/\* | PARTUUID>
-	Specifies the device to resume from hibernation.
-	This can be either a swap partition or the block device
-	containing the hibernation image file.
+	Device to resume from.
+	This can be swap partition or a block device containing the
+	swap file.
+
 	The lookup method (UUID, LABEL, etc.) works the same way as
-	for the *root* parameter (see above).
-	If set on the kernel command line, this overrides any resume
-	value set in mkinitramfs' config.
+	for the *root* parameter.
 
 *resume_offset*=<OFFSET>
-	*Required only when resuming from a file*.
-	Specifies the physical offset of the hibernation image
-	file on the device specified by the *resume* parameter.
-
-	The offset can usually be obtained using tools like
-	*filefrag*(8).
+	Offset of the swap file on the device named by *resume*.
+	Required only when resuming from a swap file.
 
 # EXAMPLES
 
@@ -143,8 +147,8 @@ vmlinuz initrd=\\initramfs [...] -- arguments
 
 # SEE ALSO
 
+*mkinitramfs*(8),
 *mkinitramfs.config*(5),
-*mkinitramfs.hooks*(7),
-*mkinitramfs*(8)
+*mkinitramfs.hooks*(7)
 
 ; vim: ft=scdoc cc=72 tw=70

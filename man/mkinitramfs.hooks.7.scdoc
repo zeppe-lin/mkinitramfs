@@ -2,25 +2,21 @@ MKINITRAMFS.HOOKS(7)
 
 # NAME
 
-mkinitramfs.hooks - mkinitramfs hooks and related stuff
+mkinitramfs.hooks - hooks for extending mkinitramfs
 
 # DESCRIPTION
 
-*mkinitramfs* hooks provides a way to extend initramfs' build and init
-process.
-Hooks must be written in POSIX shell.
-Bashisms and other non-portable extensions are prohibited.
+Hooks extend *mkinitramfs*(8) during the build and init stages.
+They must be written in POSIX shell; bashisms and non-portable
+features are not allowed.
 
-Hooks can be located in _/usr/share/mkinitramfs/hooks_ (system path)
-and _/etc/mkinitramfs/hooks_ (user path).
-It is also allowed to specify custom location via *mkinitramfs*(8):
+Hooks reside in _/usr/share/mkinitramfs/hooks_ (system) and
+_/etc/mkinitramfs/hooks_ (local).
+Additional directories may be supplied via *mkinitramfs* *-H* option.
 
-```
-mkinitramfs -H hooksdir
-```
+## Structure
 
-In order to write hooks you must know about hook structure.
-Example:
+Hook scripts must follow the following structure:
 
 ```
 hooks/
@@ -57,8 +53,8 @@ The following functions can be used by hooks in *build* process:
 	DEST: Must be full path where FILE should be stored.
 	*mkinitramfs* will automatically create all leading
 	directories if they aren't exist already.
-	Also no need to prepend path of *mkinitramfs* working
-	directory.
+	There is no need to prepend the path of the *mkinitramfs*
+	working directory.
 
 	MODE: Permissions in octal format.
 
@@ -89,7 +85,7 @@ The following functions can be used by hooks in both processes
 	Otherwise, MESSAGE will be printed.
 
 
-## Global Variables
+## Global variables
 
 The following variables can be used by hooks in *build* process:
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -129,8 +125,7 @@ The following variables can be used by hooks in both processes
 *DEBUG*
 	Equals *1* if debug mode enabled.
 
-See *mkinitramfs.config*(5) for additional information about available
-hooks.
+See *mkinitramfs.config*(5) for supported hooks.
 
 # EXAMPLES
 

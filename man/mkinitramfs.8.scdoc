@@ -2,33 +2,37 @@ MKINITRAMFS(8)
 
 # NAME
 
-mkinitramfs - create an initial ramdisk environment
+mkinitramfs - create an initial ramdisk environment for Linux
 
 # SYNOPSIS
 
 *mkinitramfs*           \
 [*-fhv*]                \
+[*-c* _config-file_]    \
 [*-D* _helper-file_]    \
 [*-H* _hooks-dir_]      \
 [*-I* _init-file_]      \
-[*-c* _config-file_]    \
 [*-k* _kernel-version_] \
 [*-m* _modules-dir_]    \
 [*-o* _initramfs_]      \
 
 # DESCRIPTION
 
-*mkinitramfs* creates an initial ramdisk environment for booting the
-Linux kernel.
+The *mkinitramfs* utility creates an initial ramdisk (initramfs)
+environment for the Linux kernel.
+It builds a compressed filesystem containing an *init* program,
+essential tools, and kernel modules needed to prepare the system
+before mounting the root filesystem.
 
-The initial ramdisk is in essence a very small environment (early
-userspace) which loads various kernel modules and sets up necessary
-things before handing over control to *init*(8).
-This makes it possible to have, for example, encrypted root file
-systems and root file systems on a software RAID array.
-*mkinitramfs* can be extended with custom hooks.
+The build process is driven by a configuration file, a set of
+executable hooks, and an *init* script that orchestrates early boot.
 
 The options are as follows:
+
+*-c* _config-file_, *--config*=_config-file_:
+	Use an alternate configuration file.
+
+	Default: _/etc/mkinitramfs/config_.
 
 *-D* _helper-file_, *--helper*=_helper-file_:
 	Use an alternate device helper file.
@@ -36,9 +40,9 @@ The options are as follows:
 	Default: _/usr/share/mkinitramfs/device-helper_.
 
 *-H* _hooks-dir_, *--hooks*=_hooks-dir_:
-	Use additional directory for hooks.
+	Use an additional directory for hooks.
 
-	Default: _/usr/share/mkinitramfs/hooks_, and
+	Default: _/usr/share/mkinitramfs/hooks_ and
 	_/etc/mkinitramfs/hooks_.
 
 *-I* _init-file_, *--init*=_init-file_:
@@ -46,35 +50,29 @@ The options are as follows:
 
 	Default: _/usr/share/mkinitramfs/init_.
 
-*-c* _config-file_, *--config*=_config-file_:
-	Use an alternate configuration file.
-
-	Default: _/etc/mkinitramfs/config_.
-
 *-f*, *--force*:
-	Forcefully overwrite initramfs image.
+	Overwrite the initramfs image if it exists.
 
 *-k* _kernel-version_, *--kernel*=_kernel-version_:
-	Use kernel version.
+	Use the specified kernel version.
+	Useful when preparing initramfs for a specific kernel.
 
-	Useful for bootstrapping future system with modular kernel.
-
-	Default: Current running kernel ('*uname -r*').
+	Default: current running kernel ('*uname -r*').
 
 *-m* _modules-dir_, *--modules*=_modules-dir_:
-	Use an alternate directory where kernel modules are stored.
+	Use an alternate kernel modules directory.
 
-	This option has no effect if *monolith* or *hostonly* were
-	enabled in configuration file.
+	Ignored if *monolith* or *hostonly* are set in the
+	configuration file, in which case required modules are
+	selected automatically.
 
 	Default: _/lib/modules_.
 
 *-o* _initramfs_, *--output*=_initramfs_:
-	Use an alternate output file where initramfs image will be
-	stored.
+	Write the image to an alternate output file.
 
-	Default: *mkinitramfs-<kernelversion>* directory, created in
-	*TMPDIR* or (if unavailable) in _/tmp_ directory.
+	Default: *initramfs-<kernel-version>.img* in *TMPDIR*, or
+	_/tmp_ if unset.
 
 *-v*, *--version*:
 	Print version and exit.
@@ -84,60 +82,53 @@ The options are as follows:
 
 # ENVIRONMENT
 
-*mkinitramfs* relies on the *TMPDIR* environment variable.
-If set, it creates its temporary working directories as subdirectories
-within the specified location.
-Otherwise, it defaults to _/tmp_.
-The designated directory should reside on a filesystem that permits
-execution of stored files and must not be mounted with the *noexec*
-option.
+*mkinitramfs* uses the *TMPDIR* environment variable to determine
+where to create its working directories.
+If unset, _/tmp_ is used.
+The directory must allow execution of stored files and must *not* be
+mounted with *noexec*, or the build will fail.
 
 # FILES
 
 _/etc/mkinitramfs/config_:
-	The default configuration file.
+	Main configuration file.
 
 	See *mkinitramfs.config*(5).
 
 _/usr/share/mkinitramfs/hooks/_, _/etc/mkinitramfs/hooks/_:
-	Hooks directories.
+	Hook directories.
 
 	See *mkinitramfs.hooks*(7).
 
 _/usr/share/mkinitramfs/init_:
-	Init script.
+	Init script executed at early boot.
 
 _/usr/share/mkinitramfs/device-helper_:
-	Device-helper script.
+	Device enumeration helper used by *proc* hook.
 
 # EXIT STATUS
 
-*0* on success, and *>0* if an error occurs.
+*0*
+	Success.
+*>0*
+	An error occurred.
 
 # EXAMPLES
 
-Create an initramfs for current running kernel:
+Create an initramfs for the current running kernel:
 ```
 mkinitramfs -o /tmp/initramfs-$(uname -r).img
 ```
 
-Create an initramfs for specific kernel:
+Create an initramfs for a specific kernel version:
 ```
 mkinitramfs -o /tmp/initramfs-5.4.224.img -k 5.4.224
 ```
 
-Debug initramfs creation (check out written logfile):
+Debug initramfs creation (log output to file):
 ```
 sh -x $(which mkinitramfs) -o /tmp/initramfs-$(uname -r) 2>/tmp/log
 ```
-
-# NOTES
-
-If you have modular kernel and you use busybox's *modprobe* to handle
-modules, you must note that busybox's *modprobe* doesn't have ability
-to install soft dependencies of modules (e.g., _modules.softdep_).
-You must install them yourself using hooks.
-See *mkinitramfs.hooks*(7) how to do it.
 
 # SEE ALSO
 
@@ -152,12 +143,13 @@ The Linux kernel user's and administrator's guide:
 Using the initial RAM disk (initrd):
 https://docs.kernel.org/admin-guide/initrd.html
 
-# AUTHORS
+# CAVEATS
 
-Originally created by illiliti <illiliti@protonmail.com>
-as *tinyramfs*: <https://github.com/illiliti/tinyramfs>.
+BusyBox's *modprobe* does not support soft dependencies
+(e.g., _modules.dep_).
+If using a modular kernel, such dependencies must be installed
+explicitly via hooks.
 
-This implementation was re-worked for Zeppe-Lin by
-Alexandr Savca <alexandr.savca89@gmail.com>.
+See *mkinitramfs.hooks*(7).
 
 ; vim: ft=scdoc cc=72 tw=70
