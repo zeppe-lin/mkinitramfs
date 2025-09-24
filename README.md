@@ -1,26 +1,25 @@
 OVERVIEW
 ========
 
-This repository contains `mkinitramfs`, a tool used to create a Linux
-boot image (initramfs).
+The `mkinitramfs` utility generates a bootable initramfs image for
+Linux systems.
 
-This distribution is a fork of illiliti's `tinyramfs` as of commit
-8abfcc9 (Fri May 21 2021) with the following differences:
-  * bash completion
-  * GNU-style options/help/usage
-  * switch to the GNU `getopt(1)` for command-line parsing
-  * `local`s to prevent namespace violations
-  * support `rootdelay` kernel's command-line parameter
-  * experimental `smdev` hook
-  * `luks` hook: ask for password if header/keyfile is not specified
-  * new `extrafiles` directive to copy additional files
-  * `resume` hook to resume machines from hibernation (both swap
-    partitions and files)
-  * split `keymap` hook with only support of busybox's `loadkmap` into
-    `loadkmap` and `loadkeys` with additional support of kmod's
-    `loadkeys`
+It is a fork of illiliti's `tinyramfs` at commit `8abfcc9`
+(Fri May 21 2021), with the following changes:
+  * Bash completion support
+  * GNU-style options and usage output
+  * Command-line parsing via GNU `getopt(1)`
+  * Use of `local` to prevent namespace pollution
+  * Support for `rootdelay` kernel parameter
+  * Experimental `smdev` hook
+  * `luks` hook: prompts for password if header/keyfile is missing
+  * `extrafiles` directive: copy arbitrary files into image
+  * `resume` hook: supports hibernation resume from swap partitions or
+    files
+  * Split `keymap` hook into `loadkmap` and `loadkeys` (supports
+    BusyBox and kmod)
 
-See git log for complete/further differences.
+See git log for full history.
 
 The original sources can be downloaded from:
   1. https://github.com/illiliti/tinyramfs
@@ -31,10 +30,10 @@ FEATURES
 ========
 
 The following advantages can be distinguished:
-  * no bashisms, only POSIX `sh(1p)` (with "local"s exception)
+  * no bashisms, only POSIX `sh(1p)` (with `local` exception)
   * portable, no distro specific
   * easy to use configuration
-  * build time and init time hooks
+  * build-time and init-time hooks
   * LUKS (detached header, key, password), LVM
   * smdev, mdev, mdevd, eudev, systemd-udevd
 
@@ -134,7 +133,7 @@ Reboot.
 Online documentation
 --------------------
 
-See `/man` directory for manual pages.
+Manual pages are in `/man`.
 
 
 CREDITS
@@ -145,7 +144,7 @@ Original developers:
   * E5ten       <https://github.com/E5ten>
   * dylanaraps  <https://github.com/dylanaraps>
 
-You can donate if you like this project to the original author:
+Support the original author:
   * illiliti / (BTC) 1BwrcsgtWZeLVvNeEQSg4A28a3yrGN3FpK
   * https://patreon.com/illiliti
 
@@ -155,5 +154,4 @@ LICENSE
 
 `mkinitramfs` is licensed through the GNU General Public License v3 or
 later <https://gnu.org/licenses/gpl.html>.
-Read the COPYING file for copying conditions.
-Read the COPYRIGHT file for copyright notices.
+See `COPYING` for terms and `COPYRIGHT` for notices.
