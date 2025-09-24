@@ -6,19 +6,22 @@ No milestone
 ------------
 
 - [ ] Blacklisting modules in the initramfs: add an option and config
-  setting to exclude kernel modules copying for hostonly or
-  copyallmodules modes.  kmod_blacklist="a b c"? omit_drivers="..."?
+  setting to exclude kernel modules copying for `hostonly` or
+  `copyallmodules` modes.
+  - `kmod_blacklist="a b c"` ?
+  - `omit_drivers="..."` ?
 
-- [ ] completion/bash_completion: Fix shellcheck warnings, and add
+- [ ] `completion/bash_completion`: Fix shellcheck warnings, and add
   checking to CI.
 
 - [ ] Add font hook?
   https://github.com/zeppe-lin/mkinitramfs/issues/2
 
-- [ ] In config.mk we can specify custom DATADIR, but in scripts (src/) we rely
-  in /usr/share/mkinitramfs.  Also, reconsider default path:
-  /usr/share/mkinitramfs vs /usr/libexec/mkinitramfs (in case of Zeppe-Lin of
-  course it will be redefined in Pkgfile like DATADIR=/usr/lib/mkinitramfs).
+- [ ] In `config.mk` we can specify custom `DATADIR`, but in scripts
+  (`src/`) we rely on `/usr/share/mkinitramfs`.  Also, reconsider
+  default path: `/usr/share/mkinitramfs` vs `/usr/libexec/mkinitramfs`
+  (in case of Zeppe-Lin of course it will be redefined in `Pkgfile`
+  like `DATADIR=/usr/lib/mkinitramfs`).
 
 
 Done
@@ -28,7 +31,7 @@ Done
   https://github.com/zeppe-lin/mkinitramfs/issues/1
 
 - [x] Resume hook: add resume from swap file?
-    [x] pass resume_offset?
+    [x] pass `resume_offset`?
     [ ] document grub2 config? Why we should?
         This documentation should be on a Wiki or README.md
     https://github.com/zeppe-lin/mkinitramfs/issues/5
