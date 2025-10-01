@@ -15,7 +15,7 @@ initramfs image.
 These parameters take precedence over any corresponding variables set
 in *mkinitramfs.config*(5).
 
-## Generic Parameters
+## Generic parameters
 
 *debug*=<0 | 1>
 	Enable or disable debug mode.
@@ -69,7 +69,7 @@ in *mkinitramfs.config*(5).
 	Mount options for the root filesystem.
 	See *fstab*(5) fourth field.
 
-## Hooks Parameters
+## Hooks parameters
 
 Initramfs must contain appropriate hooks for ability to use below
 parameters.
