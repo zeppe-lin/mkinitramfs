@@ -4,6 +4,19 @@
 # See mkinitramfs.config(5) for more information.
 #
 
+hostonly=1
+compress="gzip --fast"
+hooks="eudev luks lvm resume"
+root=/dev/lv_group/root
+root_type=ext4
+resume=/dev/lv_group/swap
+luks_name=lukscrypt
+luks_root=/dev/sda2
+extrafiles="
+  /lib/modprobe.d/btusb.conf
+  /lib/modprobe.d/cups-blacklist-usblp.conf
+  /lib/modprobe.d/blacklist-nouveau.conf
+"
 
 # vim: ft=sh
 # End of file.
