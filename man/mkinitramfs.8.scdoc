@@ -6,9 +6,9 @@ mkinitramfs - create an initial ramdisk environment for Linux
 
 # SYNOPSIS
 
-*mkinitramfs* [*-fhv*] [*-c* _config-file_] [*-D* _helper-file_]++
-            [*-H* _hooks-dir_] [*-I* _init-file_]++
-            [*-k* _kernel-version_] [*-m* _modules-dir_]++
+*mkinitramfs* [*-fhv*] [*-c* _config-file_] [*-D* _helper-file_] \
+            [*-H* _hooks-dir_] [*-I* _init-file_] \
+            [*-k* _kernel-version_] [*-m* _modules-dir_] \
             [*-o* _initramfs_]
 
 # DESCRIPTION
