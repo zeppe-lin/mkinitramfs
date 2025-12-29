@@ -1,5 +1,5 @@
 # bash completion for mkinitramfs(8)
-# See COPYING and COPYRIGHT files for corresponding information.
+# See COPYING for license terms and COPYRIGHT for notices.
 
 _mkinitramfs()
 {
