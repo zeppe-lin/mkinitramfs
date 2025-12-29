@@ -1,5 +1,5 @@
 # proc init hook
-# See COPYING and COPYRIGHT files for corresponding information.
+# See COPYING for license terms and COPYRIGHT for notices.
 
 # shellcheck shell=sh
 #
