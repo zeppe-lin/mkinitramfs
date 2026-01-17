@@ -17,11 +17,8 @@ No milestone
 - [ ] Add font hook?
   https://github.com/zeppe-lin/mkinitramfs/issues/2
 
-- [ ] In `config.mk` we can specify custom `DATADIR`, but in scripts
-  (`src/`) we rely on `/usr/share/mkinitramfs`.  Also, reconsider
-  default path: `/usr/share/mkinitramfs` vs `/usr/libexec/mkinitramfs`
-  (in case of Zeppe-Lin of course it will be redefined in `Pkgfile`
-  like `DATADIR=/usr/lib/mkinitramfs`).
+- [ ] Decouple hardcoded paths and unify DATADIR handling:
+  https://github.com/zeppe-lin/mkinitramfs/issues/6
 
 
 Done
