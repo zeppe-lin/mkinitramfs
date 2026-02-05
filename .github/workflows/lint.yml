@@ -3,22 +3,26 @@ name: Lint CI
 on:
   push:
     branches: [ "master" ]
+    paths: &lint_paths
+      - "src/mkinitramfs.in"
+      - "src/helpers/**"
+      - "src/hooks/**"
   pull_request:
     branches: [ "master" ]
+    paths: *lint_paths
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install lint dependencies
+    - name: Install shellcheck
       run: sudo apt-get install -y shellcheck
 
-    - name: Check src scripts for errors
+    - name: Run shellcheck
       run: |
         cd src && shellcheck -s sh mkinitramfs.in \
         helpers/device-helper helpers/init hooks/*/*
 
-# End of file.
