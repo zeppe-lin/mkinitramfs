@@ -1,0 +1,14 @@
+name: Release CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    uses: zeppe-lin/.github-shared-workflows/.github/workflows/release-generic.yml@master
+    with:
+      prerelease: "false"
+      release_name: "${{ github.ref_name }}"
+
