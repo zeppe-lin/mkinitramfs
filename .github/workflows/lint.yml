@@ -3,13 +3,15 @@ name: Lint CI
 on:
   push:
     branches: [ "master" ]
-    paths: &lint_paths
+    paths: &paths
+      - ".github/**"
       - "src/mkinitramfs.in"
       - "src/helpers/**"
       - "src/hooks/**"
+
   pull_request:
     branches: [ "master" ]
-    paths: *lint_paths
+    paths: *paths
 
 jobs:
   lint:
@@ -23,6 +25,6 @@ jobs:
 
     - name: Run shellcheck
       run: |
-        cd src && shellcheck -s sh mkinitramfs.in \
-        helpers/device-helper helpers/init hooks/*/*
+        cd src
+        shellcheck -s sh mkinitramfs.in helpers/device-helper helpers/init hooks/*/*
 
