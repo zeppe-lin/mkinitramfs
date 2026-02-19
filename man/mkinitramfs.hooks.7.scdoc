@@ -6,26 +6,59 @@ mkinitramfs.hooks - hooks for extending mkinitramfs
 
 # DESCRIPTION
 
-Hooks extend *mkinitramfs*(8) during the build and init stages.
-They must be written in POSIX shell; bashisms and non-portable
-features are not allowed.
+The *mkinitramfs*(8) utility uses a modular hook system to extend the
+functionality of the initial ramdisk.
+Hooks are used to include binaries, kernel modules, and scripts
+required to boot the system.
 
-Hooks reside in _/usr/share/mkinitramfs/hooks_ (system) and
-_/etc/mkinitramfs/hooks_ (local).
-Additional directories may be supplied via *mkinitramfs* *-H* option.
+Hooks must be written in POSIX shell; bashisms and non-portable
+features are not allowed.
 
 ## Structure
 
-Hook scripts must follow the following structure:
+A hook is defined as a directory named after the hook, containing one
+or more of the following shell scripts:
 
 ```
 hooks/
-`-- <hook>/               <- Directory of hook scripts
-    |-- <hook>            <- Invoked in build process
+`-- <hook>/
+    |-- <hook>            <- Invoked in build process (mandatory)
     |-- <hook>.init       <- Invoked in init process
-    `-- <hook>.init.late  <- Invoked after root filesystem
-                              was mounted
+    |-- <hook>.init.late  <- Invoked after root filesystem mount
+    `-- <hook>.post       <- Invoked after initramfs image creation
 ```
+
+*<hook>*
+	Build-time script.
+	Invoked in build process.
+	Sourced by *mkinitramfs*(8) during the construction of the
+	initramfs root directory.
+	This file is mandatory for any enabled hook.
+
+*<hook>.init* and *<hook>.init.late*
+	Runtime scripts copied into the image and executed by the init
+	script.
+	*.init* runs before mounting root, *.init.late* runs after
+	root is mounted.
+	Both are optional.
+
+*<hook>.post*
+	Post-generation script.
+	Sourced after the image has been compressed and saved to disk.
+	Common uses include embedding CPU microcode, creating Unified
+	Kernel Images (UKI), or signing the image.
+	Optional.
+
+## Hierarchy
+
+*mkinitramfs*(8) searches for hooks in the following order:
+
+1. The directory specified via the *-H* flag.
+2. _/etc/mkinitramfs/hooks/_ (Local overrides).
+3. _/usr/share/mkinitramfs/hooks/_ (System defaults).
+
+If a hook exists in multiple locations, the first one found takes
+precedence.
 
 ## Functions
 
