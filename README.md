@@ -17,6 +17,7 @@ It is a fork of illiliti's `tinyramfs` at commit `8abfcc9`
     files
   * Split `keymap` hook into `loadkmap` and `loadkeys` (supports
     BusyBox and kmod)
+  * `<hook>.post` - post-generation hooks
 
 See the git log for full history.
 
