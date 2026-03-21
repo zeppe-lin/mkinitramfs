@@ -306,7 +306,7 @@ process_pre_hook() {
 		if [ -f "$_dir/$_hook/$_hook$_type" ]; then
 			copy_file \
 				"$_dir/$_hook/$_hook$_type" \
-				"/usr/share/mkinitramfs/hooks/$_hook/$_hook$_type"
+				"/usr/share/mkinitramfs/hooks/$_hook/$_hook$_type" 0644 0
 		fi
 	done
 }
