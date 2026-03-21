@@ -1,6 +1,6 @@
 # project metadata
 NAME        = mkinitramfs
-VERSION     = 0.7
+VERSION     = 0.7.1
 
 # paths
 SYSCONFDIR  = /etc
