@@ -288,8 +288,11 @@ process_pre_hook() {
 	local _hook="$2"
 	local _rc _type
 
-	run_hook_script "$_dir" "$_hook" ""
-	_rc=$?
+	if run_hook_script "$_dir" "$_hook" ""; then
+		_rc=0
+	else
+		_rc=$?
+	fi
 
 	case "$_rc" in
 	0)
@@ -324,12 +327,16 @@ process_post_hook() {
 	local _hook="$2"
 	local _rc
 
-	run_hook_script "$_dir" "$_hook" ".post"
-	_rc=$?
+	if run_hook_script "$_dir" "$_hook" ".post"; then
+		_rc=0
+	else
+		_rc=$?
+	fi
 
 	case "$_rc" in
-	0|2)
-		# success or not present - both acceptable
+	0 | 2)
+		# success (0) or not present (2) - both acceptable
+		return 0
 		;;
 	*)
 		error "Hook $_hook failed during post phase (exit $_rc)"
@@ -353,12 +360,13 @@ process_hooks() {
 	info "Process hooks ($_phase)."
 
 	for _hook in ${hooks}; do
-		_dir="$(find_hook_dir "$_hook")" || {
+		if ! _dir="$(find_hook_dir "$_hook")"; then
 			if [ "$_phase" = "pre" ]; then
 				error "Could not find hook: $_hook"
 			fi
+
 			continue
-		}
+		fi
 
 		case "$_phase" in
 		pre)
